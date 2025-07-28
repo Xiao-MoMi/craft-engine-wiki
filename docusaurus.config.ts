@@ -30,7 +30,15 @@ const config: Config = {
 
   i18n: {
     defaultLocale: 'en',
-    locales: ['en', 'zh-Hans'],
+    locales: ['en', 'zh-CN'],
+    localeConfigs: {
+      en: {
+        label: 'English',
+      },
+      'zh-CN': {
+        label: '简体中文',
+      },
+    },
   },
 
   presets: [
