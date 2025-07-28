@@ -11,7 +11,7 @@ import {
 import ReactDOM from 'react-dom';
 
 // 节点渲染组件
-function Node({ node, style, dragHandle }) {
+function Node({ node, style, dragHandle, currentTheme }) {
   const Icon = node.isLeaf ? FaFile : node.isOpen ? FaFolderOpen : FaFolder;
   const ArrowIcon = node.isInternal ? (node.isOpen ? FaChevronDown : FaChevronRight) : null;
 
@@ -82,7 +82,7 @@ function Node({ node, style, dragHandle }) {
 
   // 使用 CSS 变量或直接根据 document.documentElement.dataset.theme 判断
   const getThemeColor = (lightColor, darkColor) => {
-    if (typeof document !== 'undefined' && document.documentElement.dataset.theme === 'dark') {
+    if (currentTheme === 'dark') {
       return darkColor;
     }
     return lightColor;
@@ -301,7 +301,7 @@ export default function PluginFileTree({ initialTreeData }) {
         onToggle={() => setTimeout(updateLayout, 50)}
         openByDefault={false}
       >
-        {Node}
+        {(nodeProps) => <Node {...nodeProps} currentTheme={currentTheme} />}
       </Tree>
     </div>
   );
