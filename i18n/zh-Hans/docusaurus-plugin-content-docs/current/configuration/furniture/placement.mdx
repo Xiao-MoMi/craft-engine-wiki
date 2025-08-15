@@ -1,0 +1,250 @@
+---
+title: 📍 家具放置
+id: placement
+---
+
+## 简介
+
+家具支持三种放置方式：ground、ceiling 和 wall。你可以为不同的放置方式设置不同的外观和判定箱。例如，一个花篮家具在地面放置时可直立摆放，悬挂于天花板时会用绳索垂吊，而安装在墙面上则会由木板支撑——就像原版的钟一样。
+
+:::success
+你可以同时为单件家具配置多种放置方式。
+:::
+
+下面我将以 ground 方式为例，说明如何配置基本放置方案。
+
+```yaml
+furniture:
+  default:bench:
+    placement:
+      ground:
+        # 为掉落物创建偏移，使其不会在方块内部生成
+        loot-spawn-offset: 0,0,0
+        # 此处支持外部模型插件
+        # model-engine: blueprint_id
+        # better-model: blueprint_id
+        rules:
+          # ANY / FOUR / EIGHT / SIXTEEN / NORTH / EAST / WEST / SOUTH
+          # 任意 / 四向 / 八向  / 十六向  /  北   /  东   /  西  /   南
+          rotation: EIGHT
+          # ANY / CENTER / HALF /  QUARTER  / CORNER
+          # 任意 /  居中  / 半格 / 四分之一格 / 角落
+          alignment: CENTER
+        elements:
+          - item: default:bench
+            display-transform: NONE
+            billboard: FIXED
+            position: 0.5,0,0
+            translation: 0,0.5,0
+            apply-dyed-color: true # 默认值：true
+        hitboxes:
+          - type: interaction # 无碰撞判定箱
+            can-use-item-on: false # 默认值：false
+            can-be-hit-by-projectile: false # 默认值：false
+            blocks-building: false # 默认值：true
+            position: 0,0,0
+            width: 1
+            height: 2
+            # 可用 'scale' 简化 'width'/'height' 配置
+            # scale: 1,2 
+            interactive: true # 交互实体是否可交互
+            seats:
+              - 0,0,-0.1 0
+```
+
+配置包含三个主要部分：`rules`、`elements`和 `hitboxes`。
+
+`rules` 部分决定家具放置后的位置和旋转约束条件。
+`elements` 部分定义构成家具的物品（你可为单件家具配置多个物品，每个物品可设置不同的显示模式）。
+`hitboxes` 部分则指定家具的碰撞体积。
+
+## 规则
+
+### 旋转
+
+该插件的家具支持多种旋转方案，其差异主要体现在旋转角度的数量限制或是否直接指定旋转方向。
+
+:::danger
+旋转配置对 wall 放置方式无效。
+:::
+
+### 对齐
+
+<div style={{textAlign: 'center'}}>
+    <img src={require('/img/i18n/zh-Hans/deprecation/furniture_placement_1.png').default} alt="" style={{maxWidth: '100%', width: '375px', height: 'auto'}} />
+    <p style={{fontSize: '0.9em', color: '#666', marginTop: '0.5em'}}>center</p>
+</div>
+
+<div style={{textAlign: 'center'}}>
+    <img src={require('/img/i18n/zh-Hans/deprecation/furniture_placement_2.png').default} alt="" style={{maxWidth: '100%', width: '375px', height: 'auto'}} />
+    <p style={{fontSize: '0.9em', color: '#666', marginTop: '0.5em'}}>half</p>
+</div>
+
+<div style={{textAlign: 'center'}}>
+    <img src={require('/img/i18n/zh-Hans/deprecation/furniture_placement_3.png').default} alt="" style={{maxWidth: '100%', width: '375px', height: 'auto'}} />
+    <p style={{fontSize: '0.9em', color: '#666', marginTop: '0.5em'}}>quarter</p>
+</div>
+
+<div style={{textAlign: 'center'}}>
+    <img src={require('/img/i18n/zh-Hans/deprecation/furniture_placement_4.png').default} alt="" style={{maxWidth: '100%', width: '375px', height: 'auto'}} />
+    <p style={{fontSize: '0.9em', color: '#666', marginTop: '0.5em'}}>corner</p>
+</div>
+
+:::success
+对齐配置同样适用于 wall 放置方式。
+:::
+
+## 元素
+
+一个 `element` 指构成家具外观的每个独立物品。对于大多数家具，单个物品即可满足需求。但若希望创建更复杂的家具，可通过多个物品组合实现。例如，一个全息投影仪家具可拆分为两个元素：基座和投影本体——基座可保持固定朝向，而投影则可设置为始终面向玩家。
+
+```yaml
+elements:
+  - item: default:bench
+    display-transform: NONE # NONE  / THIRD_PERSON_LEFT_HAND / THIRD_PERSON_RIGHT_HAND
+                            # 不变换 /   第三人称视角左手变换  /   第三人称视角右手变换
+                            # FIRST_PERSON_LEFT_HAND / FIRST_PERSON_RIGHT_HAND
+                            #   第一人称视角左手变换  /   第一人称视角右手变换
+                            #         HEAD         /        GUI        /     GROUND     /  FIXED  /    ON_SHELF
+                            # 放置在头部物品栏的变换 / 在图形界面中的变换 / 平铺在地面的变换 / 默认变换 / 在展示架中的变换
+    billboard: FIXED  #      FIXED      /  VERTICAL   /  HORIZONTAL /         CENTER
+                      # 固定垂直和水平轴 /  固定垂直轴  /  固定水平轴  / 按照中心旋转跟随玩家视角
+    position: 0.5,0,0
+    translation: 0,0.5,0
+    scale: 1 # scale: 1,2,1
+    apply-dyed-color: true
+    # rotation 支持 3 种格式
+    rotation: 45  # Y 轴
+    rotation: 45,45,0  # 欧拉角
+    rotation: 0,0,0.7071,0.7071  # 四元数  https://quaternions.online/
+```
+
+:::warning
+请注意区分 `position` 与 `translation`，`position` 改变对应展示实体的坐标位置，而 `translation` 是展示实体自身的位移属性。
+:::
+
+:::danger
+对于 wall 放置方式的家具，必须使用 `position` 进行微调偏移，否则特定位置时家具可能变黑，这与 Minecraft 的实体渲染机制相关。
+:::
+
+## 判定箱
+
+`hitboxes` 是发送给玩家交互的实体，你可通过按下 F3+B 以可视化调试其作用范围。
+
+<div style={{textAlign: 'center'}}>
+    <img src={require('/img/i18n/zh-Hans/deprecation/furniture_placement_5.png').default} alt="" />
+</div>
+
+### 交互实体
+
+```yaml
+hitboxes:
+- type: interaction # 无碰撞判定箱
+  can-use-item-on: false # 默认值：false
+  can-be-hit-by-projectile: false # 默认值：false
+  blocks-building: false # 默认值：true
+  position: 0,0,0
+  width: 1
+  height: 2
+  # 可用 'scale' 简化 'width'/'height' 配置
+  # scale: 1,2
+  interactive: true # 交互实体是否可交互
+  seats:
+    - 0,0,-0.1 0
+```
+
+### 潜影贝
+
+```yaml
+hitboxes:
+- type: shulker # 硬碰撞判定箱
+  can-use-item-on: true # 默认值：true
+  can-be-hit-by-projectile: true # 默认值：true
+  blocks-building: true # 默认值：true
+  position: 1,0,0
+  scale: 1 # 1.20.5+
+  peek: 0 # 0~100
+  # 相对方向。North = 面向玩家
+  direction: UP # UP/DOWN/NORTH/WEST/EAST/SOUTH
+                # 上/ 下 / 北  / 西 / 东 /  南
+  interaction-entity: true # 是否生成另外一个交互实体
+  interactive: true # 交互实体是否可交互
+  seats:
+    - 1,0,-0.1 0
+```
+
+### 快乐恶魂
+
+```yaml
+hitboxes:
+- type: happy_ghast # 硬或软碰撞判定箱
+  can-use-item-on: true # 默认值：true
+  can-be-hit-by-projectile: true # 默认值：true
+  blocks-building: true # 默认值：true
+  hard-collision: true # 默认值：true
+  position: 1,0,0
+  scale: 0.25 # 默认值：1
+  seats:
+    - 1,0,-0.1 0
+```
+
+### 自定义
+
+```yaml
+hitboxes:
+- type: custom # 主要用于软碰撞判定箱
+  position: 1,0,0
+  scale: 5 # 1.20.5+
+  # 你可以在此处使用任何实体
+  entity-type: slime # 默认值：slime
+  seats:
+    - 1,0,-0.1 0
+```
+
+:::success
+一个 `hitbox` 可以配置多个座位。如果多个 `hitbox` 的座位被放置在同一位置，其效果等同于仅存在一个座位。
+:::
+
+:::info
+`seat` 的位置由坐标和旋转角度共同决定，在配置中以空格分隔：
+
+```
+0,0,0 0
+```
+
+也可选择不配置旋转角度，此时玩家入座后可自由旋转至任意方向：
+
+```
+0,0,0
+```
+:::
+
+<div style={{textAlign: 'center'}}>
+    <img src={require('/img/i18n/zh-Hans/deprecation/furniture_placement_6.gif').default} alt="" />
+    <p style={{fontSize: '0.9em', color: '#666', marginTop: '0.5em'}}>0,0,0 0</p>
+</div>
+
+<div style={{textAlign: 'center'}}>
+    <img src={require('/img/i18n/zh-Hans/deprecation/furniture_placement_7.gif').default} alt="" />
+    <p style={{fontSize: '0.9em', color: '#666', marginTop: '0.5em'}}>0,0,0</p>
+</div>
+
+## 外部模型
+
+你也可以使用来自 ModelEngine 或 BetterModel 的模型
+
+```yaml
+furniture:
+  default:bench:
+    placement:
+      ground:
+        model-engine: blueprint_id
+        better-model: blueprint_id
+        rules:
+          # ANY / FOUR / EIGHT / SIXTEEN / NORTH / EAST / WEST / SOUTH
+          # 任意 / 四向 / 八向  / 十六向  /  北   /  东   /  西  /   南
+          rotation: EIGHT
+          # ANY / CENTER / HALF /  QUARTER  / CORNER
+          # 任意 /  居中  / 半格 / 四分之一格 / 角落
+          alignment: CENTER
+```

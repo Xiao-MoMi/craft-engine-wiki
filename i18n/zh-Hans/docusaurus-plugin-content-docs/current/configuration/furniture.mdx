@@ -3,6 +3,8 @@ title: 🪑 家具
 id: furniture
 ---
 
+import UrlCard from '@site/src/components/UrlCard';
+
 :::caution
 
 家具系统将在 0.0.62 版本进行重大重构，引入更高级的家具功能。
@@ -11,4 +13,106 @@ id: furniture
 
 https://mo-mi.gitbook.io/xiaomomi-plugins/craftengine/plugin-wiki/craftengine/add-new-contents/entities/furniture
 
+译者注：特别提供原文档的简体中文翻译
 :::
+
+
+:::danger
+请注意：重载插件不会影响已放置的家具！必须重启服务器或重载区块才能使现有家具应用新配置。插件采用缓存机制优化家具性能，若贸然强制重载服务器已加载的家具，可能严重影响服务器稳定性。
+
+未来版本可能会考虑加入相关不安全标志用于强制重载，但目前绝不会实现该功能。
+:::
+
+## 配置部分
+
+完整家具配置包含以下部分：
+
+* behavior
+
+<UrlCard
+    url="furniture/behaviors"
+    title="🕹️ 家具行为"
+    subtitle=" "
+/>
+
+* settings
+
+<UrlCard
+    url="furniture/settings"
+    title="⚙️ 家具设置"
+    subtitle=" "
+/>
+
+* placement
+
+<UrlCard
+    url="furniture/placement"
+    title="📍 家具放置"
+    subtitle=" "
+/>
+
+* loot
+
+<UrlCard
+    url="../reference/loot_table"
+    title="🎲 战利品表"
+    subtitle=" "
+/>
+
+* events
+
+<UrlCard
+    url="../reference/events"
+    title="🪇 事件"
+    subtitle=" "
+/>
+
+## 如何绑定物品
+
+<UrlCard
+    url="item/behaviors/furniture_item"
+    title="🪑 家具物品"
+    subtitle=" "
+/>
+
+## 完整配置概览
+
+```yaml
+furniture:
+  default:bench:
+    settings:
+      item: default:bench
+      sounds:
+        break: minecraft:block.bamboo_wood.break
+        place: minecraft:block.bamboo_wood.place
+    placement:
+      ground:
+        rules:
+          # ANY / FOUR / EIGHT / SIXTEEN / NORTH / EAST / WEST / SOUTH
+          rotation: EIGHT
+          # ANY / CENTER / HALF / QUARTER / CORNER
+          alignment: CENTER
+        elements:
+          - item: default:bench
+            display-transform: NONE
+            billboard: FIXED
+            position: 0.5,0,0
+            translation: 0,0.5,0
+        hitboxes:
+          - position: 0,0,0
+            width: 1
+            height: 1
+            interactive: true
+            seats:
+              - 0,0,-0.1 0
+          - position: 1,0,0
+            width: 1
+            height: 1
+            interactive: true
+            seats:
+              - 1,0,-0.1 0
+    loot:
+      template: loot_table:normal
+      arguments:
+        item: default:bench
+```

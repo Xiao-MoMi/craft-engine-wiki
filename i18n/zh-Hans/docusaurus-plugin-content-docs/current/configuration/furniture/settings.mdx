@@ -1,0 +1,50 @@
+---
+title: ⚙️ 家具设置
+id: settings
+---
+
+## 物品
+
+决定家具对应的物品是什么。通常在创造模式使用鼠标中键点击来获取家具（1.21.4+版本）。
+
+```yaml
+item: default:test_furniture
+```
+
+## 音效
+
+决定家具在各种情况下的音效。
+
+* break    当玩家破坏家具时
+* place    当玩家放置家具时
+
+```yaml
+sounds:
+  break: minecraft:block.bamboo_wood.break
+  place: minecraft:block.bamboo_wood.place
+```
+
+:::info
+你可以像这样配置以精确控制音量和音调
+
+```yaml
+sounds:
+  break:
+    id: minecraft:block.deepslate.break
+    pitch: 0.5
+    volume: 0.25
+  place: minecraft:block.deepslate.step
+```
+:::
+
+## 最小化
+
+决定是否要精简发送给普通玩家的网络数据包。
+
+```yaml
+minimized: true
+```
+
+<div style={{textAlign: 'center'}}>
+    <img src={require('/img/i18n/zh-Hans/deprecation/furniture_settings_1.png').default} alt="" />
+</div>

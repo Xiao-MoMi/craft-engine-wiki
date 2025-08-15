@@ -398,5 +398,17 @@
   "sidebar.tutorialSidebar.doc.Tencent Cloud COS": {
     "message": "腾讯云COS",
     "description": "教程侧边栏中'腾讯云COS'文档项的标签"
+  },
+  "sidebar.tutorialSidebar.doc.⚙️ Furniture Settings": {
+    "message": "⚙️ 家具设置",
+    "description": "教程侧边栏中'家具设置'文档项的标签"
+  },
+  "sidebar.tutorialSidebar.doc.🕹️ Furniture Behaviors": {
+    "message": "🕹️ 家具行为",
+    "description": "教程侧边栏中'家具行为'文档项的标签"
+  },
+  "sidebar.tutorialSidebar.doc.📍 Furniture Placement": {
+    "message": "📍 家具放置",
+    "description": "教程侧边栏中'家具放置'文档项的标签"
   }
 }
