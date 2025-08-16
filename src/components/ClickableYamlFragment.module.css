@@ -24,6 +24,7 @@
 }
 
 .fragmentContainer {
+  /* ... 您的基础样式保持不变 ... */
   border: none;
   background-color: transparent;
   border-radius: 4px;
@@ -33,36 +34,70 @@
   box-sizing: border-box;
 
   outline: 1px solid var(--yaml-fragment-outline-color);
-  outline-offset: 0px; /* 通常设置为 2px 或 3px 以便与 box-shadow 区分开 */
+  outline-offset: 0px;
 
-  position: relative; /* 确保悬浮框能相对于此容器定位 */
-  cursor: pointer;
+  position: relative;
   transition: all 0.2s ease-in-out, background-color 0.15s ease-out;
 
   animation: breatheBorder 3s ease-in-out infinite;
 }
 
-.fragmentContainer[role="button"]:hover {
+/* ------------------------------------------- */
+/* ✅ 新增样式：为 Link 组件专门设计 */
+/* ------------------------------------------- */
+
+/* 针对可点击的 Link 组件 (它会渲染成 <a> 标签) */
+.fragmentContainer.clickable {
+  cursor: pointer;
+  text-decoration: none; /* 移除 a 标签的默认下划线 */
+  color: inherit; /* 继承父元素的文本颜色 */
+}
+
+.fragmentContainer.clickable:hover {
   animation-play-state: paused;
   outline-color: var(--yaml-fragment-outline-color);
   box-shadow: 0 0 18px var(--yaml-fragment-shadow-strong);
   transform: translateY(-2px);
-  background-color: var(--yaml-fragment-hover-bg); /* 使用计算后的 hover bg */
+  background-color: var(--yaml-fragment-hover-bg);
 }
 
-.fragmentContainer[role="button"]:focus {
-  outline: none; /* 移除默认的焦点轮廓 */
-  box-shadow: 0 0 0 3px var(--yaml-fragment-shadow-focus); /* 更强的焦点指示 */
+.fragmentContainer.clickable:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--yaml-fragment-shadow-focus);
   background-color: var(--yaml-fragment-hover-bg);
   transform: none;
 }
 
-/* 标题颜色适配 */
+/* ------------------------------------------- */
+/* ✅ 非点击状态的样式也需要调整 */
+/* ------------------------------------------- */
+.fragmentContainer.nonClickable {
+  cursor: default;
+  outline-color: var(--yaml-fragment-outline-color);
+  box-shadow: 0 0 5px var(--yaml-fragment-shadow-light);
+  background-color: transparent;
+  animation: breatheBorder 3s ease-in-out infinite;
+  transform: none;
+}
+
+.nonClickable:hover,
+.nonClickable:focus {
+  outline-color: var(--yaml-fragment-outline-color);
+  box-shadow: 0 0 10px var(--yaml-fragment-shadow-light);
+  background-color: transparent;
+  animation-play-state: paused;
+  transform: none;
+}
+
+/* ------------------------------------------- */
+/* 其余样式保持不变 */
+/* ------------------------------------------- */
+
 .fragmentTitle {
   margin: 0;
   padding: 0 0 0 10px;
   font-size: 1.1em;
-  color: var(--docusaurus-text-color); /* 适配 Docusaurus 文本颜色 */
+  color: var(--docusaurus-text-color);
   line-height: 1.1;
 }
 
@@ -86,43 +121,15 @@
 .codeBlockOverride code {
   font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
   font-size: 0.9em;
-  color: var(--docusaurus-text-color); /* 适配 Docusaurus 文本颜色 */
+  color: var(--docusaurus-text-color);
   line-height: inherit !important;
   display: block !important;
   white-space: pre-wrap !important;
   word-break: break-all !important;
 }
 
-/* 非点击状态下的样式 */
-.nonClickable {
-  cursor: default;
-  outline-color: var(--yaml-fragment-outline-color);
-  box-shadow: 0 0 5px var(--yaml-fragment-shadow-light);
-  background-color: transparent;
-  animation: breatheBorder 3s ease-in-out infinite;
-  transform: none;
-}
-
-.nonClickable:hover,
-.nonClickable:focus {
-  outline-color: var(--yaml-fragment-outline-color);
-  box-shadow: 0 0 10px var(--yaml-fragment-shadow-light);
-  background-color: transparent;
-  animation-play-state: paused;
-  transform: none;
-}
-
-
-/* -------------------------------------------------------- */
-/* 新增样式：CodeBlock 包装器 */
-/* -------------------------------------------------------- */
-
 .codeBlockWrapper {
   margin: 0;
   padding: 0;
   display: block;
 }
-
-/* -------------------------------------------------------- */
-/* CodeBlock 包装器样式结束 */
-/* -------------------------------------------------------- */
