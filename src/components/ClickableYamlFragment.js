@@ -1,6 +1,6 @@
 // src/components/ClickableYamlFragment.js
 import Link from '@docusaurus/Link';
-import React from 'react';
+import React, {useEffect} from 'react';
 import styles from './ClickableYamlFragment.module.css';
 import CodeBlock from '@theme/CodeBlock';
 
@@ -18,9 +18,10 @@ function hexToRgba(hex, transparentValue) {
 function ClickableYamlFragment({ yamlContent, to, title, highlightColor }) {
   const hasLink = !!to;
 
-  // ✅ 直接在组件渲染时获取主题模式
-  // 这个值在每次渲染时都会被重新计算
-  const isDarkTheme = document.documentElement.getAttribute('data-theme') === 'dark';
+  let isDarkTheme = false;
+  useEffect(() => {
+    isDarkTheme = document.documentElement.getAttribute('data-theme') === 'dark';
+  })
 
   const defaultColor = '#3498db';
   const colorToUse = highlightColor || defaultColor;
