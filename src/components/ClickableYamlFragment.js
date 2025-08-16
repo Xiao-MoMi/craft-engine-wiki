@@ -1,10 +1,11 @@
 // src/components/ClickableYamlFragment.js
+import Link from '@docusaurus/Link';
 import React, {useEffect} from 'react';
 import styles from './ClickableYamlFragment.module.css';
 import CodeBlock from '@theme/CodeBlock';
 
-// 辅助函数：将十六进制颜色转换为 RGBA 字符串
-function hexToRgba(hex, transparentValue) { // transparentValue 现在是必传的
+// Helper function: Convert hex color to RGBA string
+function hexToRgba(hex, transparentValue) {
   if (!hex || hex.length !== 7) {
     return `rgba(128, 128, 128, ${transparentValue})`;
   }
@@ -17,55 +18,57 @@ function hexToRgba(hex, transparentValue) { // transparentValue 现在是必传�
 function ClickableYamlFragment({ yamlContent, to, title, highlightColor }) {
   const hasLink = !!to;
 
-  const handleClick = () => {
-    if (hasLink) {
-      window.location.href = to;
-    }
-  };
-
-  const defaultColor = '#3498db'; // 默认颜色可以设置为 Docusaurus 主色调
-  const colorToUse = highlightColor || defaultColor;
-
-  // 根据颜色模式调整透明度，深色模式下通常需要更低的透明度以避免刺眼
   let isDarkTheme = false;
   useEffect(() => {
     isDarkTheme = document.documentElement.getAttribute('data-theme') === 'dark';
   })
-  const shadowLightAlpha = isDarkTheme ? 0.04 : 0.08; // 深色模式更淡
-  const shadowMediumAlpha = isDarkTheme ? 0.15 : 0.2; // 深色模式更淡
-  const shadowStrongAlpha = isDarkTheme ? 0.25 : 0.3; // 深色模式更淡
-  const shadowFocusAlpha = isDarkTheme ? 0.4 : 0.5;   // 深色模式更淡
-  const hoverBgAlpha = isDarkTheme ? 0.01 : 0.02;     // 深色模式更淡
+
+  const defaultColor = '#3498db';
+  const colorToUse = highlightColor || defaultColor;
+
+  const shadowLightAlpha = isDarkTheme ? 0.04 : 0.08;
+  const shadowMediumAlpha = isDarkTheme ? 0.15 : 0.2;
+  const shadowStrongAlpha = isDarkTheme ? 0.25 : 0.3;
+  const shadowFocusAlpha = isDarkTheme ? 0.4 : 0.5;
+  const hoverBgAlpha = isDarkTheme ? 0.01 : 0.02;
 
   const inlineStyles = {
-    '--yaml-fragment-outline-color': colorToUse, 
-    
-    '--yaml-fragment-shadow-light': hexToRgba(colorToUse, shadowLightAlpha),  
-    '--yaml-fragment-shadow-medium': hexToRgba(colorToUse, shadowMediumAlpha), 
-    '--yaml-fragment-shadow-strong': hexToRgba(colorToUse, shadowStrongAlpha), 
-    '--yaml-fragment-shadow-focus': hexToRgba(colorToUse, shadowFocusAlpha),  
-
+    '--yaml-fragment-outline-color': colorToUse,
+    '--yaml-fragment-shadow-light': hexToRgba(colorToUse, shadowLightAlpha),
+    '--yaml-fragment-shadow-medium': hexToRgba(colorToUse, shadowMediumAlpha),
+    '--yaml-fragment-shadow-strong': hexToRgba(colorToUse, shadowStrongAlpha),
+    '--yaml-fragment-shadow-focus': hexToRgba(colorToUse, shadowFocusAlpha),
     '--yaml-fragment-hover-bg': hexToRgba(colorToUse, hoverBgAlpha),
   };
 
+  const content = (
+      <>
+        {title && <h4 className={styles.fragmentTitle}>{title}</h4>}
+        <CodeBlock language="yaml" className={styles.codeBlockOverride}>
+          {yamlContent}
+        </CodeBlock>
+      </>
+  );
+
+  if (hasLink) {
+    return (
+        <Link
+            to={to}
+            className={`${styles.fragmentContainer} ${styles.clickable}`}
+            style={inlineStyles}
+        >
+          {content}
+        </Link>
+    );
+  }
+
   return (
-    <div
-      className={`${styles.fragmentContainer} ${hasLink ? '' : styles.nonClickable}`}
-      onClick={hasLink ? handleClick : undefined}
-      role={hasLink ? "button" : undefined}
-      tabIndex={hasLink ? 0 : undefined}
-      onKeyPress={hasLink ? (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          handleClick();
-        }
-      } : undefined}
-      style={inlineStyles}
-    >
-      {title && <h4 className={styles.fragmentTitle}>{title}</h4>}
-      <CodeBlock language="yaml" className={styles.codeBlockOverride}>
-        {yamlContent}
-      </CodeBlock>
-    </div>
+      <div
+          className={`${styles.fragmentContainer} ${styles.nonClickable}`}
+          style={inlineStyles}
+      >
+        {content}
+      </div>
   );
 }
 
