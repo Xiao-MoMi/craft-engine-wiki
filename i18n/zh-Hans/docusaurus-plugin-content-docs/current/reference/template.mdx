@@ -101,6 +101,10 @@ items:
 
 默认值采用Minecraft的SNBT格式（与指令中指定NBT数据时的格式相同）。
 
+可以通过使用${__ID__}映射当前物品ID，例如：
+- `path: "minecraft:item/${__ID__}"`
+- `item-name: "<i18n:item.myitems.${__ID__}>"`
+
 :::
 
 ## 覆写
