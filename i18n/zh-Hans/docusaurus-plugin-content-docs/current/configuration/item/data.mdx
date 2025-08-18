@@ -304,6 +304,22 @@ equippable:
   equip-on-interact: true
 ```
 
+### PDC（持久化数据容器）
+
+[持久化数据容器](https://docs.papermc.io/paper/dev/pdc/)是一种可在多种对象上存储自定义数据的方法，这里仅作用于定义物品的数据。它通常用于存储插件的自定义数据，你可以通过此物品数据定义以便其他插件识别。
+
+```yml
+pdc:
+  key1: string_value # 字符串
+  key2: 114514 # 数字
+  example_list: # 列表
+    - 1
+    - 2
+    - 3
+  map_example: # 映射
+    key: "value"
+```
+
 ## 自定义数据
 
 :::caution
