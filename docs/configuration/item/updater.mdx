@@ -1,0 +1,84 @@
+---
+title: 🔄 Item Updater
+id: updater
+---
+
+## Introduction
+
+Sometimes when configuring items, we may overlook certain aspects and need to adjust players' existing items. This is where an item updater comes into play—it updates the data of the actual items on the server.
+
+Due to how the updater works (by replacing items during specific events), it incurs some performance overhead. You can configure in **config.yml** which events should trigger the item updater. By default, all these triggers are disabled—you can enable them as needed.
+
+```yaml
+item:
+  update-triggers:
+    click-in-inventory: false # this option won't work for players in creative mode
+    drop: false
+    pick-up: false
+    ...more
+```
+
+:::tip
+If you only need to update visual elements of an item—such as custom-model-data, item-model, lore, or name—it is recommended to use `client-bound-data` instead of an item updater.
+:::
+
+To configure an item updater, simply add a new `updater` section following the format below. By default, items have a version number of 0, and the plugin will attempt to update them to the latest version.
+
+In the example below:
+- If an item's version is 0, both update logic 1 and 2 will be executed.
+- If an item's version is 1, only logic 2 will be applied.
+
+```yaml
+items:
+  default:my_sword:
+    material: wooden_sword
+    custom-model-data: 1000
+    updater:
+      1:
+        type: apply_data
+        data:
+          item-name: First Update
+      # You can apply multiple updaters simultaneously using a list format.
+      2:
+        - type: apply_data
+          data:
+            lore: 
+              - "Second Update"
+        - type: transmute
+          material: wooden_sword
+```
+
+## Updaters
+
+### apply_data
+
+Apply any valid [item data](./data.mdx) supported by CraftEngine
+
+```yaml
+type: apply_data
+data:
+  item-name: First Update
+```
+
+### transmute
+
+Replace an item's base material with another item's while preserving all its components/NBT data.
+
+```yaml
+type: transmute
+material: wooden_sword
+```
+
+### reset
+
+Update the item to its latest state immediately while preserving specified components/NBT tags
+
+```yaml
+type: reset
+# 1.20.5+
+keep-components:
+  - minecraft:enchantments
+# legacy versions
+keep-tags:
+  - Enchantments
+```

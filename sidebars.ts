@@ -237,6 +237,11 @@ const sidebars: SidebarsConfig = {
                 },
               ]
             },
+            {
+              type: 'doc',
+              id: "configuration/item/updater",
+              label: '🔄 Item Updater',
+            }
           ]
         },
         {

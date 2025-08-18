@@ -83,6 +83,10 @@
     "message": "🔧 物品设置",
     "description": "教程侧边栏中'物品设置'文档项的标签"
   },
+  "sidebar.tutorialSidebar.doc.🔄 Item Updater": {
+    "message": "🔄 物品更新器",
+    "description": "教程侧边栏中'物品更新器'文档项的标签"
+  },
   "sidebar.tutorialSidebar.doc.📐 Model": {
     "message": "📐 模型",
     "description": "教程侧边栏中'模型'文档项的标签"
