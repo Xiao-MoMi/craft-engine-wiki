@@ -99,7 +99,33 @@ items:
 - `${map:-{aa:bb,cc:ddd}}`
 - `${string:-"1234"}`
 
-默认值采用Minecraft的SNBT格式（与指令中指定NBT数据时的格式相同）。
+默认值采用 Minecraft 的 SNBT 格式（与指令中指定 NBT 数据时的格式相同）。
+
+此外，还有两个特殊参数 `${__NAMESPACE__}` 和 `${__ID__}`，它们会从当前非模板配置项的命名空间ID中自动获取，并传递到所引用的模板中。例如：
+
+```yml
+items:
+  default:palm_log:
+    # 在此区块任意位置使用模板时，${__NAMESPACE__} 和 ${__ID__} 的值分别为 "default" 和 "palm_log"
+    ...
+blocks:
+  default:palm_log:
+    # 同上，传递的仍是 "default" 和 "palm_log"
+    ...
+furniture:
+  default:bench:
+    # 传递的为 "default" 和 "bench"
+    ...
+categories:
+  default:palm_tree:
+    # 传递的为 "default" 和 "palm_tree"
+    ...
+templates:
+  default:my_template:
+    # 特别说明：在此区块中使用模板时，${__NAMESPACE__} 和 ${__ID__} 的值由引用该模板的配置项决定，而非模板自身的命名空间ID
+    item: ${__NAMESPACE__}:${__ID__}
+    item-name: "<lang:item.${__NAMESPACE__}.${__ID__}>"
+```
 
 :::
 
