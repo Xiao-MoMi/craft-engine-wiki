@@ -12,7 +12,7 @@ permission: "craftengine.admin"
 ```
 :::
 
-### any_of
+### any\_of
 
 满足任意条件即可。
 
@@ -23,7 +23,7 @@ terms:
   - type: xxx
 ```
 
-### all_of
+### all\_of
 
 所有条件都必须满足。
 
@@ -44,7 +44,7 @@ term:
   type: xxx
 ```
 
-### falling_block
+### falling\_block
 
 检测掉落物是否由下落的方块掉落
 
@@ -52,7 +52,7 @@ term:
 type: falling_block
 ```
 
-### survives_explosion
+### survives\_explosion
 
 以 `1/爆炸半径` 的概率返回成功。需要上下文提供参数进行检测，若未提供则总是通过。
 
@@ -60,7 +60,7 @@ type: falling_block
 type: survives_explosion
 ```
 
-### match_item
+### match\_item
 
 检查手持物品。
 
@@ -78,7 +78,44 @@ id:
 regex: false # 是否使用正则表达式匹配
 ```
 
-### match_block_property
+### match\_entity\_type
+
+检查实体类型。
+
+```yaml
+type: match_entity_type
+id: "minecraft:cow"
+regex: false # 是否使用正则表达式匹配
+```
+
+```yaml
+type: match_entity_type
+id:
+  - "minecraft:cow"
+  - "minecraft:sheep"
+regex: false # 是否使用正则表达式匹配
+```
+
+### match\_block\_type
+
+检查方块类型。
+
+```yaml
+type: match_block_type
+id: "minecraft:stone"
+regex: false # 是否使用正则表达式匹配
+```
+
+```yaml
+type: match_block_type
+id:
+  - "minecraft:stone"
+  - "default:pale_log"
+  - "craftengine:note_block_0"
+regex: false # 是否使用正则表达式匹配
+```
+
+### match\_block\_property
 
 检查方块状态。
 
@@ -97,7 +134,7 @@ type: enchantment
 predicate: minecraft:silk_touch>=1 # > >= = < <=
 ```
 
-### table_bonus
+### table\_bonus
 
 以魔咒等级为索引，从列表中挑选概率通过。
 
@@ -137,7 +174,7 @@ type: expression
 expression: "<papi:farming_level> >= 10"
 ```
 
-### string_equals
+### string\_equals
 
 判断这两个值是否相等
 
@@ -147,7 +184,7 @@ value1: "<arg:player.name>"
 value2: "玩家A" # 译者注：在正常 Minecraft 服务端是不允许使用中文作为玩家名称的这里仅作为演示
 ```
 
-### string_contains
+### string\_contains
 
 判断 value1 是否包含 value2
 
@@ -157,7 +194,7 @@ value1: "<arg:player.name>"
 value2: "A"
 ```
 
-### string_regex
+### string\_regex
 
 判断 value 是否符合指定正则表达式
 
@@ -167,7 +204,7 @@ value: "<arg:player.name>"
 regex: "[a-Z]"
 ```
 
-### is_null
+### is\_null
 
 检查参数是否为空
 
@@ -185,7 +222,7 @@ type: hand
 hand: main_hand # off_hand
 ```
 
-### on_cooldown
+### on\_cooldown
 
 检查玩家是否处于冷却时间（使用 `set_cooldown` 函数为玩家设置冷却）
 

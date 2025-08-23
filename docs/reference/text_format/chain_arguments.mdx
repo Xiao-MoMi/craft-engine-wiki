@@ -20,19 +20,22 @@ We can combine them into a parameter tag format like `<arg:player.world.name>`. 
 
 ### player
 
-| parameter        | type                             | description                      |
-| ---------------- | -------------------------------- | -------------------------------- |
-| x                | double                           | the x coordinate of the player   |
-| y                | double                           | the y coordinate of the player   |
-| z                | double                           | the z coordinate of the player   |
-| block\_x         | int                              | the x coordinate of the player   |
-| block\_y         | int                              | the y coordinate of the player   |
-| block\_z         | int                              | the z coordinate of the player   |
-| name             | string                           | the name of the player           |
-| uuid             | uuid                             | the uuid of the player           |
-| is\_flying       | boolean                          | check the fly state              |
-| is\_sneaking     | boolean                          | check the sneak state            |
-| gamemode         | string                           | the gamemode of the player       |
+| parameter        | type                   | description                      |
+|------------------|------------------------|----------------------------------|
+| x                | double                 | the x coordinate of the player   |
+| y                | double                 | the y coordinate of the player   |
+| z                | double                 | the z coordinate of the player   |
+| block\_x         | int                    | the x coordinate of the player   |
+| block\_y         | int                    | the y coordinate of the player   |
+| block\_z         | int                    | the z coordinate of the player   |
+| name             | string                 | the name of the player           |
+| uuid             | uuid                   | the uuid of the player           |
+| is\_flying       | boolean                | check the fly state              |
+| is\_sneaking     | boolean                | check the sneak state            |
+| is\_swimming     | boolean                | check the swim state             |
+| is\_climbing     | boolean                | check the climb state            |
+| is\_gliding      | boolean                | check the glide state            |
+| gamemode         | string                 | the gamemode of the player       |
 | main\_hand\_item | [#item](#item)         | the item in main hand            |
 | off\_hand\_item  | [#item](#item)         | the item in off hand             |
 | world            | [#world](#world)       | the world where the player is in |
@@ -40,56 +43,56 @@ We can combine them into a parameter tag format like `<arg:player.world.name>`. 
 
 ### block
 
-| parameter    | type                                    | description                     |
-| ------------ | --------------------------------------- | ------------------------------- |
-| x            | double                                  | the x coordinate of the block   |
-| y            | double                                  | the y coordinate of the block   |
-| z            | double                                  | the z coordinate of the block   |
-| block\_x     | int                                     | the x coordinate of the block   |
-| block\_y     | int                                     | the y coordinate of the block   |
-| block\_z     | int                                     | the z coordinate of the block   |
-| world        | [#world](#world)              | the world where the block is in |
-| block\_state | block\_state                  | the blockstate of the block     |
-| position     | [#position](#position)        | the position of the block       |
+| parameter    | type                   | description                     |
+|--------------|------------------------|---------------------------------|
+| x            | double                 | the x coordinate of the block   |
+| y            | double                 | the y coordinate of the block   |
+| z            | double                 | the z coordinate of the block   |
+| block\_x     | int                    | the x coordinate of the block   |
+| block\_y     | int                    | the y coordinate of the block   |
+| block\_z     | int                    | the z coordinate of the block   |
+| world        | [#world](#world)       | the world where the block is in |
+| block\_state | block\_state           | the blockstate of the block     |
+| position     | [#position](#position) | the position of the block       |
 
 ### world
 
 | parameter | type   | description           |
-| --------- | ------ | --------------------- |
+|-----------|--------|-----------------------|
 | name      | string | the name of the world |
 | uuid      | uuid   | the uuid of the world |
 | time      | long   | the time of the world |
 
 ### position
 
-| parameter | type                       | description      |
-| --------- | -------------------------- | ---------------- |
-| x         | double                     | the x coordinate |
-| y         | double                     | the y coordinate |
-| z         | double                     | the z coordinate |
-| block\_x  | int                        | the x coordinate |
-| block\_y  | int                        | the y coordinate |
-| block\_z  | int                        | the z coordinate |
+| parameter | type             | description      |
+|-----------|------------------|------------------|
+| x         | double           | the x coordinate |
+| y         | double           | the y coordinate |
+| z         | double           | the z coordinate |
+| block\_x  | int              | the x coordinate |
+| block\_y  | int              | the y coordinate |
+| block\_z  | int              | the z coordinate |
 | world     | [#world](#world) | the world        |
 
 ### item
 
-| parameter            | type    | description                       |
-| ------------------- | ------- | --------------------------------- |
+| parameter           | type    | description                       |
+|---------------------|---------|-----------------------------------|
 | id                  | string  | the id of the item                |
 | custom\_model\_data | int     | the custom model data of the item |
 | is\_custom          | boolean | checks if the item is custom      |
 
 ### furniture
 
-| parameter    | type                             | description                       |
-| ------------ | -------------------------------- | --------------------------------- |
-| id           | string                           | the id of the furniture           |
-| uuid         | uuid                             | the uuid of the furniture         |
-| anchor\_type | string                           | the anchor type of the furniture  |
-| x            | double                           | the x coordinate of the furniture |
-| y            | double                           | the y coordinate of the furniture |
-| z            | double                           | the z coordinate of the furniture |
-| yaw          | float                            | the yaw of the furniture          |
-| pitch        | float                            | the pitch of the furniture        |
-| position     | [#position](#position)           | the position of the furniture     |
+| parameter    | type                   | description                       |
+|--------------|------------------------|-----------------------------------|
+| id           | string                 | the id of the furniture           |
+| uuid         | uuid                   | the uuid of the furniture         |
+| anchor\_type | string                 | the anchor type of the furniture  |
+| x            | double                 | the x coordinate of the furniture |
+| y            | double                 | the y coordinate of the furniture |
+| z            | double                 | the z coordinate of the furniture |
+| yaw          | float                  | the yaw of the furniture          |
+| pitch        | float                  | the pitch of the furniture        |
+| position     | [#position](#position) | the position of the furniture     |

@@ -78,6 +78,44 @@ id:
 regex: false # whether to use regex matching
 ```
 
+### match\_entity\_type
+
+Match the entity type.
+
+```yaml
+type: match_entity_type
+id: "minecraft:cow"
+regex: false # whether to use regex matching
+```
+
+```yaml
+type: match_entity_type
+id:
+  - "minecraft:cow"
+  - "minecraft:sheep"
+regex: false # whether to use regex matching
+```
+
+### match\_block\_type
+
+Match the block type.
+
+```yaml
+type: match_block_type
+id: "minecraft:stone"
+regex: false # whether to use regex matching
+```
+
+```yaml
+type: match_block_type
+id:
+  - "minecraft:stone"
+  - "default:pale_log"
+  - "craftengine:note_block_0"
+regex: false # whether to use regex matching
+```
+
+
 ### match\_block\_property
 
 Match the block state property
