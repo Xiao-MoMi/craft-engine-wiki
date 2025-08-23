@@ -105,6 +105,7 @@ type: command
 command: "say hello <arg:player.name>" # required; stringlist/string
 target: "self" # optional; enum[all,self]/player selector; [default: self]
 as-player: false # optional; [default: false]
+as-event: false # optional; [default: false]; whether to trigger the PlayerCommandProcessEvent, only effective when as-player is true
 ```
 
 ### message

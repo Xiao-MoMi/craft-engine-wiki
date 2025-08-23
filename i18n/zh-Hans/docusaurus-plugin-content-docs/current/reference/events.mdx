@@ -105,6 +105,7 @@ type: command
 command: "say 你好 <arg:player.name>" # 必填; 字符串列表/字符串
 target: "self" # 可选; 枚举[all,self]/玩家选择器; [默认值: self]
 as-player: false # 可选; [默认值: false]
+as-event: false # 可选; [默认值: false]; 是否触发 PlayerCommandProcessEvent 事件, 需要 as-player 为 true 才生效
 ```
 
 ### 消息
