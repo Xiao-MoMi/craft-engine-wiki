@@ -154,6 +154,17 @@ items:
       custom-model-data: 100
 ```
 
+:::tip
+与在物品中直接配置 `custom-model-data` 不同，在 `data` 中设置的 `custom-model-data` 仅表示使用该组件本身。
+如果需要生成对应的资源包文件，请使用如下写法：
+
+```yaml
+items:
+  default:sofa:
+    custom-model-data: 100
+```
+:::
+
 :::caution
 为了确保向后兼容性，此处上下文中的 custom-model-data 仅支持整数值。如果您想使用较新版本的功能，应使用 `components` 代替。
 :::
@@ -239,6 +250,17 @@ items:
     data:
       item-model: default:music_stick
 ```
+
+:::tip
+与在物品中直接配置 `item-model` 不同，在 `data` 中设置的 `item-model` 仅表示使用该组件本身。
+如果需要生成对应的资源包文件，请使用如下写法：
+
+```yaml
+items:
+  default:music_stick:
+    item-model: default:music_stick
+```
+:::
 
 ### tooltip-style（物品提示框背景和边框样式）(1.21.2+)
 

@@ -152,6 +152,17 @@ items:
       custom-model-data: 100
 ```
 
+:::tip
+Unlike defining `custom-model-data` directly inside an item, setting `custom-model-data` under `data` only indicates the usage of this component.
+If you want to generate the corresponding resource pack file, you should write it as follows:
+
+```yaml
+items:
+  default:sofa:
+    custom-model-data: 100
+```
+:::
+
 :::caution
 To ensure backward compatibility, custom-model-data in this context only supports integer values. If you want to use newer version features, you should use `components` instead.
 :::
@@ -237,6 +248,17 @@ items:
     data:
       item-model: default:music_stick
 ```
+
+:::tip
+Unlike defining `item-model` directly inside an item, setting `item-model` under `data` only indicates the usage of this component.
+If you want to generate the corresponding resource pack file, you should write it as follows:
+
+```yaml
+items:
+  default:music_stick:
+    item-model: default:music_stick
+```
+:::
 
 ### tooltip-style (1.21.2+)
 
