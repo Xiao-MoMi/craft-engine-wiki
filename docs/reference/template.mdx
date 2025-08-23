@@ -101,28 +101,28 @@ To set default values for parameters, add `:-` after the parameter name - for ex
 
 The default values follow Minecraft's SNBT format (the same format used when specifying NBT data in commands).
 
-Additionally, two special parameters, `${__NAMESPACE__}` and `${__ID__}`, are automatically derived from the resource location of the current non-template configuration block and are passed into any templates used within it. For example:
+In addition, there are two special parameters, `${__NAMESPACE__}` and `${__ID__}`. These are automatically taken from the **resource location** of the current non-template entry and passed into any referenced template. For example:
 
 ```yml
 items:
   default:palm_log:
-    # Any template applied here will receive "default" and "palm_log" for ${__NAMESPACE__} and ${__ID__}
+    # Within this block, ${__NAMESPACE__} and ${__ID__} will be "default" and "palm_log"
     ...
 blocks:
   default:palm_log:
-    # Any template applied here will receive "default" and "palm_log"
+    # Same here: "default" and "palm_log"
     ...
 furniture:
   default:bench:
-    # Any template applied here will receive "default" and "bench"
+    # Here they will be "default" and "bench"
     ...
 categories:
   default:palm_tree:
-    # Any template applied here will receive "default" and "palm_tree"
+    # Here they will be "default" and "palm_tree"
     ...
 templates:
   default:my_template:
-    # Important: For templates, these parameters are determined by the configuration that *uses* this template, not by the template's own resource location.
+    # Note: inside a template block, ${__NAMESPACE__} and ${__ID__} come from the entry that references the template, not from the template’s own resource location
     item: ${__NAMESPACE__}:${__ID__}
     item-name: "<lang:item.${__NAMESPACE__}.${__ID__}>"
 ```

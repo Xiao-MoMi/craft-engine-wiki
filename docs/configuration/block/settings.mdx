@@ -49,6 +49,9 @@ blocks:
       can-occlude: false
       block-light: 0
       propagate-skylight: false
+      jump-factor: 1.0
+      speed-factor: 1.0
+      friction: 0.7
 ```
 </details>
 
@@ -303,7 +306,31 @@ support-shape: minecraft:stone
 ## Unstable Settings
 
 :::caution
-The remaining block settings are all related to the light system. CraftEngine has implemented partial light effects as much as possible without affecting server performance. Visual issues with the light system on the client side are normal and in most cases I can't fix them.
+The following block settings would only work for entities except players.
+:::
+
+### friction
+
+It affects how quickly an item slows down when sliding on a block. (Default: 0.6, Ice: 0.98, Blue Ice: 0.989)
+
+```yaml
+friction: 0.6
+```
+
+### jump-factor
+
+```yaml
+jump-factor: 1.0
+```
+
+### speed-factor
+
+```yaml
+speed-factor: 1.0
+```
+
+:::caution
+The following block settings are all related to the light system. CraftEngine has implemented partial light effects as much as possible without affecting server performance. Visual issues with the light system on the client side are normal and in most cases I can't fix them.
 
 The block's occlusion of **skylight** is entirely determined by the **client-side** and **cannot be fixed** by sending packets from the server. Therefore, the **block-light** and **can-occlude** settings **only affect block-emitted light**, not skylight.
 :::

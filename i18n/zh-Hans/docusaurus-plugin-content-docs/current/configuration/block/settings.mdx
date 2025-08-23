@@ -49,6 +49,9 @@ blocks:
       can-occlude: false
       block-light: 0
       propagate-skylight: false
+      jump-factor: 1.0
+      speed-factor: 1.0
+      friction: 0.7
 ```
 </details>
 
@@ -301,6 +304,30 @@ support-shape: minecraft:stone
 ![](/img/block_settings_7.png)
 
 ## 不稳定设置
+
+:::caution
+接下来的方块设置只对非玩家实体生效
+:::
+
+### 阻力系数
+
+决定了方块与站在其上方的生物的“摩擦力”，影响生物的加速度并决定稳定移动速度。绝大多数方块的阻力系数为0.6，黏液块的阻力系数为0.8，冰、浮冰、霜冰的阻力系数为0.98，蓝冰的阻力系数为0.989。
+
+```yaml
+friction: 0.6
+```
+
+### 跳跃乘数
+
+```yaml
+jump-factor: 1.0
+```
+
+### 速度乘数
+
+```yaml
+speed-factor: 1.0
+```
 
 :::caution
 剩余的方块设置都与**光照系统**有关。CraftEngine 已尽可能在不影响服务器性能的情况下实现了部分光照效果。客户端光照系统的视觉问题属于正常现象，在大多数情况下我也无法修复。
