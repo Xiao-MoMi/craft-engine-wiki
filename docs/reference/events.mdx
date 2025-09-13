@@ -64,13 +64,13 @@ items:
   default:bench:
     events: # ❌️
       right_click:
-       - type: command
+        - type: command
     behavior:
       type: furniture_item
       furniture:
         events: # ✅️
           right_click:
-           - type: command
+            - type: command
 ```
 :::
 
@@ -418,8 +418,8 @@ type: teleport
 x: <arg:position.x> # required; number
 y: 100 # required; number
 z: <arg:position.z> + 5 # required; number
-pitch: <arg:player.pitch> # optinal; default: 0
-yaw: <arg:player.yaw> # optinal; default: 0
+pitch: <arg:player.pitch> # optional; default: 0
+yaw: <arg:player.yaw> # optional; default: 0
 world: world # optional; string;
 ```
 

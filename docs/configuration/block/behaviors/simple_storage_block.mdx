@@ -1,0 +1,24 @@
+---
+title: 📦 Simple Storage Block
+id: simple_storage_block
+---
+
+| Property Name | Property Type | Required |
+|---------------|---------------|----------|
+| open          | boolean       | no       |
+
+```yml
+blocks:
+  default:safe_block:
+    behavior:
+      type: simple_storage_block
+      title: "Safe Block"
+      rows: 1 # 1~6
+      sounds:
+        open: minecraft:block.iron_trapdoor.open
+        close: minecraft:block.iron_trapdoor.close
+      has-signal: true # Can it detect redstone signals?
+      hopper-behavior: # Controls hopper behavior
+        can-place-item: true # Whether items can be placed
+        can-take-item: true # Whether items can be taken
+```
