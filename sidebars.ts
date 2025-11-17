@@ -491,6 +491,11 @@ const sidebars: SidebarsConfig = {
                   id: "configuration/block/behaviors/snowy_block",
                   label: '❄️ Snowy Block',
                 },
+                {
+                  type: 'doc',
+                  id: "configuration/block/behaviors/lantern_block",
+                  label: '🏮 Lantern Block',
+                },
               ]
             },
             {
