@@ -22,6 +22,9 @@ categories:
     hidden: false
     priority: 1
     icon: default:palm_log
+    conditions:
+      - type: permission
+        permission: category.default.palm_tree
     list:
       - default:palm_sapling
       - default:palm_leaves
@@ -38,6 +41,7 @@ categories:
 * `icon` 代表该分类的物品外观，需要在插件内配置该物品的设置
 * `priority` 决定显示顺序，数值越小在 GUI 中的显示优先级越高
 * `hidden` 属性控制该分类是否显示在主菜单。如需嵌套分类到其他分类中，需将此属性设为 `true`，后续将提供相关示例
+* `conditions` 控制是否显示该分类，具体用法参考[⚖️ 条件](../reference/conditions)
 * `list` 中需填入物品或分类（分类需以 '#' 开头，如 `#default:palm_tree`）
 
 ### 界面操作提示

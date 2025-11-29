@@ -22,6 +22,9 @@ categories:
     hidden: false
     priority: 1
     icon: default:palm_log
+    conditions:
+      - type: permission
+        permission: category.default.palm_tree
     list:
       - default:palm_sapling
       - default:palm_leaves
@@ -38,6 +41,7 @@ categories:
 * The `icon` represents the visual appearance of the item for this category, and you are required to configure the settings for this item within the plugin.
 * The `priority` determines the display order; the smaller the 'priority' value, the higher the precedence it has for presentation in the GUI.
 * The `hidden` attribute determines whether this category is displayed in the main menu. There may be instances where you wish to nest a category within another; in such cases, you would set this attribute to `true`. Relevant examples will be provided later.
+* The `conditions` control whether this category is displayed. For specific usage, please refer to [⚖️ Conditions](../reference/conditions).
 * In the `list`, you need to fill in items or categories (categories must be prefixed with a '#', for example, `#default:palm_tree` ).
 
 ### UI Tips
