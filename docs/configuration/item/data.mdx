@@ -481,6 +481,25 @@ items:
             - "????????"
 ```
 
+### profile
+
+Store the corresponding game profile data for the player head
+
+```yml
+items:
+  default:gui_head_size_1:
+    material: player_head
+    client-bound-data:
+      profile:
+        name: <arg:player.name>
+        # url: https://textures.minecraft.net/texture/509be8c848483f62d8484b66dc0ecd38357599b0ed7fca06b8fdeaf4275e6b51
+        ## Base64-encoded JSON data
+        # data: ewogICJ0aW......
+        ## Or direct writing to the corresponding data structure
+        # data:
+        #   textures: ...
+```
+
 ## Customizable Data
 
 :::caution
