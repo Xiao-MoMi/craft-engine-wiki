@@ -202,6 +202,16 @@ recipes:
         permission: recipe.unlock.bench
 ```
 
+### 自动解锁
+
+如果玩家拥有了该配方的所有原料且满足此配方的条件，则自动为玩家解锁该配方。该选项默认值可在 `config.yml` 里设置。
+
+```yaml
+recipes:
+  default:amethyst_torch:
+    unlock-on-ingredient-obtained: true
+```
+
 ## 配方类型
 
 :::caution
@@ -261,6 +271,27 @@ recipes:
   <img src={require('/img/i18n/zh-Hans/recipe_6.png').default} alt="" />
 </div>
 
+```yaml
+recipes:
+  default:enchanted_cobblestone:
+    type: shaped
+    pattern:
+      - " A "
+      - "AAA"
+      - " A "
+    ingredients:
+      A: 
+        items: "minecraft:cobblestone"
+        count: 32
+    result:
+      id: default:enchanted_cobblestone
+      count: 1
+```
+
+<div style={{textAlign: 'center'}}>
+  <img src={require('/img/i18n/zh-Hans/recipe_13.png').default} alt="" />
+</div>
+
 ### 无序合成配方
 
 ```yaml
@@ -286,6 +317,29 @@ recipes:
   <img src={require('/img/i18n/zh-Hans/recipe_8.png').default} alt="" />
 </div>
 
+```yaml
+recipes:
+  default:enchanted_cobblestone:
+    type: shapeless
+    ingredients:
+      - items: "minecraft:cobblestone"
+        count: 32
+      - items: "minecraft:cobblestone"
+        count: 32
+      - items: "minecraft:cobblestone"
+        count: 32
+      - items: "minecraft:cobblestone"
+        count: 32
+      - items: "minecraft:cobblestone"
+        count: 32
+    result:
+      id: default:enchanted_cobblestone
+      count: 1
+```
+
+<div style={{textAlign: 'center'}}>
+  <img src={require('/img/i18n/zh-Hans/recipe_14.png').default} alt="" />
+</div>
 
 ### 烧炼配方
 

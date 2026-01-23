@@ -202,6 +202,16 @@ recipes:
         permission: recipe.unlock.bench
 ```
 
+### Auto Unlock
+
+If the player has all the ingredients for a recipe and meets its conditions, the recipe will be automatically unlocked for the player. The default value of this option can be set in `config.yml`.
+
+```yaml
+recipes:
+  default:amethyst_torch:
+    unlock-on-ingredient-obtained: true
+```
+
 ## Recipe Types
 
 :::caution
@@ -261,6 +271,27 @@ recipes:
   <img src={require('/img/recipe_6.png').default} alt="" />
 </div>
 
+```yaml
+recipes:
+  default:enchanted_cobblestone:
+    type: shaped
+    pattern:
+      - " A "
+      - "AAA"
+      - " A "
+    ingredients:
+      A: 
+        items: "minecraft:cobblestone"
+        count: 32
+    result:
+      id: default:enchanted_cobblestone
+      count: 1
+```
+
+<div style={{textAlign: 'center'}}>
+  <img src={require('/img/recipe_13.png').default} alt="" />
+</div>
+
 ### Shapeless Crafting Recipe
 
 ```yaml
@@ -286,6 +317,29 @@ recipes:
   <img src={require('/img/recipe_8.png').default} alt="" />
 </div>
 
+```yaml
+recipes:
+  default:enchanted_cobblestone:
+    type: shapeless
+    ingredients:
+      - items: "minecraft:cobblestone"
+        count: 32
+      - items: "minecraft:cobblestone"
+        count: 32
+      - items: "minecraft:cobblestone"
+        count: 32
+      - items: "minecraft:cobblestone"
+        count: 32
+      - items: "minecraft:cobblestone"
+        count: 32
+    result:
+      id: default:enchanted_cobblestone
+      count: 1
+```
+
+<div style={{textAlign: 'center'}}>
+  <img src={require('/img/recipe_14.png').default} alt="" />
+</div>
 
 ### Cooking Recipe
 
