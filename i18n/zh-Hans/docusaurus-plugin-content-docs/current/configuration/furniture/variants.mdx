@@ -91,8 +91,9 @@ rotation: 0,0,0.7071,0.7071  # 四元数  https://quaternions.online/
 :::
 
 :::danger
-对于 wall 和 ceiling 变体的家具，必须使用 `position` 进行微调偏移，否则特定位置时家具可能变黑。\
-译者注：你也可以通过配置 `brightness.block-light` 为 15 来解决。
+对于 wall（墙壁）或 ceiling（天花板）类型的家具，必须通过 `position` 参数设置微小的偏移；否则，家具可能会显示为黑色。 \
+
+实体的变黑与其位置有关。因此，在调整 `position` 后，可以通过应用一个反向的 `translation` 来将实体恢复到正确的位置。
 :::
 
 ### 文本展示实体

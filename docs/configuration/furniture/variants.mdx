@@ -87,7 +87,10 @@ Please note the distinction between `position` and `translation`. `position` alt
 :::
 
 :::danger
-For `wall` & `ceiling` variants of furniture, you need to use `position` for slight offsets; otherwise, the furniture may turn black in certain directions.
+For `wall` or `ceiling` variants of furniture, slight offsets must be applied using the `position` parameter; otherwise, the furniture may appear black.
+
+The blackening of entities is position-dependent. Thus, after adjusting `position`, you can restore the entity to its correct placement by applying an opposite `translation`.
+
 :::
 
 ### Text Display
