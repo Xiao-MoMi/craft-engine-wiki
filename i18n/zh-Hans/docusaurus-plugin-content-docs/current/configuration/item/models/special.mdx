@@ -27,6 +27,13 @@ items:
       model:
         type: minecraft:head
         kind: player
+      transformation: # 可选; 模型变换; 26.1+
+        scale: 1,1,1 # 以原点为中心缩放模型
+        translation: 0,0,0 # 平移变换
+        right_rotation: # 初始旋转
+          angle: 0.0 # 表示绕旋转轴的旋转角度（以弧度为单位）
+          axis: 0,0,0 # 一个3维向量，表示旋转轴
+        left_rotation: 0,0,0,0 # 再次旋转模型
 ```
 
 ## 硬编码渲染器

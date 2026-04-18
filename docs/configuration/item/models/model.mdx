@@ -20,10 +20,17 @@ items:
     model:
       type: minecraft:model # type is optional in this case
       path: minecraft:item/custom/topaz_pickaxe
-      generation:
-        parent: "minecraft:item/handheld"
+      generation: # Optional; Model generation
+        parent: "minecraft:item/handheld" # Required; Parent model path
         textures:
           "layer0": "minecraft:item/custom/topaz_pickaxe"
+      transformation: # Optional; Model transformation; 26.1+
+        scale: 1,1,1 # Scale the model centered on the origin
+        translation: 0,0,0 # Translation transformation
+        right_rotation: # Initial rotation
+          angle: 0.0 # The angle of rotation, in radians
+          axis: 0,0,0 # Axis vector with 3 elements
+        left_rotation: 0,0,0,0 # Rotates the model again
 ```
 
 :::tip

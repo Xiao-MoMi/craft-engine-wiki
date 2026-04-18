@@ -20,10 +20,17 @@ items:
     model:
       type: minecraft:model # 在这种情况下 type 是可选的
       path: minecraft:item/custom/topaz_pickaxe
-      generation:
-        parent: "minecraft:item/handheld"
+      generation: # 可选; 模型生成
+        parent: "minecraft:item/handheld" # 必填; 父模型路径
         textures:
           "layer0": "minecraft:item/custom/topaz_pickaxe"
+      transformation: # 可选; 模型变换; 26.1+
+        scale: 1,1,1 # 以原点为中心缩放模型
+        translation: 0,0,0 # 平移变换
+        right_rotation: # 初始旋转
+          angle: 0.0 # 表示绕旋转轴的旋转角度（以弧度为单位）
+          axis: 0,0,0 # 一个3维向量，表示旋转轴
+        left_rotation: 0,0,0,0 # 再次旋转模型
 ```
 
 :::tip

@@ -27,6 +27,13 @@ items:
       model:
         type: minecraft:head
         kind: player
+      transformation: # Optional; Model transformation; 26.1+
+        scale: 1,1,1 # Scale the model centered on the origin
+        translation: 0,0,0 # Translation transformation
+        right_rotation: # Initial rotation
+          angle: 0.0 # The angle of rotation, in radians
+          axis: 0,0,0 # Axis vector with 3 elements
+        left_rotation: 0,0,0,0 # Rotates the model again
 ```
 
 ## Special Models
