@@ -133,13 +133,15 @@ item: default:bench
 display_transform: none # none / third_person_left_hand / third_person_right_hand
                         # first_person_left_hand / first_person_right_hand
                         # head / gui / ground / fixed
+copy_data:
+  - minecraft:dyed_color
 ```
 
 More parameters see [Display Parameters](#display-parameters).
 
 `display_transform` controls the item model's transform mode. In most cases, the default `none` is sufficient; use other modes when you need to simulate how items look in hand, on ground, etc.
 
-To apply a color tint from the source item, use `tint_source` (see the example in the [Item](#item) section below).
+Use `copy_data` to copy selected components from the furniture's source item to the rendered item (see the example in the [Item](#item) section below). `tint_source` remains available as a legacy alias.
 
 ### Text Display
 
@@ -189,13 +191,12 @@ Renders a dropped item
 type: item
 item: default:bench
 position: 0,1,0
-# Select the component that affects the color of this furniture. Generally, you only need to 
-# choose one of the following component types based on the item of the furniture element.
-tint_source: 
-  - dyed_color
-  - map_color
-  - firework_explosion
-  - potion_contents
+# Copy the components needed by the rendered item from the furniture's source item.
+copy_data:
+  - minecraft:dyed_color
+  - minecraft:map_color
+  - minecraft:firework_explosion
+  - minecraft:potion_contents
 ```
 
 <div style={{textAlign: 'center'}}>
@@ -215,13 +216,12 @@ yaw: 0.0
 scale: 1
 small: false
 glow_color: white  # black, dark_blue, dark_green, dark_aqua, dark_red, dark_purple, gold, gray, dark_gray, blue, green, aqua, red, light_purple, yellow, white
-# Select the component that affects the color of this furniture. Generally, you only need to 
-# choose one of the following component types based on the item of the furniture element.
-tint_source: 
-  - dyed_color
-  - map_color
-  - firework_explosion
-  - potion_contents
+# Copy the components needed by the rendered item from the furniture's source item.
+copy_data:
+  - minecraft:dyed_color
+  - minecraft:map_color
+  - minecraft:firework_explosion
+  - minecraft:potion_contents
 ```
 
 ### BetterModel
@@ -242,7 +242,16 @@ position: 0,0,0
 yaw: 0
 pitch: 0
 sight_trace: true
+tints:
+  source: minecraft:dyed_color
+  bones:
+    - body
+  children: true
 ```
+
+`tints.source` reads a color from the furniture's source item. `bones` selects the BetterModel bones to tint, while `children` controls whether their child bones are included.
+
+If the source item contains a player profile component, CraftEngine automatically applies that profile to the BetterModel model. No profile option is required. On legacy server versions, `SkullOwner` is used instead.
 
 ### ModelEngine
 

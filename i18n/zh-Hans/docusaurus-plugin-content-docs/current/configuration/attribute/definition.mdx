@@ -106,48 +106,6 @@ attributes:
 
 :::
 
-## tasks：属性派生任务
-
-属性可以周期性执行任意[通用函数](../../reference/functions.mdx)。当一项属性不仅要提供数值，还要持续产生行为时，可以使用这个功能。普通属性和 `derived` 属性都能配置任务。
-
-下面的再生属性每秒治疗玩家一次，并把属性值视为玩家当前最大生命值的百分比：
-
-```yaml
-attributes:
-  demo:regeneration:
-    base: 0
-    constraint:
-      min: 0
-      max: 100
-    entities:
-      - minecraft:player
-    tasks:
-      - # 执行周期，单位为 tick；必须为正数，默认 20
-        interval: 20
-        # 可选；全部条件通过后才执行函数
-        conditions:
-          - type: expression
-            expression: "<arg:attribute_value> > 0 && <arg:entity.health> < <arg:entity.max_health>"
-        # 必填；可以填写一个函数或函数列表
-        functions:
-          - type: heal
-            amount: "<arg:entity.max_health> * <arg:attribute_value> / 100"
-```
-
-例如，再生值为 `5`、最大生命值为 `40` 时，每秒恢复 `40 × 5 / 100 = 2` 点生命。第一次执行会等待一个完整周期；服务器卡顿跳过的周期不会随后集中补跑。
-
-每个任务都会获得普通的生物实体上下文，以及下列任务专用参数：
-
-| 参数 | 含义 |
-|---|---|
-| `<arg:attribute_value>` | 持有该任务的属性的当前有效值。读取时即时求值，因此包含最新修饰符，也支持 `derived` 属性。 |
-| `<arg:attribute_id>` | 持有该任务的属性 ID，包含命名空间。 |
-| `<arg:entity...>` | 当前被跟踪的生物实体，可以继续使用 `.health`、`.max_health` 等链式参数。 |
-| `<arg:position...>` | 实体的当前位置。 |
-| `<arg:player...>` | 实体对应的玩家；仅当被跟踪实体是玩家时存在。 |
-
-`condition`/`conditions`、`function`/`functions` 和 `interval`/`update_interval` 都是可用别名。任务只会在生物实体被跟踪期间运行，因此要确保 `config.yml` 的 `entity.tracking` 包含对应实体类型。没有配置任务的属性不会增加任务 deadline，也不会产生周期扫描。
-
 ## constraint：限制最终值
 
 ```yaml

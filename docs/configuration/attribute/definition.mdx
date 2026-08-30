@@ -106,48 +106,6 @@ A derived attribute has no independent base value or modifier instance. Do not c
 
 :::
 
-## tasks: Attribute-driven scheduled tasks
-
-An attribute can periodically run any [common function](../../reference/functions.mdx). This is useful when an attribute should cause ongoing behavior rather than only provide a number. Both regular and `derived` attributes can have tasks.
-
-The following regeneration attribute heals a player once per second. Its value is treated as a percentage of the player's current maximum health:
-
-```yaml
-attributes:
-  demo:regeneration:
-    base: 0
-    constraint:
-      min: 0
-      max: 100
-    entities:
-      - minecraft:player
-    tasks:
-      - # Execution interval in ticks. Must be positive; default: 20
-        interval: 20
-        # Optional; all conditions must pass before the functions run
-        conditions:
-          - type: expression
-            expression: "<arg:attribute_value> > 0 && <arg:entity.health> < <arg:entity.max_health>"
-        # Required; accepts one function or a list of functions
-        functions:
-          - type: heal
-            amount: "<arg:entity.max_health> * <arg:attribute_value> / 100"
-```
-
-For example, a regeneration value of `5` and a maximum health of `40` heals `40 × 5 / 100 = 2` health each second. The first execution occurs after one complete interval; missed intervals are not replayed in a burst after server lag.
-
-Every task receives the normal living-entity context plus these task-specific arguments:
-
-| Argument | Meaning |
-|---|---|
-| `<arg:attribute_value>` | Current effective value of the attribute that owns the task. It is resolved when read, so it includes the latest modifiers and also works for `derived` attributes. |
-| `<arg:attribute_id>` | Namespaced ID of the attribute that owns the task. |
-| `<arg:entity...>` | The tracked living entity. Chain arguments such as `.health` and `.max_health` are available. |
-| `<arg:position...>` | The entity's current position. |
-| `<arg:player...>` | The entity as a player, available only when the tracked entity is a player. |
-
-`condition`/`conditions`, `function`/`functions`, and `interval`/`update_interval` are accepted aliases. The task is active only while the living entity is tracked, so make sure its entity type is included by `entity.tracking` in `config.yml`. Attributes without tasks add no task deadline or periodic task scan.
-
 ## constraint: Limiting the final value
 
 ```yaml

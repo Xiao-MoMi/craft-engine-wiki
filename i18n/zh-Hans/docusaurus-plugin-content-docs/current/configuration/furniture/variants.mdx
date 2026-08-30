@@ -135,13 +135,15 @@ display_transform: none # none  / third_person_left_hand / third_person_right_ha
                         #   第一人称视角左手变换  /   第一人称视角右手变换
                         #         head         /        gui        /     ground     /  fixed  /    on_shelf
                         # 放置在头部物品栏的变换 / 在图形界面中的变换 / 平铺在地面的变换 / 默认变换 / 在展示架中的变换
+copy_data:
+  - minecraft:dyed_color
 ```
 
 更多参数参见[展示实体通用参数](#展示实体通用参数)。
 
 `display_transform` 决定物品模型的变换方式。大多数情况下保持默认为 `none` 即可。
 
-如需根据源物品染色，使用 `tint_source`（见下方[物品实体](#物品实体)中的示例）。
+使用 `copy_data` 可以把家具源物品的指定组件复制到渲染物品（示例见下方[物品实体](#物品实体)）。`tint_source` 仍作为旧写法的别名保留。
 
 ### 文本展示实体
 
@@ -192,12 +194,12 @@ block: minecraft:stone              # 方块状态字符串，可为方块 ID �
 type: item
 item: default:bench
 position: 0,1,0
-# 从源物品提取颜色。根据元素所用的物品选择下面的任一组件类型即可。
-tint_source: 
-  - dyed_color
-  - map_color
-  - firework_explosion
-  - potion_contents
+# 从家具源物品复制渲染物品需要的组件。
+copy_data:
+  - minecraft:dyed_color
+  - minecraft:map_color
+  - minecraft:firework_explosion
+  - minecraft:potion_contents
 ```
 
 <div style={{textAlign: 'center'}}>
@@ -217,12 +219,12 @@ yaw: 0.0
 scale: 1
 small: false
 glow_color: white  # black, dark_blue, dark_green, dark_aqua, dark_red, dark_purple, gold, gray, dark_gray, blue, green, aqua, red, light_purple, yellow, white
-# 从源物品提取颜色。根据元素所用的物品选择下面的任一组件类型即可。
-tint_source: 
-  - dyed_color
-  - map_color
-  - firework_explosion
-  - potion_contents
+# 从家具源物品复制渲染物品需要的组件。
+copy_data:
+  - minecraft:dyed_color
+  - minecraft:map_color
+  - minecraft:firework_explosion
+  - minecraft:potion_contents
 ```
 
 ### BetterModel
@@ -243,7 +245,16 @@ position: 0,0,0
 yaw: 0
 pitch: 0
 sight_trace: true
+tints:
+  source: minecraft:dyed_color
+  bones:
+    - body
+  children: true
 ```
+
+`tints.source` 从家具源物品读取颜色；`bones` 指定需要着色的 BetterModel 骨骼；`children` 决定是否同时包含其子骨骼。
+
+如果家具源物品包含玩家 profile 组件，CraftEngine 会自动把它应用到 BetterModel 模型，无需额外配置 profile。旧版服务端则读取 `SkullOwner`。
 
 ### ModelEngine
 
