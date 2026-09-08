@@ -205,8 +205,10 @@ ni items.yml
 | 改了 `.yml` 配置（加物品、改名字、改属性） | `/ce reload config` |
 | 改了合成配方 | `/ce reload recipe` |
 | 改了贴图文件（`.png`）或模型文件（`.json`） | `/ce reload all` |
+| 修改工作流定义、触发条件或步骤 | `/ce reload config` |
+| 修改包 ID 或托管设置 | `/ce reload host` |
 | 不确定该用哪个 | `/ce reload all`（最稳妥） |
 
-> ⚠️ **请特别注意**：修改贴图后，仅运行 `/ce reload config` 不会生效。贴图变更必须通过 `/ce reload all` 重建资源包。遇到“贴图已经修改，但游戏内没有变化”的情况时，请先检查是否运行了正确的重载命令。
+`/ce reload config` 更新配置及工作流定义，但不会重新构建资源包。`/ce reload all` 会执行 `trigger` 包含 `reload_pack` 的工作流，默认的 `development` 工作流负责生成、上传和发送。如果自己的构建工作流没有设置该触发条件，请显式执行 `/ce workflow [名称]`。发送更新需要 `send_pack` 步骤，且只会发送给当前使用该包的玩家。
 
 直接运行 `/ce reload`（不带参数）等同于 `/ce reload config`。

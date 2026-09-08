@@ -93,6 +93,18 @@ import Highlight from '@site/src/components/Highlight';
 
 :::
 
+## %ce\_pack-state\_\<资源包ID\>%
+
+查询玩家对 `resource-pack.packs` 中某个包的设置，例如 `%ce_pack-state_development%`。
+
+| 返回值 | 含义 |
+| --- | --- |
+| `enabled` | 玩家主动启用了这个包。 |
+| `disabled` | 玩家主动禁用了这个包。 |
+| `default` | 玩家没有设置，跟随该包配置中的 `default` 值。 |
+
+执行 `/ce pack reset development` 会恢复为 `default` 状态。使用 `/ce debug pack-states <玩家>` 查看该玩家所有已配置资源包的状态，所需权限为 `ce.command.debug.pack_states`。变量读取缓存，不会查询数据库。需要在线玩家且玩家设置已加载；不存在的资源包 ID 不会被解析。
+
 ## %ceexpr\_%
 
 `ceexpr` 用于计算 CraftEngine 表达式，可以替代 PlaceholderAPI 的 Math 扩展（速度快 1000 倍）。写法为：

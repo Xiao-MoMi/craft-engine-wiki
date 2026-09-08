@@ -1,0 +1,100 @@
+---
+title: 🗄️ Database Configuration
+id: database
+---
+
+Choose a storage type in `plugins/CraftEngine/config.yml` and use its example below. SQLite is the default. Restart the server after changing these settings.
+
+Storage saves feature data, such as resource pack preferences. Only the database dependencies needed by the selected type are downloaded.
+
+## JSON
+
+```yaml
+storage:
+  type: json
+  # Data directory; relative paths start at plugins/CraftEngine/
+  directory: ./data/json
+```
+
+## SQLite
+
+```yaml
+storage:
+  type: sqlite
+  # Required JDBC URL; relative paths start at the server working directory
+  # Create the parent directory first if using another location
+  url: 'jdbc:sqlite:./plugins/CraftEngine/data.db'
+  # SQLite needs no credentials and uses one connection
+```
+
+## H2
+
+```yaml
+storage:
+  type: h2
+  # Required JDBC URL; relative paths start at the server working directory
+  # Create the parent directory first if using another location
+  # Do not add the .mv.db suffix
+  url: 'jdbc:h2:./plugins/CraftEngine/data'
+  username: sa # Database username
+  password: '' # Database password
+  pool_size: 4 # Maximum connections; minimum 1
+```
+
+## MySQL
+
+```yaml
+storage:
+  type: mysql
+  # Create the database and account first; allow schema changes and data access
+  # Required JDBC URL with the server address, port and database name
+  url: 'jdbc:mysql://localhost:3306/minecraft'
+  username: craftengine # Database username
+  password: 'your_password' # Database password
+  pool_size: 4 # Maximum connections; minimum 1
+```
+
+## MariaDB
+
+```yaml
+storage:
+  type: mariadb
+  # Create the database and account first; allow schema changes and data access
+  # Required JDBC URL with the server address, port and database name
+  url: 'jdbc:mariadb://localhost:3306/minecraft'
+  username: craftengine # Database username
+  password: 'your_password' # Database password
+  pool_size: 4 # Maximum connections; minimum 1
+```
+
+## PostgreSQL
+
+```yaml
+storage:
+  type: postgresql
+  # Create the database and account first; allow schema changes and data access
+  # Required JDBC URL with the server address, port and database name
+  url: 'jdbc:postgresql://localhost:5432/minecraft'
+  username: craftengine # Database username
+  password: 'your_password' # Database password
+  pool_size: 4 # Maximum connections; minimum 1
+```
+
+## MongoDB
+
+```yaml
+storage:
+  type: mongodb
+  host: localhost # Database server address
+  port: 27017 # Database port
+  database: minecraft # Database for plugin data
+  username: '' # Authentication username; leave empty if authentication is disabled
+  password: '' # Authentication password
+  auth_source: admin # Database containing the authentication user
+  max_pool_size: 10 # Maximum connections; minimum 1
+  # Optional full URL; overrides host, port, database, auth_source and max_pool_size
+  # Supports mongodb:// and mongodb+srv://; include a database name
+  # Example: mongodb://localhost:27017/minecraft?authSource=admin&maxPoolSize=10
+  # Credentials in the URL take precedence; without authSource, authenticate against its database
+  url: ''
+```

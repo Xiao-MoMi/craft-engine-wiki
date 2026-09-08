@@ -74,6 +74,6 @@ CraftEngine 会将 `resources/` 中的内容打包成资源包，再通过 HTTP 
 
 </div>
 
-> ⚠️ 修改 `config.yml` 中的托管配置后，请运行 `/ce reload all`。仅运行 `config` 不会重建资源包。
+修改 `resource-pack.packs` 或 `resource-pack.self-host` 后，运行 `/ce reload host` 即可更新托管设置。还需要重新构建资源包时，使用默认工作流的服务器可执行 `/ce reload all`，也可以通过 `/ce workflow [名称]` 执行自己的构建工作流。
 
 > ⚠️ 对于需要 API 密钥的托管方式（如 S3），请通过**环境变量**提供密钥，不要将密钥直接写入 `config.yml`，也不要把含有密钥的配置文件发给不信任的人。

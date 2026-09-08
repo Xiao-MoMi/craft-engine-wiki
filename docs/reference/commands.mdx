@@ -11,15 +11,49 @@ Below, `[ ]` denotes a required argument and `( )` an optional one.
 
 ### reload
 
-`/ce reload [all/recipe/config/pack]`
+`/ce reload (config/recipe/host/pack/all)`
 
-Reloads plugin resources. Defaults to `config` when no argument is given. `config`/`recipe` reload configuration and recipes, `pack` regenerates the resource pack, and `all` does both.
+Defaults to `config` when no argument is given. Default permission: `ce.command.admin.reload`.
 
-### upload
+| Argument | Behavior |
+|:---|:---|
+| `config` | Reload configuration, including workflow definitions, triggers, and steps. |
+| `recipe` | Reload configuration and recipes, including workflow definitions. |
+| `host` | Reload configuration and resource pack hosting settings, including `resource-pack.packs` and `resource-pack.self-host`. |
+| `pack` | Execute the currently loaded workflows whose `trigger` contains `reload_pack`. |
+| `all` | Reload configuration, recipes, hosting settings, and workflow definitions, then execute the `reload_pack` workflows. |
 
-`/ce upload`
+After editing `resource-pack.workflows`, use `/ce reload` or `/ce reload config` to apply the changes. `/ce reload pack` uses the loaded definitions; it does not reread the configuration. Pack generation, upload, and sending depend on the steps in the triggered workflows.
 
-Manually uploads the resource pack to the configured host.
+### workflow
+
+`/ce workflow [name]`
+
+Execute a named workflow from `resource-pack.workflows`, such as `/ce workflow production`. Tab completion lists loaded workflows. Default permission: `ce.command.admin.pack_workflow`.
+
+The workflow runs its configured steps in order, even if it has no `trigger`. A trigger can be a string or a list, for example `trigger: reload_pack` or `trigger: [reload_pack]`.
+
+The former `/ce upload` command has been replaced by workflow `upload` steps. Uploading alone does not resend packs: add a `send_pack` step to send updates to online players currently using the specified pack. The step's `pack` value must match an ID under `resource-pack.packs`.
+
+### pack
+
+`/ce pack [enable/disable/reset] [pack-id] (player)`
+
+Save a player's resource pack preference. `pack-id` refers to an entry under `resource-pack.packs`.
+
+- `enable`: explicitly enable the pack.
+- `disable`: explicitly disable the pack.
+- `reset`: remove the override and use the pack's configured `default` value.
+
+Omit `player` to change your own preference. When supplied, it must be an exact online player name or a UUID; use a UUID for an offline player. The console must specify a target. Player senders need `ce.resourcepack.<pack-id>`; the command's default permission in `commands.yml` is empty.
+
+For an online player, changing a configured pack's preference resends their selected packs. Preferences for IDs not configured on this server are still saved and cached, without resending packs. Offline players' preferences are saved for their next pack selection.
+
+```text
+/ce pack enable production
+/ce pack disable development
+/ce pack reset production Steve
+```
 
 ### clean-cache
 
@@ -99,7 +133,7 @@ Remove the specified data component from the held item (player only, 1.20.5+ com
 
 `/ce feature send-pack [player]`
 
-Send the resource pack to the specified player(s).
+Resend the selected resource packs to the specified player(s), using their saved preferences and each pack's `default` setting. Packs are sent in configured order; unavailable packs cannot be sent. This command does not generate or upload packs.
 
 ### feature totem-animation
 
@@ -213,6 +247,22 @@ Regenerate built-in default resources. Available paths: `/default_assets`, `/def
 Find which config file defines a resource. `type` is the resource's config type (e.g., `craftengine:item`, `craftengine:block`) — tab completion lists all searchable types and, after a type is chosen, its registered ids. Prints the file path relative to the `resources` folder; click it to copy the absolute path to the clipboard.
 
 ## Debug Commands
+
+### debug pack-states
+
+`/ce debug pack-states (player)`
+
+Display the cached resource pack preferences for an online player. Omit `player` to inspect yourself; the console must specify a player. Default permission: `ce.command.debug.pack_states`.
+
+| State | Color | Meaning |
+|:---|:---|:---|
+| `enabled` | Green | Explicitly enabled by the player's saved preference. |
+| `disabled` | Red | Explicitly disabled by the player's saved preference. |
+| `unset` | Yellow | No saved override; the pack's configured `default` applies. |
+
+The output includes all saved pack IDs, even those not configured on this server. Such pack names have a strikethrough, for example ~~old_pack~~, while their saved state remains visible. Configured packs without an override are also listed. If preferences have not loaded yet, the command reports that instead.
+
+These are preference states, not confirmation that the client downloaded or loaded a pack.
 
 ### debug visual-state-usage
 

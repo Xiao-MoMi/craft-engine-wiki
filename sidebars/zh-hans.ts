@@ -60,13 +60,46 @@ const sidebars: SidebarsConfig = {
           label: '📦 安装与托管',
         },
         {
+          type: 'doc',
+          id: "getting_start/project_structure",
+          label: '🗂️ 认识项目',
+        },
+        {
           type: 'category',
-          label: '🛜 资源包托管后端',
+          label: '🗡️ 内容制作',
           collapsed: true,
-          link: {
-            type: 'doc',
-            id: "getting_start/installation",
-          },
+          items: [
+            {
+              type: 'doc',
+              id: "getting_start/items",
+              label: '🗡️ 第一个物品',
+            },
+            {
+              type: 'doc',
+              id: "getting_start/item_models",
+              label: '🎨 为物品绑定模型',
+            },
+            {
+              type: 'doc',
+              id: "getting_start/first_block",
+              label: '🧱 第一个方块',
+            },
+            {
+              type: 'doc',
+              id: "getting_start/first_furniture",
+              label: '🪑 第一件家具',
+            },
+            {
+              type: 'doc',
+              id: "getting_start/first_image",
+              label: '🖼️ 第一张图片',
+            },
+          ]
+        },
+        {
+          type: 'category',
+          label: '🛜 资源包托管',
+          collapsed: true,
           items: [
             {
               type: 'doc',
@@ -75,12 +108,17 @@ const sidebars: SidebarsConfig = {
             },
             {
               type: 'doc',
+              id: "getting_start/set_up_host/external",
+              label: '外部托管',
+            },
+            {
+              type: 'doc',
               id: "getting_start/set_up_host/lobfile",
               label: 'Lobfile',
             },
             {
               type: 'category',
-              label: '简单存储服务',
+              label: 'S3 对象存储',
               collapsed: true,
               link: {
                 type: 'doc',
@@ -101,11 +139,6 @@ const sidebars: SidebarsConfig = {
             },
             {
               type: 'doc',
-              id: "getting_start/set_up_host/external",
-              label: '外部托管',
-            },
-            {
-              type: 'doc',
               id: "getting_start/set_up_host/openlist",
               label: 'OpenList',
             },
@@ -116,51 +149,20 @@ const sidebars: SidebarsConfig = {
             },
             {
               type: 'doc',
-              id: "getting_start/set_up_host/gitlab",
-              label: 'Gitlab',
-            },
-            {
-              type: 'doc',
               id: "getting_start/set_up_host/dropbox",
               label: 'Dropbox',
             },
-          ]
-        },
-        {
-          type: 'doc',
-          id: "getting_start/project_structure",
-          label: '🗂️ 认识项目',
-        },
-        {
-          type: 'category',
-          label: '🗡️ 第一个物品',
-          collapsed: true,
-          link: {
-            type: 'doc',
-            id: "getting_start/items",
-          },
-          items: [
             {
               type: 'doc',
-              id: "getting_start/item_models",
-              label: '🎨 为物品绑定模型',
+              id: "getting_start/set_up_host/gitlab",
+              label: 'GitLab',
             },
           ]
         },
         {
           type: 'doc',
-          id: "getting_start/first_block",
-          label: '🧱 第一个方块',
-        },
-        {
-          type: 'doc',
-          id: "getting_start/first_furniture",
-          label: '🪑 第一件家具',
-        },
-        {
-          type: 'doc',
-          id: "getting_start/first_image",
-          label: '🖼️ 第一张图片',
+          id: "getting_start/database",
+          label: '🗄️ 数据库配置',
         },
         {
           type: 'doc',

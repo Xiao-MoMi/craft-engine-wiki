@@ -36,9 +36,12 @@ id: getting_start
 |:---|:---|
 | 修改 `.yml` 配置（物品、方块等） | `/ce reload config` |
 | 修改合成配方 | `/ce reload recipe` |
+| 修改工作流定义、触发条件或步骤 | `/ce reload config` |
+| 修改包 ID 或托管设置 | `/ce reload host` |
 | 修改模型或贴图文件 | `/ce reload all` |
+| 执行指定资源包工作流 | `/ce workflow [名称]` |
 
-> ⚠️ **常见问题**：修改贴图后运行 `/ce reload config` 不会看到变化，因为 `config` 不会重建资源包。贴图变更后必须运行 `/ce reload all`。
+`config` 只更新工作流定义，不执行工作流。`all` 还会执行由 `reload_pack` 触发的工作流，默认的 `development` 工作流会构建并发送资源包。如果使用其他工作流，请通过 `/ce workflow [名称]` 显式执行。各重载模式的区别见[命令参考](./reference/commands#reload)。
 
 遇到问题时，请先检查控制台；CraftEngine 会在那里输出大多数错误信息。
 

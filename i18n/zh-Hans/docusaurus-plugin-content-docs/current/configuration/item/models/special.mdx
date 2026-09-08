@@ -3,8 +3,6 @@ title: 👻 特殊模型
 id: special
 ---
 
-import Highlight from '@site/src/components/Highlight';
-
 ## 概述
 
 调用游戏内置的**特殊模型渲染器**。渲染变换、粒子贴图变量和 GUI 光照等信息从 `base` 指定的基础模型中读取。
@@ -29,7 +27,7 @@ items:
 |-------|------|----------|---------|-------------|
 | type | string | 是 | — | `minecraft:special` |
 | base | 资源路径 | 是* | — | 用于变换、粒子纹理和 GUI 光照的模型路径。*设置 `blueprint` 时可选——此时作为生成模型的输出路径 |
-| blueprint | string | 否 | — | 转换为基础模型 JSON 的 Blockbench `.bbmodel` 文件 <Highlight color="#CC7A00">**实验性**</Highlight>（见 [Blueprint](model.mdx#blueprintblockbench-实验性)） |
+| blueprint | string | 否 | — | 转换为基础模型 JSON 的 Blockbench `.bbmodel` 文件（见 [Blueprint](model.mdx#blueprintblockbench)） |
 | model | object | 是 | — | 特殊模型对象，带有自己的 `type`（见下方） |
 | transformation | object | 否 | — | 物品模型变换（26.1+） |
 

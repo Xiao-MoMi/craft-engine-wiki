@@ -11,15 +11,49 @@ CraftEngine 的大部分命令以 `/craftengine`（缩写 `/ce`）开头，少�
 
 ### reload
 
-`/ce reload [all/recipe/config/pack]`
+`/ce reload (config/recipe/host/pack/all)`
 
-重载插件资源。不带参数时默认为 `config`。`config`/`recipe` 重载配置与配方，`pack` 重新生成资源包，`all` 同时执行两者。
+不带参数时默认为 `config`。默认权限：`ce.command.admin.reload`。
 
-### upload
+| 参数 | 行为 |
+|:---|:---|
+| `config` | 重载配置，包括工作流定义、触发条件和步骤。 |
+| `recipe` | 重载配置与配方，同时更新工作流定义。 |
+| `host` | 重载配置及资源包托管设置，包括 `resource-pack.packs` 和 `resource-pack.self-host`。 |
+| `pack` | 执行当前已加载、`trigger` 包含 `reload_pack` 的工作流。 |
+| `all` | 重载配置、配方、托管设置和工作流定义，然后执行 `reload_pack` 工作流。 |
 
-`/ce upload`
+修改 `resource-pack.workflows` 后，执行 `/ce reload` 或 `/ce reload config` 即可更新。`/ce reload pack` 使用已加载的工作流，不会重新读取配置。是否生成、上传或发送资源包，取决于被触发工作流中的步骤。
 
-手动将资源包上传至已配置的托管主机。
+### workflow
+
+`/ce workflow [名称]`
+
+执行 `resource-pack.workflows` 中指定的工作流，例如 `/ce workflow production`。Tab 补全列出已加载的工作流。默认权限：`ce.command.admin.pack_workflow`。
+
+按顺序执行工作流中配置的步骤，即使没有设置 `trigger` 也能手动执行。`trigger` 支持字符串或列表，例如 `trigger: reload_pack` 或 `trigger: [reload_pack]`。
+
+原 `/ce upload` 命令已由工作流的 `upload` 步骤替代。仅上传不会自动重发；需要向当前使用指定包的在线玩家发送更新时，应添加 `send_pack` 步骤。步骤中的 `pack` 必须对应 `resource-pack.packs` 中的包 ID。
+
+### pack
+
+`/ce pack [enable/disable/reset] [包ID] (玩家)`
+
+保存玩家的资源包偏好。包 ID 对应 `resource-pack.packs` 中的条目。
+
+- `enable`：显式启用该包。
+- `disable`：显式禁用该包。
+- `reset`：删除偏好覆盖，恢复使用该包配置中的 `default` 值。
+
+省略玩家时修改自己的偏好。指定目标时，填写准确的在线玩家名或 UUID；离线玩家须使用 UUID。控制台必须指定目标。玩家执行者需要 `ce.resourcepack.<包ID>` 权限；此命令在 `commands.yml` 中的默认权限节点为空。
+
+修改在线玩家对本服已配置包的偏好后，会重新发送该玩家选中的资源包。本服未配置的包 ID 也可以保存偏好并更新缓存，但不会触发重发。离线玩家的数据会在下次选择资源包时使用。
+
+```text
+/ce pack enable production
+/ce pack disable development
+/ce pack reset production Steve
+```
 
 ### clean-cache
 
@@ -99,7 +133,7 @@ CraftEngine 的大部分命令以 `/craftengine`（缩写 `/ce`）开头，少�
 
 `/ce feature send-pack [玩家]`
 
-向指定玩家发送资源包。
+根据指定玩家的已保存偏好及各包的 `default` 设置，重新发送其选中的资源包。资源包按配置顺序发送，尚不可用的包无法发送。此命令不负责生成或上传资源包。
 
 ### feature totem-animation
 
@@ -213,6 +247,22 @@ CraftEngine 的大部分命令以 `/craftengine`（缩写 `/ce`）开头，少�
 查找某个资源配置定义在哪个文件中。`类型` 为资源的配置类型（如 `craftengine:item`、`craftengine:block`）——Tab 补全会列出所有可搜索的类型，选定类型后会列出其已注册的标识符。输出相对于 `resources` 文件夹的文件路径，点击即可复制绝对路径到剪贴板。
 
 ## 调试命令
+
+### debug pack-states
+
+`/ce debug pack-states (玩家)`
+
+查看在线玩家已缓存的资源包偏好。省略玩家时查询自己，控制台必须指定玩家。默认权限：`ce.command.debug.pack_states`。
+
+| 状态 | 颜色 | 含义 |
+|:---|:---|:---|
+| `enabled` | 绿色 | 玩家已显式启用。 |
+| `disabled` | 红色 | 玩家已显式禁用。 |
+| `unset` | 黄色 | 尚未保存覆盖值，使用该包配置中的 `default`。 |
+
+展示所有已保存的包 ID，包括本服未配置的包；不存在的包名以删除线标记，例如 ~~old_pack~~，仍显示其保存的状态。本服已配置但没有偏好覆盖的包也会列出。偏好尚未加载时，会显示相应提示。
+
+这里显示的是偏好状态，不代表客户端已经下载或加载成功。
 
 ### debug visual-state-usage
 

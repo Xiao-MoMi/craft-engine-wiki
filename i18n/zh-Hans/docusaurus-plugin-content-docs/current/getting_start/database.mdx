@@ -1,0 +1,100 @@
+---
+title: 🗄️ 数据库配置
+id: database
+---
+
+在 `plugins/CraftEngine/config.yml` 中选择一种存储类型，将对应示例填写到 `storage` 下。默认使用 SQLite，修改后需要重启服务器。
+
+存储用于保存功能数据，例如资源包偏好。插件只下载所选类型需要的数据库依赖。
+
+## JSON
+
+```yaml
+storage:
+  type: json
+  # 数据目录，相对路径从 plugins/CraftEngine/ 开始
+  directory: ./data/json
+```
+
+## SQLite
+
+```yaml
+storage:
+  type: sqlite
+  # 必填 JDBC URL，相对路径从服务器工作目录开始
+  # 使用其他目录时，请先创建父目录
+  url: 'jdbc:sqlite:./plugins/CraftEngine/data.db'
+  # SQLite 无需账号密码，固定使用一个连接
+```
+
+## H2
+
+```yaml
+storage:
+  type: h2
+  # 必填 JDBC URL，相对路径从服务器工作目录开始
+  # 使用其他目录时，请先创建父目录
+  # 文件名不需要添加 .mv.db 后缀
+  url: 'jdbc:h2:./plugins/CraftEngine/data'
+  username: sa # 数据库用户名
+  password: '' # 数据库密码
+  pool_size: 4 # 最大连接数，最小为 1
+```
+
+## MySQL
+
+```yaml
+storage:
+  type: mysql
+  # 先创建数据库和账号，并授予建表、更新表结构及读写权限
+  # 必填 JDBC URL，包含服务器地址、端口和数据库名
+  url: 'jdbc:mysql://localhost:3306/minecraft'
+  username: craftengine # 数据库用户名
+  password: 'your_password' # 数据库密码
+  pool_size: 4 # 最大连接数，最小为 1
+```
+
+## MariaDB
+
+```yaml
+storage:
+  type: mariadb
+  # 先创建数据库和账号，并授予建表、更新表结构及读写权限
+  # 必填 JDBC URL，包含服务器地址、端口和数据库名
+  url: 'jdbc:mariadb://localhost:3306/minecraft'
+  username: craftengine # 数据库用户名
+  password: 'your_password' # 数据库密码
+  pool_size: 4 # 最大连接数，最小为 1
+```
+
+## PostgreSQL
+
+```yaml
+storage:
+  type: postgresql
+  # 先创建数据库和账号，并授予建表、更新表结构及读写权限
+  # 必填 JDBC URL，包含服务器地址、端口和数据库名
+  url: 'jdbc:postgresql://localhost:5432/minecraft'
+  username: craftengine # 数据库用户名
+  password: 'your_password' # 数据库密码
+  pool_size: 4 # 最大连接数，最小为 1
+```
+
+## MongoDB
+
+```yaml
+storage:
+  type: mongodb
+  host: localhost # 数据库服务器地址
+  port: 27017 # 数据库端口
+  database: minecraft # 保存数据的数据库名
+  username: '' # 认证用户名，无认证时留空
+  password: '' # 认证密码
+  auth_source: admin # 认证用户所在的数据库
+  max_pool_size: 10 # 最大连接数，最小为 1
+  # 可选：完整 URL，覆盖 host、port、database、auth_source 和 max_pool_size
+  # 支持 mongodb:// 和 mongodb+srv://，必须包含数据库名
+  # 例如 mongodb://localhost:27017/minecraft?authSource=admin&maxPoolSize=10
+  # URL 内的账号密码优先生效；未指定 authSource 时用 URL 内的数据库名认证
+  url: ''
+```

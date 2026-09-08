@@ -3,42 +3,58 @@ title: 🛜 自托管
 id: self
 ---
 
-import AnnotatedYaml from '@site/src/components/AnnotatedYaml';
-import Highlight from '@site/src/components/Highlight';
-
 自托管在 Minecraft 服务器内启动轻量 HTTP 服务器直接分发资源包。免费、无需外部服务，适合小服和开发环境。带宽不足时不推荐大量玩家使用。
 
 ## 配置
 
-<AnnotatedYaml>
-{`
+在 `packs` 中声明各个包；所有 `self` 包共用 `self-host` 中配置的 HTTP 服务。
+
+```yaml
 resource-pack:
-    delivery:
-      hosting:
-        - type: "self"
--       ip: "localhost"
-+       ip: "服务器IP" # 例如 111.222.333.444，或 "auto"
-          port: 8163
-          protocol: "http"
-          # 拒绝非 Minecraft 客户端请求（检查 User-Agent 头）
-          deny_non_minecraft_request: true
-          # 生成一次性限时下载链接
-          one_time_token: true
-          # 增强 token 和 Minecraft 客户端验证
-          # 离线模式服务器切勿启用
-          strict_validation: false
-          rate_limiting:
-            max_bandwidth_per_second: 5_000_000   # 总上传上限 5 MB/s
-            min_download_speed_per_player: 50_000  # 每玩家保障 50 KB/s
-            qps_per_ip: 5/60                       # 每 IP 每 60 秒 5 次请求
-`}
-</AnnotatedYaml>
+  packs:
+    - id: development
+      type: self
+      default: true
+      storage_directory: ./cache/hosted/development
+    - id: production
+      type: self
+      default: false
+      storage_directory: ./cache/hosted/production
+
+  self-host:
+    ip: auto
+    port: auto
+    protocol: http
+    deny_non_minecraft_request: true
+    one_time_token: true
+    strict_validation: false
+    rate_limiting:
+      max_bandwidth_per_second: 5_000_000
+      min_download_speed_per_player: 50_000
+      qps_per_ip: 5/60
+```
+
+`storage_directory` 相对于 `plugins/CraftEngine`，也支持绝对路径；省略时使用 `./cache/hosted/<id>`。上传后会保存为该目录中的 `resource_pack.zip`，重启时直接读取这份副本。首次使用需要运行包含 `upload` 步骤的工作流：
+
+```yaml
+resource-pack:
+  workflows:
+    upload_development:
+      steps:
+        - type: upload
+          pack: development
+          path: ./generated/resource_pack.zip
+```
+
+将此工作流加入同一个 `resource-pack` 配置块，准备好 ZIP 后执行 `/ce workflow upload_development`。
 
 ## 字段参考
 
+下面的服务器参数都填写在 `resource-pack.self-host` 下。
+
 | 字段 | 默认 | 说明 |
 |:---|:---|:---|
-| ip | "auto" | HTTP 服务器绑定 IP。`"auto"` 通过 Cloudflare trace 自动检测公网 IP。设为 `"127.0.0.1"` 或 `"0.0.0.0"` 仅本地绑定。 |
+| ip | "auto" | 提供给玩家的下载地址中的 IP；`"auto"` 通过 Cloudflare trace 检测公网 IP。此项不控制监听地址。 |
 | port | "auto" | HTTP 服务器监听端口。`"auto"` 共享 Minecraft 服务器端口（注入其 Netty 管线）。设具体数字（如 `8163`）使用独立端口。 |
 | url | 自动生成 | 设后覆盖自动生成的下载链接，见下方说明。须以 `http://` 或 `https://` 开头，末尾 `/` 自动补。 |
 | protocol | "http" | 自动生成 URL 的协议。设 `url` 后忽略。 |
@@ -52,31 +68,34 @@ resource-pack:
 默认情况下，发给玩家的下载链接由 `ip`、`port`、`protocol` 自动拼接：
 
 ```
-http://111.222.333.444:8163/download
+http://111.222.333.444:8163/download/development
 ```
 
 当内部绑定地址与玩家应使用的地址不同时——反向代理、CDN、VPS 内外 IP 端口不一致——设 `url` 覆盖：
 
 ```yaml
-url: "https://对外实际地址/"
+resource-pack:
+  self-host:
+    url: "https://对外实际地址/"
 ```
 
-生成 `https://对外实际地址/download`（可选附带 `?token=...`）。两种常见场景：
+生成 `https://对外实际地址/download/development`（可选附带 `?token=...`）。两种常见场景：
 
 **反向代理** —— nginx、Caddy、HAProxy 前置处理 TLS，转发到内部 HTTP 服务器。
 
 **VPS NAT / 端口映射** —— 云服务器内外 IP 和端口不一致。
 
 ```yaml
-- type: "self"
-  ip: "127.0.0.1"
-  port: 8163
-  url: "https://对外实际地址/"
-  deny_non_minecraft_request: false
-  strict_validation: false
+resource-pack:
+  self-host:
+    ip: auto
+    port: 8163
+    url: "https://对外实际地址/"
+    deny_non_minecraft_request: false
+    strict_validation: false
 ```
 
 :::caution
-没有有效 SSL 证书时，切勿在 `url` 或 `protocol` 中使用 `https`，否则玩家将无法下载资源包。
+内置服务提供 HTTP。使用 HTTPS 下载地址时，需要由反向代理等前置服务提供 TLS 和有效证书。
 :::
 

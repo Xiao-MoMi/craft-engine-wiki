@@ -3,8 +3,6 @@ title: 👻 Special
 id: special
 ---
 
-import Highlight from '@site/src/components/Highlight';
-
 ## Overview
 
 Renders a **hardcoded special model** — things Minecraft knows how to draw natively (heads, chests, shields, banners, etc.). Each special type has its own fields. A `base` model provides the transform reference, particle texture, and GUI lighting.
@@ -29,7 +27,7 @@ items:
 |-------|------|----------|---------|-------------|
 | type | string | Yes | — | `minecraft:special` |
 | base | asset path | Yes* | — | Namespaced model path for transforms, particle texture, and GUI light. *Optional when `blueprint` is set — becomes the output path of the generated model |
-| blueprint | string | No | — | Blockbench `.bbmodel` file converted into the base model JSON <Highlight color="#FFA500">Experimental</Highlight> (see [Blueprint](model.mdx#blueprint-blockbench-experimental)) |
+| blueprint | string | No | — | Blockbench `.bbmodel` file converted into the base model JSON (see [Blueprint](model.mdx#blueprint-blockbench)) |
 | model | object | Yes | — | Special model object with its own `type` (see below) |
 | transformation | object | No | — | Display transform overlay (26.1+) |
 

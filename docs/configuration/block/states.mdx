@@ -4,7 +4,6 @@ id: states
 ---
 
 import Details from '@site/src/components/Details';
-import Highlight from '@site/src/components/Highlight';
 
 ## Introduction
 
@@ -204,8 +203,6 @@ transparent: true
 </Details>
 
 <Details summary="⑦ blueprint — Blockbench .bbmodel source">
-<Highlight color="#FFA500">Experimental</Highlight>
-
 Point `blueprint` at a Blockbench `.bbmodel` file in the `blueprint` folder (sibling of `configuration` and `resourcepack`; paths are relative to it — the extension is optional), and CraftEngine converts it into a vanilla model JSON at pack generation, exporting embedded textures as PNGs.
 
 ```yaml

@@ -34,9 +34,12 @@ You'll use these throughout the tutorial:
 |:---|:---|
 | Edit `.yml` configs (items, blocks, etc.) | `/ce reload config` |
 | Edit recipes | `/ce reload recipe` |
+| Edit workflow definitions, triggers, or steps | `/ce reload config` |
+| Edit pack IDs or hosting settings | `/ce reload host` |
 | Edit models or textures | `/ce reload all` |
+| Run a specific resource pack workflow | `/ce workflow [name]` |
 
-> ⚠️ **The most common mistake:** you change a texture, run `/ce reload config`, and nothing happens. `config` doesn't rebuild the resource pack — texture and model changes need `all`.
+`config` updates workflow definitions without running them. `all` also runs workflows triggered by `reload_pack`; the default `development` workflow builds and sends the pack. If you use a different workflow, run it explicitly with `/ce workflow [name]`. See the [command reference](./reference/commands#reload) for each reload mode.
 
 Stuck? Most errors are printed to the server console. Check there first.
 

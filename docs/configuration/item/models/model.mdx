@@ -4,7 +4,6 @@ id: model
 ---
 
 import UrlCard from '@site/src/components/UrlCard';
-import Highlight from '@site/src/components/Highlight';
 
 ## Overview
 
@@ -29,7 +28,7 @@ items:
 | tints | list | No | — | Tint sources, indexed by `tintindex` in the model geometry |
 | transformation | object | No | — | Display transform overlay (26.1+) |
 
-## Blueprint (Blockbench) <Highlight color="#FFA500">Experimental</Highlight>
+## Blueprint (Blockbench)
 
 Point `blueprint` at a Blockbench `.bbmodel` file in the `blueprint` folder (sibling of `configuration` and `resourcepack`; paths are relative to it — the extension is optional), and CraftEngine converts it into a vanilla model JSON at pack generation: geometry, display transforms, GUI lighting and all. No more exporting from Blockbench by hand.
 

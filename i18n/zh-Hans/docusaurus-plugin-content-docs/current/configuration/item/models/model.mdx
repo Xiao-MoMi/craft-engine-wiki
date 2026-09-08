@@ -4,7 +4,6 @@ id: model
 ---
 
 import UrlCard from '@site/src/components/UrlCard';
-import Highlight from '@site/src/components/Highlight';
 
 ## 概述
 
@@ -29,7 +28,7 @@ items:
 | tints | list | 否 | — | 指定各个着色索引使用的颜色提供器，数组下标对应着色索引 |
 | transformation | object | 否 | — | 物品模型变换（26.1+） |
 
-## Blueprint（Blockbench） <Highlight color="#CC7A00">**实验性**</Highlight>
+## Blueprint（Blockbench）
 
 `blueprint` 指向 `blueprint` 文件夹中的 Blockbench `.bbmodel` 文件。该文件夹与 `configuration`、`resourcepack` 同级；路径相对于 `blueprint`，后缀可以省略。生成资源包时，CraftEngine 会将其转换为原版模型 JSON，并保留几何体、展示变换和 GUI 光照等信息。
 

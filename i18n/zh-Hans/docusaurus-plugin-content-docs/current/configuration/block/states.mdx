@@ -4,7 +4,6 @@ id: states
 ---
 
 import Details from '@site/src/components/Details';
-import Highlight from '@site/src/components/Highlight';
 
 ## 简介
 
@@ -211,8 +210,6 @@ transparent: true
 </Details>
 
 <Details summary="⑦ blueprint：Blockbench .bbmodel 源文件">
-<Highlight color="#CC7A00">**实验性**</Highlight>
-
 `blueprint` 用于指定 `blueprint` 文件夹中的 Blockbench `.bbmodel` 文件。该文件夹与 `configuration`、`resourcepack` 同级，配置路径相对于该目录，后缀可以省略。生成资源包时，CraftEngine 会将文件转换为原版模型 JSON，并导出其中内嵌的 PNG 贴图。
 
 ```yaml

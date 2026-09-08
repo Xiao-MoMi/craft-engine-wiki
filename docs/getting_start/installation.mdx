@@ -74,6 +74,6 @@ If the default configuration cannot deliver the resource pack, or you want to tr
 
 </div>
 
-> ⚠️ After changing the host config, run `/ce reload all`. `config` alone won't rebuild the pack.
+After changing `resource-pack.packs` or `resource-pack.self-host`, run `/ce reload host` to update hosting settings. To also rebuild the pack, use `/ce reload all` with the default workflow, or run your build workflow with `/ce workflow [name]`.
 
 > ⚠️ For hosts requiring API keys, pass secrets via **environment variables** — don't write them directly in `config.yml`. Never share a config file containing real keys.

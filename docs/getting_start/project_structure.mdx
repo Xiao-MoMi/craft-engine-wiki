@@ -204,8 +204,10 @@ After editing configs or resource pack files, tell CraftEngine to reload:
 | `.yml` configs (items, names, properties) | `/ce reload config` |
 | Recipes | `/ce reload recipe` |
 | Texture files (`.png`) or model files (`.json`) | `/ce reload all` |
+| Workflow definitions, triggers, or steps | `/ce reload config` |
+| Pack IDs or hosting settings | `/ce reload host` |
 | Not sure which | `/ce reload all` (safest) |
 
-> ⚠️ **This is the most important reminder in the entire tutorial:** if you change a texture and only run `/ce reload config`, nothing will happen. Texture changes must rebuild the resource pack — that means `all`. "Why didn't my texture change show up?" — 99% of the time it's because you ran `config`.
+`/ce reload config` updates configuration and workflow definitions, but does not rebuild the pack. `/ce reload all` runs workflows whose `trigger` includes `reload_pack`; the default `development` workflow handles generation, upload, and sending. If your build workflow has no such trigger, run `/ce workflow [name]` explicitly. Sending updates requires a `send_pack` step and only targets players currently using that pack.
 
 Running `/ce reload` with no argument defaults to `config`.

@@ -60,18 +60,56 @@ const sidebars: SidebarsConfig = {
           label: '📦 Installation & Hosting',
         },
         {
+          type: 'doc',
+          id: "getting_start/project_structure",
+          label: '🗂️ Project Structure',
+        },
+        {
           type: 'category',
-          label: '🛜 Pack Host Backends',
+          label: '🗡️ Create Content',
           collapsed: true,
-          link: {
-            type: 'doc',
-            id: "getting_start/installation",
-          },
+          items: [
+            {
+              type: 'doc',
+              id: "getting_start/items",
+              label: '🗡️ First Item',
+            },
+            {
+              type: 'doc',
+              id: "getting_start/item_models",
+              label: '🎨 Binding Models',
+            },
+            {
+              type: 'doc',
+              id: "getting_start/first_block",
+              label: '🧱 First Block',
+            },
+            {
+              type: 'doc',
+              id: "getting_start/first_furniture",
+              label: '🪑 First Furniture',
+            },
+            {
+              type: 'doc',
+              id: "getting_start/first_image",
+              label: '🖼️ First Image',
+            },
+          ]
+        },
+        {
+          type: 'category',
+          label: '🛜 Resource Pack Hosting',
+          collapsed: true,
           items: [
             {
               type: 'doc',
               id: "getting_start/set_up_host/self",
-              label: 'Self hosting',
+              label: 'Self Hosting',
+            },
+            {
+              type: 'doc',
+              id: "getting_start/set_up_host/external",
+              label: 'External Hosting',
             },
             {
               type: 'doc',
@@ -80,7 +118,7 @@ const sidebars: SidebarsConfig = {
             },
             {
               type: 'category',
-              label: 'S3',
+              label: 'S3 Object Storage',
               collapsed: true,
               link: {
                 type: 'doc',
@@ -101,8 +139,8 @@ const sidebars: SidebarsConfig = {
             },
             {
               type: 'doc',
-              id: "getting_start/set_up_host/external",
-              label: 'External',
+              id: "getting_start/set_up_host/openlist",
+              label: 'OpenList',
             },
             {
               type: 'doc',
@@ -116,51 +154,15 @@ const sidebars: SidebarsConfig = {
             },
             {
               type: 'doc',
-              id: "getting_start/set_up_host/openlist",
-              label: 'OpenList',
-            },
-            {
-              type: 'doc',
               id: "getting_start/set_up_host/gitlab",
-              label: 'Gitlab',
+              label: 'GitLab',
             },
           ]
         },
         {
           type: 'doc',
-          id: "getting_start/project_structure",
-          label: '🗂️ Project Structure',
-        },
-        {
-          type: 'category',
-          label: '🗡️ First Item',
-          collapsed: true,
-          link: {
-            type: 'doc',
-            id: "getting_start/items",
-          },
-          items: [
-            {
-              type: 'doc',
-              id: "getting_start/item_models",
-              label: '🎨 Binding Models',
-            },
-          ]
-        },
-        {
-          type: 'doc',
-          id: "getting_start/first_block",
-          label: '🧱 First Block',
-        },
-        {
-          type: 'doc',
-          id: "getting_start/first_furniture",
-          label: '🪑 First Furniture',
-        },
-        {
-          type: 'doc',
-          id: "getting_start/first_image",
-          label: '🖼️ First Image',
+          id: "getting_start/database",
+          label: '🗄️ Database Configuration',
         },
         {
           type: 'doc',

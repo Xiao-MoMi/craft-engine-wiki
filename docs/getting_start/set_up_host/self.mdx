@@ -3,42 +3,58 @@ title: 🛜 Self hosting
 id: self
 ---
 
-import AnnotatedYaml from '@site/src/components/AnnotatedYaml';
-import Highlight from '@site/src/components/Highlight';
-
 Self hosting runs a small HTTP server inside your Minecraft server that serves the resource pack directly. Free, zero external services, and perfect for small servers and development. Not recommended for large player counts unless you have ample upload bandwidth.
 
 ## Configuration
 
-<AnnotatedYaml>
-{`
+Declare each pack under `packs`. All `self` packs share the HTTP server configured under `self-host`.
+
+```yaml
 resource-pack:
-    delivery:
-      hosting:
-        - type: "self"
--       ip: "localhost"
-+       ip: "Your Server IP" # e.g. 111.222.333.444, or "auto"
-          port: 8163
-          protocol: "http"
-          # Block requests from non-Minecraft clients (checks User-Agent header)
-          deny_non_minecraft_request: true
-          # Generate single-use, time-limited download links
-          one_time_token: true
-          # Enhanced validation for token and Minecraft-only check.
-          # Do NOT enable on offline-mode servers.
-          strict_validation: false
-          rate_limiting:
-            max_bandwidth_per_second: 5_000_000   # 5 MB/s total upload cap
-            min_download_speed_per_player: 50_000  # 50 KB/s per-player floor
-            qps_per_ip: 5/60                       # 5 requests per 60 seconds per IP
-`}
-</AnnotatedYaml>
+  packs:
+    - id: development
+      type: self
+      default: true
+      storage_directory: ./cache/hosted/development
+    - id: production
+      type: self
+      default: false
+      storage_directory: ./cache/hosted/production
+
+  self-host:
+    ip: auto
+    port: auto
+    protocol: http
+    deny_non_minecraft_request: true
+    one_time_token: true
+    strict_validation: false
+    rate_limiting:
+      max_bandwidth_per_second: 5_000_000
+      min_download_speed_per_player: 50_000
+      qps_per_ip: 5/60
+```
+
+`storage_directory` is relative to `plugins/CraftEngine`, or can be an absolute path. It defaults to `./cache/hosted/<id>`. Uploads are copied to `resource_pack.zip` inside that directory and loaded again after a restart. For the first upload, run a workflow containing an `upload` step:
+
+```yaml
+resource-pack:
+  workflows:
+    upload_development:
+      steps:
+        - type: upload
+          pack: development
+          path: ./generated/resource_pack.zip
+```
+
+Add this workflow to the same `resource-pack` section. Once the ZIP exists, run `/ce workflow upload_development`.
 
 ## Field Reference
 
+Place all server settings below under `resource-pack.self-host`.
+
 | Field | Default | Description |
 |:---|:---|:---|
-| ip | "auto" | IP the HTTP server binds to. `"auto"` detects the public IP via Cloudflare trace. Set `"127.0.0.1"` or `"0.0.0.0"` to bind locally. |
+| ip | "auto" | IP advertised in download links. `"auto"` detects the public IP via Cloudflare trace. This does not control the bind address. |
 | port | "auto" | Port the HTTP server listens on. `"auto"` shares the Minecraft server port (piggybacks on its Netty pipeline). Set a number (e.g. `8163`) for a dedicated port. |
 | url | (auto) | If set, overrides the auto-generated URL sent to clients. See below. Must start with `http://` or `https://`. Trailing `/` auto-appended. |
 | protocol | "http" | Protocol for the auto-generated URL. Ignored when `url` is set. |
@@ -52,31 +68,34 @@ resource-pack:
 By default, the download URL sent to players is auto-built from `ip`, `port`, and `protocol`:
 
 ```
-http://111.222.333.444:8163/download
+http://111.222.333.444:8163/download/development
 ```
 
 When the internal bind address differs from what players should use — a reverse proxy, a CDN, or VPS NAT where the public IP and port don't match the internal ones — set `url` to override it:
 
 ```yaml
-url: "https://real-public-address/"
+resource-pack:
+  self-host:
+    url: "https://real-public-address/"
 ```
 
-This produces `https://real-public-address/download` (with optional `?token=...`). Two common scenarios:
+This produces `https://real-public-address/download/development` (with optional `?token=...`). Two common scenarios:
 
 **Reverse proxy** — nginx, Caddy, or HAProxy sits in front, handles TLS, and forwards to the internal HTTP server.
 
 **VPS with NAT / port mapping** — the server's internal IP and port differ from the public ones (common with cloud providers).
 
 ```yaml
-- type: "self"
-  ip: "127.0.0.1"
-  port: 8163
-  url: "https://real-public-address/"
-  deny_non_minecraft_request: false
-  strict_validation: false
+resource-pack:
+  self-host:
+    ip: auto
+    port: 8163
+    url: "https://real-public-address/"
+    deny_non_minecraft_request: false
+    strict_validation: false
 ```
 
 :::caution
-Do **not** use `https` in `url` or `protocol` without a valid SSL certificate, or players will fail to download the resource pack.
+The built-in server serves HTTP. HTTPS download URLs require a front-end service, such as a reverse proxy, with TLS and a valid certificate.
 :::
 
