@@ -141,6 +141,83 @@ html[data-theme-color='green'][data-theme='dark'] {
   --ifm-color-primary-rgb: 74, 222, 128;
 }
 
+/* Inline Markdown code; fenced blocks and component-specific code keep their styles. */
+.markdown :not(pre) > code:not([class]) {
+  color: color-mix(in srgb, var(--ifm-color-primary) 20%, var(--ifm-font-color-base));
+  background-color: color-mix(in srgb, var(--ifm-color-primary) 4%, var(--ifm-code-background));
+  border: none;
+  border-radius: 0.35em;
+  box-shadow: inset 0 0 0 1px rgba(var(--ifm-color-primary-rgb), 0.1);
+  padding: 0.12em 0.35em;
+  font-size: 0.88em;
+  vertical-align: baseline;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.markdown a > code:not([class]) {
+  color: inherit;
+}
+
+/* Admonitions share one layout, with semantic colors independent of the site palette. */
+.theme-admonition {
+  --ce-admonition-color: #64748b;
+  --ce-admonition-accent: var(--ce-admonition-color);
+  --ifm-alert-background-color: color-mix(in srgb, var(--ce-admonition-accent) 6%, var(--ifm-background-surface-color));
+  --ifm-alert-background-color-highlight: color-mix(in srgb, var(--ce-admonition-accent) 10%, transparent);
+  --ifm-alert-foreground-color: var(--ifm-font-color-base);
+  --ifm-alert-border-color: color-mix(in srgb, var(--ce-admonition-accent) 22%, transparent);
+  --ifm-alert-border-width: 1px;
+  --ifm-alert-border-left-width: 3px;
+  --ifm-alert-border-radius: 12px;
+  --ifm-alert-shadow: none;
+  --ifm-alert-padding-vertical: 1rem;
+  --ifm-alert-padding-horizontal: 1.2rem;
+  border-left-color: var(--ce-admonition-accent);
+  margin-bottom: 1.25rem;
+}
+
+.theme-admonition.alert--success {
+  --ce-admonition-color: #16a34a;
+}
+
+.theme-admonition.alert--info {
+  --ce-admonition-color: #0284c7;
+}
+
+.theme-admonition.alert--warning {
+  --ce-admonition-color: #d97706;
+}
+
+.theme-admonition.alert--danger {
+  --ce-admonition-color: #dc2626;
+}
+
+[data-theme='dark'] .theme-admonition {
+  --ce-admonition-accent: color-mix(in srgb, var(--ce-admonition-color) 70%, white);
+}
+
+.theme-admonition > [class*='admonitionHeading'] {
+  color: color-mix(in srgb, var(--ce-admonition-accent) 65%, var(--ifm-font-color-base));
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.5;
+  text-transform: none;
+  margin-bottom: 0.5rem;
+}
+
+.theme-admonition > [class*='admonitionHeading'] [class*='admonitionIcon'] {
+  margin-right: 0.5rem;
+  vertical-align: -0.2em;
+}
+
+.theme-admonition > [class*='admonitionHeading'] svg {
+  width: 1.2em;
+  height: 1.2em;
+  fill: currentColor;
+}
+
 .file-tree [aria-expanded="false"] + .tree-node-children-wrapper {
   display: none;
 }
