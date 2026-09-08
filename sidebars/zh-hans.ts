@@ -100,6 +100,10 @@ const sidebars: SidebarsConfig = {
           type: 'category',
           label: '🛜 资源包托管',
           collapsed: true,
+          link: {
+            type: 'doc',
+            id: "getting_start/set_up_host",
+          },
           items: [
             {
               type: 'doc',
@@ -158,6 +162,11 @@ const sidebars: SidebarsConfig = {
               label: 'GitLab',
             },
           ]
+        },
+        {
+          type: 'doc',
+          id: "getting_start/workflows",
+          label: '⚙️ 工作流',
         },
         {
           type: 'doc',

@@ -3,7 +3,7 @@ title: 🛜 自托管
 id: self
 ---
 
-自托管在 Minecraft 服务器内启动轻量 HTTP 服务器直接分发资源包。免费、无需外部服务，适合小服和开发环境。带宽不足时不推荐大量玩家使用。
+自托管通过 CraftEngine 内置 HTTP 服务提供 ZIP 下载，消耗的是服务器的出口带宽。资源包的生成、上传和发送配置见[资源包工作流](../workflows)。
 
 ## 配置
 
@@ -12,14 +12,14 @@ id: self
 ```yaml
 resource-pack:
   packs:
-    - id: development
+    development:
       type: self
       default: true
-      storage_directory: ./cache/hosted/development
-    - id: production
+      storage_path: ./cache/hosted/development/resource_pack.zip
+    production:
       type: self
       default: false
-      storage_directory: ./cache/hosted/production
+      storage_path: ./cache/hosted/production/resource_pack.zip
 
   self-host:
     ip: auto
@@ -34,7 +34,7 @@ resource-pack:
       qps_per_ip: 5/60
 ```
 
-`storage_directory` 相对于 `plugins/CraftEngine`，也支持绝对路径；省略时使用 `./cache/hosted/<id>`。上传后会保存为该目录中的 `resource_pack.zip`，重启时直接读取这份副本。首次使用需要运行包含 `upload` 步骤的工作流：
+`storage_path` 直接指定目标 ZIP 文件，相对于 `plugins/CraftEngine`，也支持绝对路径；省略时使用 `./cache/hosted/<id>/resource_pack.zip`。上传后保存到该文件，重启时直接读取。首次使用需要运行包含 `upload` 步骤的工作流：
 
 ```yaml
 resource-pack:
@@ -46,7 +46,7 @@ resource-pack:
           path: ./generated/resource_pack.zip
 ```
 
-将此工作流加入同一个 `resource-pack` 配置块，准备好 ZIP 后执行 `/ce workflow upload_development`。
+将此工作流加入同一个 `resource-pack` 配置块。修改托管设置后执行 `/ce reload host`；只修改工作流时执行 `/ce reload`。准备好 ZIP 后，再运行 `/ce workflow upload_development`。
 
 ## 字段参考
 
@@ -98,4 +98,3 @@ resource-pack:
 :::caution
 内置服务提供 HTTP。使用 HTTPS 下载地址时，需要由反向代理等前置服务提供 TLS 和有效证书。
 :::
-

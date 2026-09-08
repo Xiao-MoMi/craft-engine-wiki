@@ -85,16 +85,9 @@ storage:
 ```yaml
 storage:
   type: mongodb
-  host: localhost # 数据库服务器地址
-  port: 27017 # 数据库端口
-  database: minecraft # 保存数据的数据库名
+  # 必填 URL，支持 mongodb:// 和 mongodb+srv://，必须包含数据库名
+  url: 'mongodb://localhost:27017/minecraft?authSource=admin&maxPoolSize=10'
   username: '' # 认证用户名，无认证时留空
   password: '' # 认证密码
-  auth_source: admin # 认证用户所在的数据库
-  max_pool_size: 10 # 最大连接数，最小为 1
-  # 可选：完整 URL，覆盖 host、port、database、auth_source 和 max_pool_size
-  # 支持 mongodb:// 和 mongodb+srv://，必须包含数据库名
-  # 例如 mongodb://localhost:27017/minecraft?authSource=admin&maxPoolSize=10
   # URL 内的账号密码优先生效；未指定 authSource 时用 URL 内的数据库名认证
-  url: ''
 ```

@@ -85,16 +85,9 @@ storage:
 ```yaml
 storage:
   type: mongodb
-  host: localhost # Database server address
-  port: 27017 # Database port
-  database: minecraft # Database for plugin data
+  # Required URL; supports mongodb:// and mongodb+srv:// and must include a database name
+  url: 'mongodb://localhost:27017/minecraft?authSource=admin&maxPoolSize=10'
   username: '' # Authentication username; leave empty if authentication is disabled
   password: '' # Authentication password
-  auth_source: admin # Database containing the authentication user
-  max_pool_size: 10 # Maximum connections; minimum 1
-  # Optional full URL; overrides host, port, database, auth_source and max_pool_size
-  # Supports mongodb:// and mongodb+srv://; include a database name
-  # Example: mongodb://localhost:27017/minecraft?authSource=admin&maxPoolSize=10
   # Credentials in the URL take precedence; without authSource, authenticate against its database
-  url: ''
 ```

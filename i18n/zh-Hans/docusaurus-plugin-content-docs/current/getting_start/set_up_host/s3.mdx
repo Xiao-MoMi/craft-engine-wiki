@@ -12,30 +12,33 @@ S3 (简单存储服务) 是云服务提供商提供的一种高可扩展性、�
 
 ```yaml
 resource-pack:
-  delivery:
-    hosting:
-      - type: s3
-        endpoint: "" # 端点，不能包含 https:// 或者 http:// 开头
-        bucket: "" # 桶名称
-        access_key_id: ""
-        access_key_secret: ""
-        # 可选选项
-        use_environment_variables: false # 是否使用环境变量提供机密信息，默认为 false
-        protocol: "https" # 端点访问协议支持 https 和 http，默认为 https
-        path_style: false # 选择端点访问风格，启用使用 Path 风格，不启用使用 Virtual Hosted 风格，默认为 false
-        region: "auto" # 若 auto 无法使用才需要填写对应的区域，默认为 auto
-        upload_path: "server_resource_pack.zip" # 上传资源包路径，默认为 craftengine/resource_pack.zip
-        disable_calculate_sha256: false # 是否在上传前不计算 sha256 启用后可以节约一次计算开销但是不一定全部的服务提供商都支持，默认为 false
-        validity: 10 # 预签名链接的有效期（秒），默认为 10；请确保服务器时钟准确
-        # 可选请求限速配置
-        rate_map:
-          max_requests: 5
-          reset_interval: 20 # 单位为秒
-        ## 可选 CDN 配置
-        # cdn:
-        #   domain: ""
-        #   protocol: "https"
+  packs:
+    development:
+      default: true
+      type: s3
+      endpoint: "" # 端点，不能包含 https:// 或者 http:// 开头
+      bucket: "" # 桶名称
+      access_key_id: ""
+      access_key_secret: ""
+      # 可选选项
+      use_environment_variables: false # 是否使用环境变量提供机密信息，默认为 false
+      protocol: "https" # 端点访问协议支持 https 和 http，默认为 https
+      path_style: false # 选择端点访问风格，启用使用 Path 风格，不启用使用 Virtual Hosted 风格，默认为 false
+      region: "auto" # 若 auto 无法使用才需要填写对应的区域，默认为 auto
+      upload_path: "server_resource_pack.zip" # 上传资源包路径，默认为 craftengine/resource_pack.zip
+      disable_calculate_sha256: false # 是否在上传前不计算 sha256 启用后可以节约一次计算开销但是不一定全部的服务提供商都支持，默认为 false
+      validity: 10 # 预签名链接的有效期（秒），默认为 10；请确保服务器时钟准确
+      # 可选请求限速配置
+      rate_map:
+        max_requests: 5
+        reset_interval: 20 # 单位为秒
+      ## 可选 CDN 配置
+      # cdn:
+      #   domain: ""
+      #   protocol: "https"
 ```
+
+填写参数后执行 `/ce reload host`，上传和发送见[工作流](../workflows)。
 
 <Details summary="可用环境变量">
     - CE_S3_ACCESS_KEY_ID

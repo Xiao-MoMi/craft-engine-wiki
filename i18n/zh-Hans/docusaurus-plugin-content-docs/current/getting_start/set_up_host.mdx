@@ -1,0 +1,46 @@
+---
+title: 🛜 资源包托管
+id: set_up_host
+---
+
+import UrlCard from '@site/src/components/UrlCard';
+
+CraftEngine 需要通过托管服务让玩家下载资源包。默认配置使用内置 HTTP 服务，即 `self` 自托管。
+
+## 配置
+
+在 `config.yml` 的 `resource-pack.packs` 中配置资源包：
+
+```yaml
+resource-pack:
+  packs:
+    development: # 唯一的包 ID
+      type: self      # 托管类型
+      default: true   # 玩家未设置偏好时默认启用
+    production:
+      type: self
+      default: false
+```
+
+以包 ID 作为 `packs` 下的键，通过 `type` 选择托管方式，其余托管参数写在该包下。需要多个包时，继续添加不同的包 ID 即可。
+
+保存后执行 `/ce reload host`。使用默认配置时，执行 `/ce reload all` 会构建并上传开发包。生成、上传和发送的具体步骤见[工作流](./workflows)。
+
+玩家可以通过 `/pack enable production` 或 `/pack disable production` 选择资源包，权限及其他用法见[命令参考](../reference/commands#pack)。
+
+## 托管方式
+
+选择下面的托管方式，查看对应配置：
+
+<div style={{display: 'flex', flexWrap: 'wrap', margin: '-10px -10px 0 -10px'}}>
+
+<UrlCard url="set_up_host/self" title="🖥️ 自托管" subtitle="由 Minecraft 服务器直接提供下载"/>
+<UrlCard url="set_up_host/external" title="🔗 外部托管" subtitle="填写已有的下载链接"/>
+<UrlCard url="set_up_host/lobfile" title="📤 Lobfile" subtitle="使用 API 密钥上传"/>
+<UrlCard url="set_up_host/s3" title="☁️ S3 / 对象存储" subtitle="Cloudflare R2、腾讯云 COS 等"/>
+<UrlCard url="set_up_host/openlist" title="📋 OpenList" subtitle="通过 OpenList 实例分发"/>
+<UrlCard url="set_up_host/onedrive" title="📁 OneDrive" subtitle="OneDrive 分发"/>
+<UrlCard url="set_up_host/gitlab" title="🦊 GitLab" subtitle="GitLab 仓库分发"/>
+<UrlCard url="set_up_host/dropbox" title="📦 Dropbox" subtitle="Dropbox 分发"/>
+
+</div>

@@ -1,0 +1,167 @@
+---
+title: ⚙️ Resource Pack Workflows
+id: workflows
+---
+
+Workflows run resource pack operations in order. Configure them under `resource-pack.workflows` in `config.yml`:
+
+```yaml
+resource-pack:
+  workflows:
+    development: # Workflow name
+      trigger: reload_pack # optional; string/string list; omit for manual execution only
+      steps: # required; map list
+        - type: generate
+        - type: validate
+        - type: zip
+          path: ./generated/development.zip
+        - type: upload
+          pack: development
+          path: ./generated/development.zip
+        - type: send_pack
+          pack: development
+```
+
+Add the operations below to `steps`. Relative paths start at `plugins/CraftEngine`.
+
+### generate
+
+Generate resource pack assets from the loaded content. Each workflow can generate once.
+
+```yaml
+type: generate
+description: "<gray>Development Resource Pack</gray>" # optional; string; default: resource-pack.description
+map_compatibility: false # optional; boolean; default: false; enable for map-compatible output
+```
+
+### export
+
+Export the current pack to a directory on disk for external tools such as PackSquash. Place after `generate`; this keeps the in-memory pack available.
+
+```yaml
+type: export
+path: ./generated/packsquash-input # required; string; dedicated output directory, replaced on each export
+```
+
+### packsquash
+
+Run an installed [PackSquash](https://github.com/ComunidadAylas/PackSquash) executable using a TOML file. Wait for completion before running the next step; a nonzero exit code stops the workflow.
+
+```yaml
+type: packsquash
+executable: ./packsquash/packsquash # optional; string; default: packsquash from PATH; use packsquash.exe on Windows
+config: ./packsquash/config.toml # required; string; TOML file path
+```
+
+PackSquash reads a directory on disk and produces a ZIP. Use `export` to write the assets from `generate` to that directory. Paths inside TOML also start at `plugins/CraftEngine`:
+
+```toml
+pack_directory = './generated/packsquash-input'
+output_file_path = './squashed.zip'
+
+# PackSquash 0.4.1 expects the legacy pack_format field; the workflow validates the pack before export.
+validate_pack_metadata_file = false
+automatic_minecraft_quirks_detection = false
+automatic_asset_types_mask_detection = false
+
+# Preserve unrecognized overlay, mod and newer resource files.
+['**/*']
+force_include = true
+```
+
+For packs using only `min_format` and `max_format`, all three options above must be disabled: either automatic detection can still read the metadata even when validation is disabled. See the [PackSquash options](https://github.com/ComunidadAylas/PackSquash/wiki/Options-files#validate_pack_metadata_file).
+
+The ZIP can be uploaded directly, or loaded with `load_zip` and repacked with `zip` to apply CraftEngine resource pack protection. Repacking recompresses the files.
+
+:::tip[Complete PackSquash workflow with protection]
+
+Save the TOML above as `plugins/CraftEngine/packsquash/config.toml`. This example generates and validates the pack, exports it for PackSquash, then loads the optimized ZIP to apply CraftEngine protection (requires Premium), upload, and send:
+
+```yaml
+resource-pack:
+  workflows:
+    squash:
+      steps:
+        - type: generate
+          description: "<gray>Production Resource Pack</gray>"
+        - type: validate
+        - type: export
+          path: ./generated/packsquash-input # Matches pack_directory in the TOML; dedicated directory, replaced on export
+        - type: packsquash
+          executable: ./packsquash/packsquash # Use packsquash.exe on Windows
+          config: ./packsquash/config.toml
+        - type: load_zip
+          path: ./squashed.zip # Matches output_file_path in the TOML
+        - type: zip
+          path: ./generated/protected.zip
+          protection: true # Apply CraftEngine resource pack protection
+        - type: upload
+          pack: production # An existing pack configured under resource-pack.packs
+          path: ./generated/protected.zip
+        - type: send_pack
+          pack: production
+```
+
+Run with `/ce workflow squash`. The uploaded file is `protected.zip`; sending respects players' enabled packs.
+
+:::
+
+### load_zip
+
+Load an existing ZIP as the current resource pack, replacing any previously generated or loaded pack. Preserve its `pack.mcmeta`, including the description and overlays.
+
+```yaml
+type: load_zip
+path: ./squashed.zip # required; string; existing ZIP file path
+```
+
+Place after `packsquash`, then run `zip` with `protection: true` to apply CraftEngine resource pack protection (requires Premium). The ZIP must contain a valid `pack.mcmeta` at its root.
+
+### validate
+
+Validate the current pack using the options under `resource-pack.validation`. Place after `generate` and before `zip`.
+
+```yaml
+type: validate
+```
+
+### optimize
+
+Optimize the current pack using the options under `resource-pack.optimization`. Place after `generate` and before `zip`.
+
+```yaml
+type: optimize
+```
+
+Adding `validate` or `optimize` enables that stage; no stage-level `enable` option is needed.
+
+### zip
+
+Package the current assets into a ZIP. Place after `generate` or `load_zip`; another `load_zip` starts a new processing stage.
+
+```yaml
+type: zip
+path: ./generated/development.zip # required; string; output file path
+protection: false # optional; boolean; default: false; protection requires Premium
+```
+
+### upload
+
+Upload a ZIP to the specified pack's host. The file can come from an earlier `zip` step or already exist on disk.
+
+```yaml
+type: upload
+pack: development # required; string; ID under resource-pack.packs
+path: ./generated/development.zip # required; string; existing ZIP file path
+```
+
+The host must support uploads. `external`, `self_forward`, and `none` do not. Uploading alone does not send updates.
+
+### send_pack
+
+Resend selected resource packs to online players currently using the specified pack.
+
+```yaml
+type: send_pack
+pack: development # required; string; ID under resource-pack.packs
+```

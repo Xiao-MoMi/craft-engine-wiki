@@ -7,15 +7,18 @@ import Details from '@site/src/components/Details';
 
 ```yaml
 resource-pack:
-  delivery:
-    hosting:
-      - type: gitlab
-        gitlab_url: ""
-        access_token: ""
-        project_id: ""
-        # Optional options
-        use_environment_variables: false
+  packs:
+    development:
+      default: true
+      type: gitlab
+      gitlab_url: ""
+      access_token: ""
+      project_id: ""
+      # Optional options
+      use_environment_variables: false
 ```
+
+Fill in the settings and run `/ce reload host`. See [workflows](../workflows) for uploading and sending.
 
 <Details summary="Enviroment Variables">
   - CE_GITLAB_ACCESS_TOKEN

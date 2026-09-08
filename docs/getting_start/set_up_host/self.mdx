@@ -3,7 +3,7 @@ title: 🛜 Self hosting
 id: self
 ---
 
-Self hosting runs a small HTTP server inside your Minecraft server that serves the resource pack directly. Free, zero external services, and perfect for small servers and development. Not recommended for large player counts unless you have ample upload bandwidth.
+Self hosting serves ZIP files through CraftEngine's built-in HTTP server. Downloads use your server's outbound bandwidth. To configure resource pack generation, uploads, and sending, see [resource pack workflows](../workflows).
 
 ## Configuration
 
@@ -12,14 +12,14 @@ Declare each pack under `packs`. All `self` packs share the HTTP server configur
 ```yaml
 resource-pack:
   packs:
-    - id: development
+    development:
       type: self
       default: true
-      storage_directory: ./cache/hosted/development
-    - id: production
+      storage_path: ./cache/hosted/development/resource_pack.zip
+    production:
       type: self
       default: false
-      storage_directory: ./cache/hosted/production
+      storage_path: ./cache/hosted/production/resource_pack.zip
 
   self-host:
     ip: auto
@@ -34,7 +34,7 @@ resource-pack:
       qps_per_ip: 5/60
 ```
 
-`storage_directory` is relative to `plugins/CraftEngine`, or can be an absolute path. It defaults to `./cache/hosted/<id>`. Uploads are copied to `resource_pack.zip` inside that directory and loaded again after a restart. For the first upload, run a workflow containing an `upload` step:
+`storage_path` is the destination ZIP file, relative to `plugins/CraftEngine` or an absolute path. It defaults to `./cache/hosted/<id>/resource_pack.zip`. Uploads are saved directly to this file and loaded again after a restart. For the first upload, run a workflow containing an `upload` step:
 
 ```yaml
 resource-pack:
@@ -46,7 +46,7 @@ resource-pack:
           path: ./generated/resource_pack.zip
 ```
 
-Add this workflow to the same `resource-pack` section. Once the ZIP exists, run `/ce workflow upload_development`.
+Add this workflow to the same `resource-pack` section. Run `/ce reload host` after changing host settings, or `/ce reload` after only changing the workflow. Once the ZIP exists, run `/ce workflow upload_development`.
 
 ## Field Reference
 
@@ -98,4 +98,3 @@ resource-pack:
 :::caution
 The built-in server serves HTTP. HTTPS download URLs require a front-end service, such as a reverse proxy, with TLS and a valid certificate.
 :::
-

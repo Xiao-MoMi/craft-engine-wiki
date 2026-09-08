@@ -100,6 +100,10 @@ const sidebars: SidebarsConfig = {
           type: 'category',
           label: '🛜 Resource Pack Hosting',
           collapsed: true,
+          link: {
+            type: 'doc',
+            id: "getting_start/set_up_host",
+          },
           items: [
             {
               type: 'doc',
@@ -158,6 +162,11 @@ const sidebars: SidebarsConfig = {
               label: 'GitLab',
             },
           ]
+        },
+        {
+          type: 'doc',
+          id: "getting_start/workflows",
+          label: '⚙️ Workflows',
         },
         {
           type: 'doc',

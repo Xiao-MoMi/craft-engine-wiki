@@ -50,11 +50,11 @@ CraftEngine 支持以下 Paper 系服务端：
 
 ## 资源包托管
 
-CraftEngine 会将 `resources/` 中的内容打包成资源包，再通过 HTTP 分发给玩家。
+CraftEngine 会将你的内容生成资源包，供玩家下载。默认配置使用插件内置 HTTP 服务，即 `self` 自托管。
 
 **先测试默认配置**：进入游戏并执行 `/ce reload all`。如果资源包能够正常下载，且没有出现紫黑贴图，就说明托管已经生效。默认配置使用 `self` 模式，由服务器直接通过 HTTP 分发资源包，无需额外设置。
 
-如果下载失败，看下一节。
+配置方式见[资源包托管](set_up_host)，生成和上传步骤见[工作流](workflows)。
 
 ### 更换托管方式
 
@@ -62,7 +62,7 @@ CraftEngine 会将 `resources/` 中的内容打包成资源包，再通过 HTTP 
 
 <div style={{display: 'flex', flexWrap: 'wrap', margin: '-10px -10px 0 -10px'}}>
 
-<UrlCard url="set_up_host/lobfile" title="📤 Lobfile" subtitle="免费文件托管，零配置"/>
+<UrlCard url="set_up_host/lobfile" title="📤 Lobfile" subtitle="使用 Lobfile API 密钥上传"/>
 <UrlCard url="set_up_host/s3" title="☁️ S3 / 对象存储" subtitle="Cloudflare R2、腾讯云 COS 等"/>
 <UrlCard url="set_up_host/self" title="🖥️ 自托管" subtitle="服务器自己发，免费"/>
 <UrlCard url="set_up_host/external" title="🔗 外部托管" subtitle="指向你已有的托管"/>
@@ -70,7 +70,7 @@ CraftEngine 会将 `resources/` 中的内容打包成资源包，再通过 HTTP 
 <UrlCard url="set_up_host/onedrive" title="📁 OneDrive" subtitle="OneDrive 分发"/>
 <UrlCard url="set_up_host/gitlab" title="🦊 Gitlab" subtitle="GitLab 仓库分发"/>
 <UrlCard url="set_up_host/dropbox" title="📦 Dropbox" subtitle="Dropbox 分发"/>
-<UrlCard title="🚫 None" subtitle="只生成 zip，不上传"/>
+<UrlCard url="workflows" title="⚙️ 导出 ZIP" subtitle="让工作流在 zip 步骤结束"/>
 
 </div>
 

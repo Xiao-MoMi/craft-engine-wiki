@@ -7,16 +7,19 @@ import Details from '@site/src/components/Details';
 
 ```yaml
 resource-pack:
-  delivery:
-    hosting:
-      - type: dropbox
-        app_key: ""
-        app_secret: ""
-        refresh_token: ""
-        upload_path: "server_resource_pack.zip"
-        # 可选选项
-        use_environment_variables: false # 是否使用环境变量提供机密信息，默认为 false
+  packs:
+    development:
+      default: true
+      type: dropbox
+      app_key: ""
+      app_secret: ""
+      refresh_token: ""
+      upload_path: "server_resource_pack.zip"
+      # 可选选项
+      use_environment_variables: false # 是否使用环境变量提供机密信息，默认为 false
 ```
+
+填写参数后执行 `/ce reload host`，上传和发送见[工作流](../workflows)。
 
 <Details summary="可用环境变量">
   - CE_DROPBOX_APP_KEY

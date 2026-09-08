@@ -31,29 +31,50 @@ CraftEngine 的大部分命令以 `/craftengine`（缩写 `/ce`）开头，少�
 
 执行 `resource-pack.workflows` 中指定的工作流，例如 `/ce workflow production`。Tab 补全列出已加载的工作流。默认权限：`ce.command.admin.pack_workflow`。
 
+步骤字段和完整示例见[资源包工作流](../getting_start/workflows)，包定义及发送规则见[资源包托管](../getting_start/set_up_host)。
+
 按顺序执行工作流中配置的步骤，即使没有设置 `trigger` 也能手动执行。`trigger` 支持字符串或列表，例如 `trigger: reload_pack` 或 `trigger: [reload_pack]`。
 
-原 `/ce upload` 命令已由工作流的 `upload` 步骤替代。仅上传不会自动重发；需要向当前使用指定包的在线玩家发送更新时，应添加 `send_pack` 步骤。步骤中的 `pack` 必须对应 `resource-pack.packs` 中的包 ID。
+仅上传不会自动重发；需要向当前使用指定包的在线玩家发送更新时，应添加 `send_pack` 步骤。步骤中的 `pack` 必须对应 `resource-pack.packs` 中的包 ID。
 
 ### pack
 
-`/ce pack [enable/disable/reset] [包ID] (玩家)`
+`/pack [enable/disable/reset] [包ID]`
 
-保存玩家的资源包偏好。包 ID 对应 `resource-pack.packs` 中的条目。
+保存自己的资源包偏好。包 ID 对应 `resource-pack.packs` 中的条目。
 
 - `enable`：显式启用该包。
 - `disable`：显式禁用该包。
 - `reset`：删除偏好覆盖，恢复使用该包配置中的 `default` 值。
 
-省略玩家时修改自己的偏好。指定目标时，填写准确的在线玩家名或 UUID；离线玩家须使用 UUID。控制台必须指定目标。玩家执行者需要 `ce.resourcepack.<包ID>` 权限；此命令在 `commands.yml` 中的默认权限节点为空。
+仅限玩家执行，需要 `ce.resourcepack.pack.<包ID>` 权限，Tab 补全只列出有权限的包。管理员修改其他玩家的偏好使用下文的 `feature pack-preference`。
 
 修改在线玩家对本服已配置包的偏好后，会重新发送该玩家选中的资源包。本服未配置的包 ID 也可以保存偏好并更新缓存，但不会触发重发。离线玩家的数据会在下次选择资源包时使用。
 
 ```text
-/ce pack enable production
-/ce pack disable development
-/ce pack reset production Steve
+/pack enable production
+/pack disable development
+/pack reset production
 ```
+
+### pack preset
+
+`/pack preset [名称]`
+
+为自己应用 `resource-pack.presets` 中的预设，仅限玩家执行。
+
+```yaml
+resource-pack:
+  presets:
+    high: [A, B, C]
+    low: [A]
+```
+
+修改后执行 `/ce reload`，使用 `/pack preset high` 或 `/pack preset low` 切换。包 ID 对应 `resource-pack.packs`。选中预设中的包会启用，`packs` 或任意预设中其余包会禁用，与这些配置无关的已保存偏好会保留。空列表表示关闭所有受预设管理的包。
+
+需要 `ce.resourcepack.preset.<名称>` 权限来使用整个预设，Tab 补全列出有权限使用的预设。管理员为其他玩家应用预设使用下文的 `feature pack-preset`。
+
+偏好会一次保存，在线玩家的选择发生变化时只更新一次资源包；离线玩家下次进服时使用已保存的偏好。应用预设会复制当时的选择，之后修改预设需要重新应用。
 
 ### clean-cache
 
@@ -128,6 +149,22 @@ CraftEngine 的大部分命令以 `/craftengine`（缩写 `/ce`）开头，少�
 移除主手物品上指定的数据组件（仅玩家，1.20.5+ 组件版本）。
 
 ## 功能命令
+
+### feature pack-preference
+
+`/ce feature pack-preference [玩家] [enable/disable/reset] [包ID] (--silent)`
+
+为选中的玩家设置资源包偏好。需要 `ce.command.admin.pack_preference` 权限，无需单个包的玩家权限。目标必填，支持在线玩家名或玩家选择器，例如 `@a`、`@p`。
+
+全部操作完成后只反馈一次：单个目标显示玩家名，多个目标显示实际更新人数。无变化和失败也有对应反馈。添加 `--silent`（或 `-s`）可关闭指令反馈。
+
+### feature pack-preset
+
+`/ce feature pack-preset [玩家] [预设] (--silent)`
+
+为选中的玩家应用预设。需要 `ce.command.admin.pack_preset` 权限，无需单个预设的玩家权限。目标必填，支持在线玩家名或玩家选择器，例如 `@a`、`@p`。
+
+全部操作完成后只反馈一次：单个目标显示玩家名，多个目标显示实际更新人数。无变化和失败也有对应反馈。添加 `--silent`（或 `-s`）可关闭指令反馈。
 
 ### feature send-pack
 

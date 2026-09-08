@@ -40,20 +40,23 @@ Finally, check the box for `I have understood and saved the SecretKey.` and clic
 
 ```yaml
 resource-pack:
-  delivery:
-    hosting:
-      - type: s3
-        endpoint: "cos.na-siliconvalley.myqcloud.com"
-        bucket: "114514-1919810114514"
-        access_key_id: "JKHLsa45s5sdf54wef4784784S"
-        access_key_secret: "KJYQsd45f545sdgsdFEg"
-        protocol: "https"
-        path_style: false
-        region: "auto"
-        upload_path: "server_resource_pack.zip"
-        disable_calculate_sha256: false
-        validity: 10
-        rate_map:
-          max_requests: 5
-          reset_interval: 20
+  packs:
+    development:
+      default: true
+      type: s3
+      endpoint: "cos.na-siliconvalley.myqcloud.com"
+      bucket: "114514-1919810114514"
+      access_key_id: "JKHLsa45s5sdf54wef4784784S"
+      access_key_secret: "KJYQsd45f545sdgsdFEg"
+      protocol: "https"
+      path_style: false
+      region: "auto"
+      upload_path: "server_resource_pack.zip"
+      disable_calculate_sha256: false
+      validity: 10
+      rate_map:
+        max_requests: 5
+        reset_interval: 20
 ```
+
+Fill in the settings and run `/ce reload host`. See [workflows](../../workflows) for uploading and sending.

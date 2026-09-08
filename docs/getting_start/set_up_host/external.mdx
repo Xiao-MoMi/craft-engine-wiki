@@ -5,12 +5,15 @@ id: external
 
 ```yaml
 resource-pack:
-  delivery:
-    hosting:
-      - type: external
-        url: ""
-        uuid: "" # Optional
-        sha1: "" # Optional
+  packs:
+    development:
+      type: external
+      default: true
+      url: "https://packs.example.com/development.zip"
+      # Optional: SHA-1 of the ZIP at this URL.
+      # sha1: "0123456789abcdef0123456789abcdef01234567"
+      # Optional: omit to derive a UUID from the URL.
+      # uuid: "123e4567-e89b-12d3-a456-426614174000"
 ```
 
 :::info

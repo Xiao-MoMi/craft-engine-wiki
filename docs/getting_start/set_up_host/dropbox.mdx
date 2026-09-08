@@ -7,16 +7,19 @@ import Details from '@site/src/components/Details';
 
 ```yaml
 resource-pack:
-  delivery:
-    hosting:
-      - type: dropbox
-        app_key: ""
-        app_secret: ""
-        refresh_token: ""
-        upload_path: "server_resource_pack.zip"
-        # Optional options
-        use_environment_variables: false
+  packs:
+    development:
+      default: true
+      type: dropbox
+      app_key: ""
+      app_secret: ""
+      refresh_token: ""
+      upload_path: "server_resource_pack.zip"
+      # Optional options
+      use_environment_variables: false
 ```
+
+Fill in the settings and run `/ce reload host`. See [workflows](../workflows) for uploading and sending.
 
 <Details summary="Enviroment Variables">
   - CE_DROPBOX_APP_KEY

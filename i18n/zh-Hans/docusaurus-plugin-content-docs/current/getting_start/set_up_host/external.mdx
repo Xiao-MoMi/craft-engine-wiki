@@ -5,12 +5,15 @@ id: external
 
 ```yaml
 resource-pack:
-  delivery:
-    hosting:
-      - type: external
-        url: ""
-        uuid: "" # 可选
-        sha1: "" # 可选
+  packs:
+    development:
+      type: external
+      default: true
+      url: "https://packs.example.com/development.zip"
+      # 可选：此 URL 对应 ZIP 文件的 SHA-1。
+      # sha1: "0123456789abcdef0123456789abcdef01234567"
+      # 可选：省略时根据 URL 生成 UUID。
+      # uuid: "123e4567-e89b-12d3-a456-426614174000"
 ```
 
 :::info

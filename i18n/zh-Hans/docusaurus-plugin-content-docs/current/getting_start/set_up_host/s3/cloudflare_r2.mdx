@@ -44,20 +44,23 @@ id: cloudflare_r2
 ```yaml
 # 仅作为示范，请不要直接复制粘贴。
 resource-pack:
-  delivery:
-    hosting:
-      - type: s3
-        endpoint: "4asd4sdas4ds5ds4.r2.cloudflarestorage.com"
-        bucket: "114514"
-        access_key_id: "asodjhadosdnoad"
-        access_key_secret: "asd541faf5asd5fs15asdf45as"
-        protocol: "https"
-        path_style: false
-        region: "auto"
-        upload_path: "server_resource_pack.zip"
-        disable_calculate_sha256: true
-        validity: 10
-        rate_map:
-          max_requests: 5
-          reset_interval: 20
+  packs:
+    development:
+      default: true
+      type: s3
+      endpoint: "4asd4sdas4ds5ds4.r2.cloudflarestorage.com"
+      bucket: "114514"
+      access_key_id: "asodjhadosdnoad"
+      access_key_secret: "asd541faf5asd5fs15asdf45as"
+      protocol: "https"
+      path_style: false
+      region: "auto"
+      upload_path: "server_resource_pack.zip"
+      disable_calculate_sha256: true
+      validity: 10
+      rate_map:
+        max_requests: 5
+        reset_interval: 20
 ```
+
+填写参数后执行 `/ce reload host`，上传和发送见[工作流](../../workflows)。

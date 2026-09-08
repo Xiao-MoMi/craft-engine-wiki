@@ -50,11 +50,11 @@ Run `/ce` in-game. The item browser opens — you're good.
 
 ## Resource pack hosting
 
-CraftEngine compiles your `resources/` into a resource pack and serves it over HTTP to players.
+CraftEngine builds a resource pack from your content and provides it for players to download. The default configuration uses the built-in HTTP server (`self`).
 
 **Try it now:** run `/ce reload all` in-game. If the pack downloads successfully with no purple-black textures, hosting is working. The default config uses `self` mode — the server includes a built-in HTTP server, no extra setup needed.
 
-If the download fails, keep reading.
+For configuration, see [Resource Pack Hosting](set_up_host). Build and upload steps are explained in [Workflows](workflows).
 
 ### Alternative hosts
 
@@ -62,7 +62,7 @@ If the default configuration cannot deliver the resource pack, or you want to tr
 
 <div style={{display: 'flex', flexWrap: 'wrap', margin: '-10px -10px 0 -10px'}}>
 
-<UrlCard url="set_up_host/lobfile" title="📤 Lobfile" subtitle="Free file host, zero setup"/>
+<UrlCard url="set_up_host/lobfile" title="📤 Lobfile" subtitle="Upload with a Lobfile API key"/>
 <UrlCard url="set_up_host/s3" title="☁️ S3 / Object Storage" subtitle="Cloudflare R2, Tencent COS, and more"/>
 <UrlCard url="set_up_host/self" title="🖥️ Self Hosting" subtitle="Free, served from your own server"/>
 <UrlCard url="set_up_host/external" title="🔗 External" subtitle="Point at an existing pack URL"/>
@@ -70,7 +70,7 @@ If the default configuration cannot deliver the resource pack, or you want to tr
 <UrlCard url="set_up_host/onedrive" title="📁 OneDrive" subtitle="Host on OneDrive"/>
 <UrlCard url="set_up_host/gitlab" title="🦊 Gitlab" subtitle="Use a GitLab repository"/>
 <UrlCard url="set_up_host/dropbox" title="📦 Dropbox" subtitle="Host on Dropbox"/>
-<UrlCard title="🚫 None" subtitle="Generate the zip, don't upload"/>
+<UrlCard url="workflows" title="⚙️ Export a ZIP" subtitle="A workflow that ends at the zip step"/>
 
 </div>
 

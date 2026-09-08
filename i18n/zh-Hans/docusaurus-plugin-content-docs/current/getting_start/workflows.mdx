@@ -1,0 +1,167 @@
+---
+title: ⚙️ 资源包工作流
+id: workflows
+---
+
+工作流按顺序执行一系列资源包操作，在 `config.yml` 的 `resource-pack.workflows` 下配置：
+
+```yaml
+resource-pack:
+  workflows:
+    development: # 工作流名称
+      trigger: reload_pack # 可选; 字符串/字符串列表; 不填则仅手动执行
+      steps: # 必填; 映射列表
+        - type: generate
+        - type: validate
+        - type: zip
+          path: ./generated/development.zip
+        - type: upload
+          pack: development
+          path: ./generated/development.zip
+        - type: send_pack
+          pack: development
+```
+
+以下操作填写在 `steps` 中，相对路径以 `plugins/CraftEngine` 为起点。
+
+### 生成
+
+根据已加载的内容生成资源包。每个工作流只能生成一次。
+
+```yaml
+type: generate
+description: "<gray>开发资源包</gray>" # 可选; 字符串; 默认值: resource-pack.description
+map_compatibility: false # 可选; 布尔; 默认值: false; 是否生成地图兼容资源包
+```
+
+### 导出
+
+将当前资源包导出到磁盘目录，供 PackSquash 等外部工具读取。放在 `generate` 之后，导出后仍保留内存中的资源包。
+
+```yaml
+type: export
+path: ./generated/packsquash-input # 必填; 字符串; 专用输出目录，每次导出都会重建
+```
+
+### PackSquash
+
+使用指定 TOML 调用已安装的 [PackSquash](https://github.com/ComunidadAylas/PackSquash)，完成后执行下一步，退出码非零则停止工作流。
+
+```yaml
+type: packsquash
+executable: ./packsquash/packsquash # 可选; 字符串; 默认从 PATH 查找 packsquash，Windows 使用 packsquash.exe
+config: ./packsquash/config.toml # 必填; 字符串; TOML 配置文件路径
+```
+
+PackSquash 读取磁盘上的目录并输出 ZIP。通过 `export` 将 `generate` 生成的资源导出到该目录即可接入。TOML 中的相对路径同样以 `plugins/CraftEngine` 为起点：
+
+```toml
+pack_directory = './generated/packsquash-input'
+output_file_path = './squashed.zip'
+
+# PackSquash 0.4.1 仍要求旧版 pack_format；工作流已在导出前校验资源包。
+validate_pack_metadata_file = false
+automatic_minecraft_quirks_detection = false
+automatic_asset_types_mask_detection = false
+
+# 原样保留无法识别的 overlay、模组和新版资源文件。
+['**/*']
+force_include = true
+```
+
+对于只使用 `min_format`、`max_format` 的新版资源包，以上三项必须一起关闭：仅关闭校验时，两项自动检测仍可能读取元数据。参见 [PackSquash 配置说明](https://github.com/ComunidadAylas/PackSquash/wiki/Options-files#validate_pack_metadata_file)。
+
+输出的 ZIP 可以直接上传，也可以通过 `load_zip` 加载后执行 `zip`，继续应用 CraftEngine 资源包保护。再次打包会重新压缩文件。
+
+:::tip[带保护的完整 PackSquash 工作流]
+
+将上面的 TOML 保存为 `plugins/CraftEngine/packsquash/config.toml`。以下示例先生成并校验资源包，导出后交给 PackSquash 优化，再加载 ZIP，应用 CraftEngine 保护（需要付费版）、上传并发送：
+
+```yaml
+resource-pack:
+  workflows:
+    squash:
+      steps:
+        - type: generate
+          description: "<gray>正式资源包</gray>"
+        - type: validate
+        - type: export
+          path: ./generated/packsquash-input # 与 TOML 中的 pack_directory 一致；专用目录，每次导出都会重建
+        - type: packsquash
+          executable: ./packsquash/packsquash # Windows 使用 packsquash.exe
+          config: ./packsquash/config.toml
+        - type: load_zip
+          path: ./squashed.zip # 与 TOML 中的 output_file_path 一致
+        - type: zip
+          path: ./generated/protected.zip
+          protection: true # 继续应用 CraftEngine 资源包保护
+        - type: upload
+          pack: production # resource-pack.packs 中已配置的包 ID
+          path: ./generated/protected.zip
+        - type: send_pack
+          pack: production
+```
+
+执行 `/ce workflow squash` 运行。最终上传的是带保护的 `protected.zip`，发送时按玩家启用的包过滤。
+
+:::
+
+### 加载 ZIP
+
+将已有 ZIP 加载为当前资源包，替换之前生成或加载的资源包。保留原有 `pack.mcmeta`，包括描述和 overlays。
+
+```yaml
+type: load_zip
+path: ./squashed.zip # 必填; 字符串; 已存在的 ZIP 文件路径
+```
+
+放在 `packsquash` 后面，再执行设置了 `protection: true` 的 `zip` 步骤，即可继续应用 CraftEngine 资源包保护（需要付费版）。ZIP 根目录必须有有效的 `pack.mcmeta`。
+
+### 校验
+
+校验当前资源包，具体选项使用 `resource-pack.validation`。放在 `generate` 之后、`zip` 之前。
+
+```yaml
+type: validate
+```
+
+### 优化
+
+优化当前资源包，具体选项使用 `resource-pack.optimization`。放在 `generate` 之后、`zip` 之前。
+
+```yaml
+type: optimize
+```
+
+添加 `validate` 或 `optimize` 操作即启用对应阶段，无需阶段级别的 `enable` 选项。
+
+### 打包
+
+将当前资源打包为 ZIP。放在 `generate` 或 `load_zip` 之后；再次执行 `load_zip` 可开始新一轮处理。
+
+```yaml
+type: zip
+path: ./generated/development.zip # 必填; 字符串; 输出文件路径
+protection: false # 可选; 布尔; 默认值: false; 保护功能需要付费版
+```
+
+### 上传
+
+将 ZIP 上传到指定包的托管。可以上传前面 `zip` 操作生成的文件，也可以上传已有 ZIP。
+
+```yaml
+type: upload
+pack: development # 必填; 字符串; resource-pack.packs 中的包 ID
+path: ./generated/development.zip # 必填; 字符串; 已存在的 ZIP 文件路径
+```
+
+托管方式需要支持上传，`external`、`self_forward` 和 `none` 不支持。仅上传不会发送更新。
+
+### 发送
+
+向当前使用指定包的在线玩家重新发送其选中的资源包。
+
+```yaml
+type: send_pack
+pack: development # 必填; 字符串; resource-pack.packs 中的包 ID
+```

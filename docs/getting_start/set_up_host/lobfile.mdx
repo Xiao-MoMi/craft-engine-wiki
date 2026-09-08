@@ -19,13 +19,16 @@ Lobfile is actually a pretty solid choice for beginners looking for a resource h
 
 ```yaml
 resource-pack:
-  delivery:
-    hosting:
-      - type: "lobfile"
-        api_key: "abcdefghijkl"
-        # Optional options
-        use_environment_variables: false
+  packs:
+    development:
+      default: true
+      type: "lobfile"
+      api_key: "abcdefghijkl"
+      # Optional options
+      use_environment_variables: false
 ```
+
+Fill in the settings and run `/ce reload host`. See [workflows](../workflows) for uploading and sending.
 
 <Details summary="Enviroment Variables">
   - CE_LOBFILE_API_KEY

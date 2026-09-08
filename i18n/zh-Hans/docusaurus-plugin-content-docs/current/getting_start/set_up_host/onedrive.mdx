@@ -7,16 +7,19 @@ import Details from '@site/src/components/Details';
 
 ```yaml
 resource-pack:
-  delivery:
-    hosting:
-      - type: onedrive
-        client_id: ""
-        client_secret: ""
-        refresh_token: ""
-        upload_path: "server_resource_pack.zip"
-        # 可选选项
-        use_environment_variables: false # 是否使用环境变量提供机密信息，默认为 false
+  packs:
+    development:
+      default: true
+      type: onedrive
+      client_id: ""
+      client_secret: ""
+      refresh_token: ""
+      upload_path: "server_resource_pack.zip"
+      # 可选选项
+      use_environment_variables: false # 是否使用环境变量提供机密信息，默认为 false
 ```
+
+填写参数后执行 `/ce reload host`，上传和发送见[工作流](../workflows)。
 
 <Details summary="可用环境变量">
   - CE_ONEDRIVE_CLIENT_ID

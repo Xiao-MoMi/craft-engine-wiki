@@ -45,20 +45,23 @@ id: tencentcloud_cos
 ```yaml
 # 仅作为示范，请不要直接复制粘贴。
 resource-pack:
-  delivery:
-    hosting:
-      - type: s3
-        endpoint: "cos.ap-guangzhou.myqcloud.com"
-        bucket: "114514-1919810114514"
-        access_key_id: "JKHLsa45s5sdf54wef4784784S"
-        access_key_secret: "KJYQsd45f545sdgsdFEg"
-        protocol: "https"
-        path_style: false
-        region: "auto"
-        upload_path: "server_resource_pack.zip"
-        disable_calculate_sha256: false
-        validity: 10
-        rate_map:
-          max_requests: 5
-          reset_interval: 20
+  packs:
+    development:
+      default: true
+      type: s3
+      endpoint: "cos.ap-guangzhou.myqcloud.com"
+      bucket: "114514-1919810114514"
+      access_key_id: "JKHLsa45s5sdf54wef4784784S"
+      access_key_secret: "KJYQsd45f545sdgsdFEg"
+      protocol: "https"
+      path_style: false
+      region: "auto"
+      upload_path: "server_resource_pack.zip"
+      disable_calculate_sha256: false
+      validity: 10
+      rate_map:
+        max_requests: 5
+        reset_interval: 20
 ```
+
+填写参数后执行 `/ce reload host`，上传和发送见[工作流](../../workflows)。

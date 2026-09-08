@@ -17,22 +17,26 @@ For migration instructions, please see: https://doc.oplist.org/guide/migrate
 
 ```yaml
 resource-pack:
-  delivery:
-    hosting:
-      - type: openlist
-        api-url: ""
-        username: ""
-        password: ""
-        upload_path: "server_resource_pack.zip"
-        # Optional options
-        use_environment_variables: false
-        disable_upload: false
-        # file_password: ""
-        # otp_code: ""
+  packs:
+    development:
+      default: true
+      type: openlist
+      api-url: ""
+      username: ""
+      password: ""
+      upload_path: "server_resource_pack.zip"
+      # Optional options
+      use_environment_variables: false
+      # file_password: ""
+      # otp_code: ""
 ```
+
+Fill in the settings and run `/ce reload host`. See [workflows](../workflows) for uploading and sending.
 
 <Details summary="Enviroment Variables">
   - CE_OPENLIST_USERNAME
   - CE_OPENLIST_PASSWORD
   - CE_OPENLIST_FILE_PASSWORD
 </Details>
+
+To use an existing file as a download source, set `upload_path` to its path and omit the workflow's `upload` step.

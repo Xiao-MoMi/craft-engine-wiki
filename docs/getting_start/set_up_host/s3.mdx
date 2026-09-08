@@ -12,30 +12,33 @@ S3 (Simple Storage Service) is a highly scalable, durable, and available object 
 
 ```yaml
 resource-pack:
-  delivery:
-    hosting:
-      - type: s3
-        endpoint: ""
-        bucket: ""
-        access_key_id: ""
-        access_key_secret: ""
-        # Optional options
-        use_environment_variables: false
-        protocol: "https"
-        path_style: false
-        region: "auto"
-        upload_path: "server_resource_pack.zip"
-        disable_calculate_sha256: false
-        validity: 10
-        # Optional rate limiter
-        rate_map:
-          max_requests: 5
-          reset_interval: 20 # seconds
-        ## Optional CDN
-        # cdn:
-        #   domain: ""
-        #   protocol: "https"
+  packs:
+    development:
+      default: true
+      type: s3
+      endpoint: ""
+      bucket: ""
+      access_key_id: ""
+      access_key_secret: ""
+      # Optional options
+      use_environment_variables: false
+      protocol: "https"
+      path_style: false
+      region: "auto"
+      upload_path: "server_resource_pack.zip"
+      disable_calculate_sha256: false
+      validity: 10
+      # Optional rate limiter
+      rate_map:
+        max_requests: 5
+        reset_interval: 20 # seconds
+      ## Optional CDN
+      # cdn:
+      #   domain: ""
+      #   protocol: "https"
 ```
+
+Fill in the settings and run `/ce reload host`. See [workflows](../workflows) for uploading and sending.
 
 <Details summary="Enviroment Variables">
     - CE_S3_ACCESS_KEY_ID

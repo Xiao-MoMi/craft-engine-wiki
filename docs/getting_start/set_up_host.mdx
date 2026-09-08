@@ -1,0 +1,46 @@
+---
+title: 🛜 Resource Pack Hosting
+id: set_up_host
+---
+
+import UrlCard from '@site/src/components/UrlCard';
+
+CraftEngine needs a hosting source so players can download the resource pack. The default configuration uses the built-in HTTP server (`self`).
+
+## Configuration
+
+Configure packs under `resource-pack.packs` in `config.yml`:
+
+```yaml
+resource-pack:
+  packs:
+    development: # Unique pack ID
+      type: self      # Hosting type
+      default: true   # Enabled when the player has no saved preference
+    production:
+      type: self
+      default: false
+```
+
+Use the pack ID as the key under `packs`, and `type` to choose its hosting method. Add a key for each pack, with its hosting settings underneath.
+
+After saving, run `/ce reload host`. With the default configuration, `/ce reload all` builds and uploads the development pack. Building, uploading, and sending are configured through [workflows](./workflows).
+
+Players can select packs with `/pack enable production` or `/pack disable production`. See the [command reference](../reference/commands#pack) for permissions and more options.
+
+## Hosting methods
+
+Choose a method below for its configuration:
+
+<div style={{display: 'flex', flexWrap: 'wrap', margin: '-10px -10px 0 -10px'}}>
+
+<UrlCard url="set_up_host/self" title="🖥️ Self Hosting" subtitle="Serve directly from your Minecraft server"/>
+<UrlCard url="set_up_host/external" title="🔗 External" subtitle="Use an existing download URL"/>
+<UrlCard url="set_up_host/lobfile" title="📤 Lobfile" subtitle="Upload with an API key"/>
+<UrlCard url="set_up_host/s3" title="☁️ S3 / Object Storage" subtitle="Cloudflare R2, Tencent COS, and more"/>
+<UrlCard url="set_up_host/openlist" title="📋 OpenList" subtitle="Serve through an OpenList instance"/>
+<UrlCard url="set_up_host/onedrive" title="📁 OneDrive" subtitle="Host on OneDrive"/>
+<UrlCard url="set_up_host/gitlab" title="🦊 GitLab" subtitle="Use a GitLab repository"/>
+<UrlCard url="set_up_host/dropbox" title="📦 Dropbox" subtitle="Host on Dropbox"/>
+
+</div>
