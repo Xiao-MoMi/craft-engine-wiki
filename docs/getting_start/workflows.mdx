@@ -3,15 +3,39 @@ title: ⚙️ Resource Pack Workflows
 id: workflows
 ---
 
+import Details from '@site/src/components/Details';
+
 Workflows run resource pack operations in order. Configure them under `resource-pack.workflows` in `config.yml`:
 
 ```yaml
 resource-pack:
   workflows:
-    development: # Workflow name
+    default: # Workflow name
       trigger: reload_pack # optional; string/string list; omit for manual execution only
       steps: # required; map list
         - type: generate
+        - type: validate
+        - type: zip
+          path: ./generated/resource_pack.zip
+        - type: upload
+          pack: default
+          path: ./generated/resource_pack.zip
+        - type: send_pack
+          pack: default
+```
+
+<Details summary="Separate development and production packs" previewHeight={0}>
+
+Update the development pack while testing, then publish the production pack when ready. Replace `workflows`, `packs`, and `presets` with the following; keep your existing `self-host` settings.
+
+```yaml
+resource-pack:
+  workflows:
+    development:
+      trigger: reload_pack
+      steps:
+        - type: generate
+          description: "<yellow>Development Resource Pack</yellow>"
         - type: validate
         - type: zip
           path: ./generated/development.zip
@@ -20,7 +44,37 @@ resource-pack:
           path: ./generated/development.zip
         - type: send_pack
           pack: development
+    production:
+      steps:
+        - type: generate
+          description: "<green>Production Resource Pack</green>"
+        - type: validate
+        - type: optimize
+        - type: zip
+          path: ./generated/production.zip
+          protection: true # Requires Premium
+        - type: upload
+          pack: production
+          path: ./generated/production.zip
+        - type: send_pack
+          pack: production
+  packs:
+    production:
+      type: self
+      default: true
+    development:
+      type: self
+      default: false
+  presets:
+    production: [production]
+    development: [development]
 ```
+
+Run `/ce reload all` to load the configuration and build the development pack, then `/ce workflow production` to publish the production pack. Later, `/ce reload all` only updates the development pack; production is published manually.
+
+Players use production by default. Testers can switch with `/pack preset development` and switch back with `/pack preset production`. Each preset requires its `ce.resourcepack.preset.<name>` permission.
+
+</Details>
 
 Add the operations below to `steps`. Relative paths start at `plugins/CraftEngine`.
 
@@ -30,7 +84,7 @@ Generate resource pack assets from the loaded content. Each workflow can generat
 
 ```yaml
 type: generate
-description: "<gray>Development Resource Pack</gray>" # optional; string; default: resource-pack.description
+description: "<gray>Resource Pack</gray>" # optional; string; default: resource-pack.description
 map_compatibility: false # optional; boolean; default: false; enable for map-compatible output
 ```
 
@@ -83,7 +137,7 @@ resource-pack:
     squash:
       steps:
         - type: generate
-          description: "<gray>Production Resource Pack</gray>"
+          description: "<gray>Resource Pack</gray>"
         - type: validate
         - type: export
           path: ./generated/packsquash-input # Matches pack_directory in the TOML; dedicated directory, replaced on export
@@ -96,10 +150,10 @@ resource-pack:
           path: ./generated/protected.zip
           protection: true # Apply CraftEngine resource pack protection
         - type: upload
-          pack: production # An existing pack configured under resource-pack.packs
+          pack: default # An existing pack configured under resource-pack.packs
           path: ./generated/protected.zip
         - type: send_pack
-          pack: production
+          pack: default
 ```
 
 Run with `/ce workflow squash`. The uploaded file is `protected.zip`; sending respects players' enabled packs.
@@ -141,7 +195,7 @@ Package the current assets into a ZIP. Place after `generate` or `load_zip`; ano
 
 ```yaml
 type: zip
-path: ./generated/development.zip # required; string; output file path
+path: ./generated/resource_pack.zip # required; string; output file path
 protection: false # optional; boolean; default: false; protection requires Premium
 ```
 
@@ -151,8 +205,8 @@ Upload a ZIP to the specified pack's host. The file can come from an earlier `zi
 
 ```yaml
 type: upload
-pack: development # required; string; ID under resource-pack.packs
-path: ./generated/development.zip # required; string; existing ZIP file path
+pack: default # required; string; ID under resource-pack.packs
+path: ./generated/resource_pack.zip # required; string; existing ZIP file path
 ```
 
 The host must support uploads. `external`, `self_forward`, and `none` do not. Uploading alone does not send updates.
@@ -163,5 +217,5 @@ Resend selected resource packs to online players currently using the specified p
 
 ```yaml
 type: send_pack
-pack: development # required; string; ID under resource-pack.packs
+pack: default # required; string; ID under resource-pack.packs
 ```

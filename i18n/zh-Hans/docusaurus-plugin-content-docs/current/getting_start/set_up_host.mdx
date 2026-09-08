@@ -14,19 +14,16 @@ CraftEngine 需要通过托管服务让玩家下载资源包。默认配置使�
 ```yaml
 resource-pack:
   packs:
-    development: # 唯一的包 ID
+    default: # 唯一的包 ID
       type: self      # 托管类型
       default: true   # 玩家未设置偏好时默认启用
-    production:
-      type: self
-      default: false
 ```
 
-以包 ID 作为 `packs` 下的键，通过 `type` 选择托管方式，其余托管参数写在该包下。需要多个包时，继续添加不同的包 ID 即可。
+以包 ID 作为 `packs` 下的键，通过 `type` 选择托管方式，其余托管参数写在该包下。需要区分开发包和正式包时，可参考[工作流中的折叠示例](./workflows)。
 
-保存后执行 `/ce reload host`。使用默认配置时，执行 `/ce reload all` 会构建并上传开发包。生成、上传和发送的具体步骤见[工作流](./workflows)。
+保存后执行 `/ce reload host`。使用默认配置时，执行 `/ce reload all` 会构建并上传 `default` 包。生成、上传和发送的具体步骤见[工作流](./workflows)。
 
-玩家可以通过 `/pack enable production` 或 `/pack disable production` 选择资源包，权限及其他用法见[命令参考](../reference/commands#pack)。
+玩家可以通过 `/pack enable default` 或 `/pack disable default` 选择资源包，权限及其他用法见[命令参考](../reference/commands#pack)。
 
 ## 托管方式
 

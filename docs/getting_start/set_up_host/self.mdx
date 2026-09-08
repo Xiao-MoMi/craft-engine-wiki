@@ -3,7 +3,7 @@ title: 🛜 Self hosting
 id: self
 ---
 
-Self hosting serves ZIP files through CraftEngine's built-in HTTP server. Downloads use your server's outbound bandwidth. To configure resource pack generation, uploads, and sending, see [resource pack workflows](../workflows).
+Self hosting serves ZIP files through CraftEngine's built-in HTTP server. Downloads use your server's outbound bandwidth.
 
 ## Configuration
 
@@ -12,14 +12,10 @@ Declare each pack under `packs`. All `self` packs share the HTTP server configur
 ```yaml
 resource-pack:
   packs:
-    development:
+    default:
       type: self
       default: true
-      storage_path: ./cache/hosted/development/resource_pack.zip
-    production:
-      type: self
-      default: false
-      storage_path: ./cache/hosted/production/resource_pack.zip
+      storage_path: ./cache/hosted/default/resource_pack.zip
 
   self-host:
     ip: auto
@@ -39,14 +35,14 @@ resource-pack:
 ```yaml
 resource-pack:
   workflows:
-    upload_development:
+    upload_default:
       steps:
         - type: upload
-          pack: development
+          pack: default
           path: ./generated/resource_pack.zip
 ```
 
-Add this workflow to the same `resource-pack` section. Run `/ce reload host` after changing host settings, or `/ce reload` after only changing the workflow. Once the ZIP exists, run `/ce workflow upload_development`.
+Add this workflow to the same `resource-pack` section. Run `/ce reload host` after changing host settings, or `/ce reload` after only changing the workflow. Once the ZIP exists, run `/ce workflow upload_default`.
 
 ## Field Reference
 
@@ -68,7 +64,7 @@ Place all server settings below under `resource-pack.self-host`.
 By default, the download URL sent to players is auto-built from `ip`, `port`, and `protocol`:
 
 ```
-http://111.222.333.444:8163/download/development
+http://111.222.333.444:8163/download/default
 ```
 
 When the internal bind address differs from what players should use — a reverse proxy, a CDN, or VPS NAT where the public IP and port don't match the internal ones — set `url` to override it:
@@ -79,7 +75,7 @@ resource-pack:
     url: "https://real-public-address/"
 ```
 
-This produces `https://real-public-address/download/development` (with optional `?token=...`). Two common scenarios:
+This produces `https://real-public-address/download/default` (with optional `?token=...`). Two common scenarios:
 
 **Reverse proxy** — nginx, Caddy, or HAProxy sits in front, handles TLS, and forwards to the internal HTTP server.
 

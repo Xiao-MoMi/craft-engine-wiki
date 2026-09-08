@@ -208,6 +208,6 @@ After editing configs or resource pack files, tell CraftEngine to reload:
 | Pack IDs or hosting settings | `/ce reload host` |
 | Not sure which | `/ce reload all` (safest) |
 
-`/ce reload config` updates configuration and workflow definitions, but does not rebuild the pack. `/ce reload all` runs workflows whose `trigger` includes `reload_pack`; the default `development` workflow handles generation, upload, and sending. If your build workflow has no such trigger, run `/ce workflow [name]` explicitly. Sending updates requires a `send_pack` step and only targets players currently using that pack.
+`/ce reload config` updates configuration and workflow definitions, but does not rebuild the pack. `/ce reload all` runs workflows whose `trigger` includes `reload_pack`; the default `default` workflow handles generation, upload, and sending. If your build workflow has no such trigger, run `/ce workflow [name]` explicitly. Sending updates requires a `send_pack` step and only targets players currently using that pack.
 
 Running `/ce reload` with no argument defaults to `config`.

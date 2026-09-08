@@ -29,7 +29,7 @@ After editing `resource-pack.workflows`, use `/ce reload` or `/ce reload config`
 
 `/ce workflow [name]`
 
-Execute a named workflow from `resource-pack.workflows`, such as `/ce workflow production`. Tab completion lists loaded workflows. Default permission: `ce.command.admin.pack_workflow`.
+Execute a named workflow from `resource-pack.workflows`, such as `/ce workflow default`. Tab completion lists loaded workflows. Default permission: `ce.command.admin.pack_workflow`.
 
 See [Resource Pack Workflows](../getting_start/workflows) for step fields and complete examples, and [Resource Pack Hosting](../getting_start/set_up_host) for pack definitions and delivery.
 
@@ -52,9 +52,9 @@ Player-only command. Requires `ce.resourcepack.pack.<pack-id>`; tab completion l
 For an online player, changing a configured pack's preference resends their selected packs. Preferences for IDs not configured on this server are still saved and cached, without resending packs. Offline players' preferences are saved for their next pack selection.
 
 ```text
-/pack enable production
-/pack disable development
-/pack reset production
+/pack enable default
+/pack disable default
+/pack reset default
 ```
 
 ### pack preset
@@ -156,15 +156,11 @@ Remove the specified data component from the held item (player only, 1.20.5+ com
 
 Set the selected players' pack preferences. Requires `ce.command.admin.pack_preference`; individual pack permissions are not required. The target is required and accepts an online player name or a player selector, such as `@a` or `@p`.
 
-Sends one summary after completion: names a single target, or reports the number of players whose preferences changed for multiple targets. Unchanged preferences and failures are also reported. Add `--silent` (or `-s`) to suppress command feedback.
-
 ### feature pack-preset
 
 `/ce feature pack-preset [player] [preset] (--silent)`
 
 Apply a preset to the selected players. Requires `ce.command.admin.pack_preset`; individual preset permissions are not required. The target is required and accepts an online player name or a player selector, such as `@a` or `@p`.
-
-Sends one summary after completion: names a single target, or reports the number of players whose preferences changed for multiple targets. Unchanged preferences and failures are also reported. Add `--silent` (or `-s`) to suppress command feedback.
 
 ### feature send-pack
 

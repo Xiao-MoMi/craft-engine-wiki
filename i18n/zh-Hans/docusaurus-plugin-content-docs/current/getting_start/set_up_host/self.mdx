@@ -3,7 +3,7 @@ title: 🛜 自托管
 id: self
 ---
 
-自托管通过 CraftEngine 内置 HTTP 服务提供 ZIP 下载，消耗的是服务器的出口带宽。资源包的生成、上传和发送配置见[资源包工作流](../workflows)。
+自托管通过 CraftEngine 内置 HTTP 服务提供 ZIP 下载，消耗的是服务器的出口带宽。
 
 ## 配置
 
@@ -12,14 +12,10 @@ id: self
 ```yaml
 resource-pack:
   packs:
-    development:
+    default:
       type: self
       default: true
-      storage_path: ./cache/hosted/development/resource_pack.zip
-    production:
-      type: self
-      default: false
-      storage_path: ./cache/hosted/production/resource_pack.zip
+      storage_path: ./cache/hosted/default/resource_pack.zip
 
   self-host:
     ip: auto
@@ -39,14 +35,14 @@ resource-pack:
 ```yaml
 resource-pack:
   workflows:
-    upload_development:
+    upload_default:
       steps:
         - type: upload
-          pack: development
+          pack: default
           path: ./generated/resource_pack.zip
 ```
 
-将此工作流加入同一个 `resource-pack` 配置块。修改托管设置后执行 `/ce reload host`；只修改工作流时执行 `/ce reload`。准备好 ZIP 后，再运行 `/ce workflow upload_development`。
+将此工作流加入同一个 `resource-pack` 配置块。修改托管设置后执行 `/ce reload host`；只修改工作流时执行 `/ce reload`。准备好 ZIP 后，再运行 `/ce workflow upload_default`。
 
 ## 字段参考
 
@@ -68,7 +64,7 @@ resource-pack:
 默认情况下，发给玩家的下载链接由 `ip`、`port`、`protocol` 自动拼接：
 
 ```
-http://111.222.333.444:8163/download/development
+http://111.222.333.444:8163/download/default
 ```
 
 当内部绑定地址与玩家应使用的地址不同时——反向代理、CDN、VPS 内外 IP 端口不一致——设 `url` 覆盖：
@@ -79,7 +75,7 @@ resource-pack:
     url: "https://对外实际地址/"
 ```
 
-生成 `https://对外实际地址/download/development`（可选附带 `?token=...`）。两种常见场景：
+生成 `https://对外实际地址/download/default`（可选附带 `?token=...`）。两种常见场景：
 
 **反向代理** —— nginx、Caddy、HAProxy 前置处理 TLS，转发到内部 HTTP 服务器。
 

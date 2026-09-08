@@ -3,15 +3,39 @@ title: ⚙️ 资源包工作流
 id: workflows
 ---
 
+import Details from '@site/src/components/Details';
+
 工作流按顺序执行一系列资源包操作，在 `config.yml` 的 `resource-pack.workflows` 下配置：
 
 ```yaml
 resource-pack:
   workflows:
-    development: # 工作流名称
+    default: # 工作流名称
       trigger: reload_pack # 可选; 字符串/字符串列表; 不填则仅手动执行
       steps: # 必填; 映射列表
         - type: generate
+        - type: validate
+        - type: zip
+          path: ./generated/resource_pack.zip
+        - type: upload
+          pack: default
+          path: ./generated/resource_pack.zip
+        - type: send_pack
+          pack: default
+```
+
+<Details summary="分别管理开发包和正式包" previewHeight={0}>
+
+调试时只更新开发包，确认后再发布正式包。将配置中的 `workflows`、`packs` 和 `presets` 替换为下面的内容；保留原来的 `self-host` 设置。
+
+```yaml
+resource-pack:
+  workflows:
+    development:
+      trigger: reload_pack
+      steps:
+        - type: generate
+          description: "<yellow>开发资源包</yellow>"
         - type: validate
         - type: zip
           path: ./generated/development.zip
@@ -20,7 +44,37 @@ resource-pack:
           path: ./generated/development.zip
         - type: send_pack
           pack: development
+    production:
+      steps:
+        - type: generate
+          description: "<green>正式资源包</green>"
+        - type: validate
+        - type: optimize
+        - type: zip
+          path: ./generated/production.zip
+          protection: true # 需要付费版
+        - type: upload
+          pack: production
+          path: ./generated/production.zip
+        - type: send_pack
+          pack: production
+  packs:
+    production:
+      type: self
+      default: true
+    development:
+      type: self
+      default: false
+  presets:
+    production: [production]
+    development: [development]
 ```
+
+执行 `/ce reload all` 加载配置并构建开发包，再执行 `/ce workflow production` 发布正式包。之后 `/ce reload all` 只更新开发包，正式包需要手动发布。
+
+玩家默认使用正式包。测试者可用 `/pack preset development` 切到开发包，用 `/pack preset production` 切回；需要对应的 `ce.resourcepack.preset.<名称>` 权限。
+
+</Details>
 
 以下操作填写在 `steps` 中，相对路径以 `plugins/CraftEngine` 为起点。
 
@@ -30,7 +84,7 @@ resource-pack:
 
 ```yaml
 type: generate
-description: "<gray>开发资源包</gray>" # 可选; 字符串; 默认值: resource-pack.description
+description: "<gray>资源包</gray>" # 可选; 字符串; 默认值: resource-pack.description
 map_compatibility: false # 可选; 布尔; 默认值: false; 是否生成地图兼容资源包
 ```
 
@@ -96,10 +150,10 @@ resource-pack:
           path: ./generated/protected.zip
           protection: true # 继续应用 CraftEngine 资源包保护
         - type: upload
-          pack: production # resource-pack.packs 中已配置的包 ID
+          pack: default # resource-pack.packs 中已配置的包 ID
           path: ./generated/protected.zip
         - type: send_pack
-          pack: production
+          pack: default
 ```
 
 执行 `/ce workflow squash` 运行。最终上传的是带保护的 `protected.zip`，发送时按玩家启用的包过滤。
@@ -141,7 +195,7 @@ type: optimize
 
 ```yaml
 type: zip
-path: ./generated/development.zip # 必填; 字符串; 输出文件路径
+path: ./generated/resource_pack.zip # 必填; 字符串; 输出文件路径
 protection: false # 可选; 布尔; 默认值: false; 保护功能需要付费版
 ```
 
@@ -151,8 +205,8 @@ protection: false # 可选; 布尔; 默认值: false; 保护功能需要付费�
 
 ```yaml
 type: upload
-pack: development # 必填; 字符串; resource-pack.packs 中的包 ID
-path: ./generated/development.zip # 必填; 字符串; 已存在的 ZIP 文件路径
+pack: default # 必填; 字符串; resource-pack.packs 中的包 ID
+path: ./generated/resource_pack.zip # 必填; 字符串; 已存在的 ZIP 文件路径
 ```
 
 托管方式需要支持上传，`external`、`self_forward` 和 `none` 不支持。仅上传不会发送更新。
@@ -163,5 +217,5 @@ path: ./generated/development.zip # 必填; 字符串; 已存在的 ZIP 文件�
 
 ```yaml
 type: send_pack
-pack: development # 必填; 字符串; resource-pack.packs 中的包 ID
+pack: default # 必填; 字符串; resource-pack.packs 中的包 ID
 ```

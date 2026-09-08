@@ -89,15 +89,15 @@ Items slot number \
 
 ## %ce\_pack-state\_\<pack-id\>%
 
-Returns the player's setting for a pack ID from `resource-pack.packs`. For example: `%ce_pack-state_development%`.
+Returns the player's setting for a pack ID from `resource-pack.packs`. For example: `%ce_pack-state_default%`.
 
 | Value | Meaning |
 | --- | --- |
 | `enabled` | The player explicitly enabled this pack. |
 | `disabled` | The player explicitly disabled this pack. |
-| `default` | No override is set; the pack follows its configured `default` value. |
+| `unset` | No override is set; the pack follows its configured `default` value. |
 
-`/ce pack reset development` restores the `default` state. Use `/ce debug pack-states <player>` to view the player's states for all configured packs; permission: `ce.command.debug.pack_states`. This placeholder reads cached settings and does not query the database. It requires an online player whose settings have loaded; unknown pack IDs remain unresolved.
+`/ce pack reset default` restores the `unset` state. Use `/ce debug pack-states <player>` to view the player's states for all configured packs; permission: `ce.command.debug.pack_states`. This placeholder reads cached settings and does not query the database. It requires an online player whose settings have loaded; unknown pack IDs remain unresolved.
 
 ## %ceexpr\_%
 

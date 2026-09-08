@@ -3,12 +3,35 @@ title: 🗺️ BlueMap
 id: bluemap
 ---
 
-1. 根据 [BlueMap 官方文档](https://bluemap.bluecolored.de/wiki/getting-started/Installation.html) 安装并配置好 BlueMap
-2. 找到 CraftEngine 插件文件夹的 `config.yml` 配置文件
-3. 将 `resource-pack.map-plugin-compatibility.enable` 修改为 `true`
-4. 将 `resource-pack.map-plugin-compatibility.path` 修改为 `../BlueMap/packs/craftengine_resource_pack.zip`
-5. 将 `chunk-system.restore-vanilla-blocks-on-chunk-unload` 修改为 `false`
-6. 执行 `/ce reload all` 命令
-7. 执行 `/bluemap purge <map>` 命令，清理全部被 BlueMap 渲染过的包含自定义方块的世界，更多细节请查看 [BlueMap 官方文档](https://bluemap.bluecolored.de/wiki/customization/ResourcePacks.html)
+根据 [BlueMap 官方文档](https://bluemap.bluecolored.de/wiki/getting-started/Installation.html) 安装并配置好 BlueMap。
+
+在 `plugins/CraftEngine/config.yml` 已有的 `resource-pack.workflows` 下添加 `bluemap` 工作流，并修改下面的区块设置：
+
+```yaml
+resource-pack:
+  workflows:
+    bluemap:
+      trigger: reload_pack
+      steps:
+        - type: generate
+          map_compatibility: true
+        - type: validate
+        - type: zip
+          path: ../BlueMap/packs/craftengine_resource_pack.zip
+          protection: false
+
+chunk-system:
+  restore-vanilla-blocks-on-chunk-unload: false
+```
+
+这个工作流会生成适用于地图渲染的资源包，直接写入 `plugins/BlueMap/packs/craftengine_resource_pack.zip`。
+
+依次执行：
+
+1. `/ce reload all`：加载配置并生成资源包，等待工作流完成。
+2. `/bluemap reload`：加载新的资源包。
+3. `/bluemap purge <map>`：清理受影响地图的旧渲染结果，让 BlueMap 重新渲染。每张需要更新的地图都要执行，详见 [BlueMap 资源包指南](https://bluemap.bluecolored.de/wiki/customization/ResourcePacks.html)。
+
+可以用 `/ce workflow bluemap` 单独生成 BlueMap 资源包。资源包更新后，再执行上面的 BlueMap 命令。
 
 ![](/img/bluemap_1.png)

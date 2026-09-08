@@ -41,7 +41,7 @@ id: getting_start
 | 修改模型或贴图文件 | `/ce reload all` |
 | 执行指定资源包工作流 | `/ce workflow [名称]` |
 
-`config` 只更新工作流定义，不执行工作流。`all` 还会执行由 `reload_pack` 触发的工作流，默认的 `development` 工作流会构建并发送资源包。如果使用其他工作流，请通过 `/ce workflow [名称]` 显式执行。各重载模式的区别见[命令参考](./reference/commands#reload)。
+`config` 只更新工作流定义，不执行工作流。`all` 还会执行由 `reload_pack` 触发的工作流，默认的 `default` 工作流会构建并发送资源包。如果使用其他工作流，请通过 `/ce workflow [名称]` 显式执行。各重载模式的区别见[命令参考](./reference/commands#reload)。
 
 遇到问题时，请先检查控制台；CraftEngine 会在那里输出大多数错误信息。
 

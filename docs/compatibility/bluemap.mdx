@@ -3,12 +3,35 @@ title: 🗺️ BlueMap
 id: bluemap
 ---
 
-1. Install and configure BlueMap according to the [BlueMap official documentation](https://bluemap.bluecolored.de/wiki/getting-started/Installation.html)
-2. Locate the `config.yml` configuration file in the CraftEngine plugin folder
-3. Set `resource-pack.map-plugin-compatibility.enable` to `true`
-4. Change `resource-pack.map-plugin-compatibility.path` to `../BlueMap/packs/craftengine_resource_pack.zip`
-5. Change `chunk-system.restore-vanilla-blocks-on-chunk-unload` to `false`
-6. Run the command `/ce reload all`
-7. Run the command `/bluemap purge <map>` to clear all worlds rendered by BlueMap that contain custom blocks. For more details, please refer to the [BlueMap official documentation](https://bluemap.bluecolored.de/wiki/customization/ResourcePacks.html)
+Install and configure BlueMap following its [official documentation](https://bluemap.bluecolored.de/wiki/getting-started/Installation.html).
+
+In `plugins/CraftEngine/config.yml`, add a `bluemap` workflow under the existing `resource-pack.workflows` section and update the chunk setting shown below:
+
+```yaml
+resource-pack:
+  workflows:
+    bluemap:
+      trigger: reload_pack
+      steps:
+        - type: generate
+          map_compatibility: true
+        - type: validate
+        - type: zip
+          path: ../BlueMap/packs/craftengine_resource_pack.zip
+          protection: false
+
+chunk-system:
+  restore-vanilla-blocks-on-chunk-unload: false
+```
+
+This workflow generates a map-compatible resource pack and writes it directly to `plugins/BlueMap/packs/craftengine_resource_pack.zip`.
+
+Run these commands in order:
+
+1. `/ce reload all` — load the configuration and generate the resource pack. Wait for the workflow to finish.
+2. `/bluemap reload` — load the new resource pack.
+3. `/bluemap purge <map>` — clear the previous render for each affected map so BlueMap can render it again. See [BlueMap's resource pack guide](https://bluemap.bluecolored.de/wiki/customization/ResourcePacks.html).
+
+You can run `/ce workflow bluemap` to generate only the BlueMap pack. After updating the pack, repeat the BlueMap commands above.
 
 ![](/img/bluemap_1.png)

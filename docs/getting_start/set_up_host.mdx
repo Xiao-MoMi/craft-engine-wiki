@@ -14,19 +14,16 @@ Configure packs under `resource-pack.packs` in `config.yml`:
 ```yaml
 resource-pack:
   packs:
-    development: # Unique pack ID
+    default: # Unique pack ID
       type: self      # Hosting type
       default: true   # Enabled when the player has no saved preference
-    production:
-      type: self
-      default: false
 ```
 
-Use the pack ID as the key under `packs`, and `type` to choose its hosting method. Add a key for each pack, with its hosting settings underneath.
+Use the pack ID as the key under `packs`, and `type` to choose its hosting method. For separate development and production packs, see the [expandable workflow example](./workflows).
 
-After saving, run `/ce reload host`. With the default configuration, `/ce reload all` builds and uploads the development pack. Building, uploading, and sending are configured through [workflows](./workflows).
+After saving, run `/ce reload host`. With the default configuration, `/ce reload all` builds and uploads the `default` pack. Building, uploading, and sending are configured through [workflows](./workflows).
 
-Players can select packs with `/pack enable production` or `/pack disable production`. See the [command reference](../reference/commands#pack) for permissions and more options.
+Players can select packs with `/pack enable default` or `/pack disable default`. See the [command reference](../reference/commands#pack) for permissions and more options.
 
 ## Hosting methods
 
