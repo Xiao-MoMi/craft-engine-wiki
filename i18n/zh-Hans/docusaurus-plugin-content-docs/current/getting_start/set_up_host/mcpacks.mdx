@@ -1,0 +1,30 @@
+---
+title: 🛜 MCPacks
+id: mcpacks
+---
+
+import Highlight from '@site/src/components/Highlight';
+
+<Highlight color="#1877F2">**用户友好**</Highlight><Highlight color="#10ae28ff">**免费**</Highlight>
+
+[MCPacks](https://mcpacks.dev/) 提供 Minecraft 资源包托管，无需注册账号或填写 API 密钥。CraftEngine 会上传 ZIP 文件，并自动保存返回的下载链接和 SHA-1。
+
+## 配置
+
+在 `config.yml` 的 `resource-pack.packs` 下配置资源包：
+
+```yaml
+resource-pack:
+  packs:
+    default:
+      default: true
+      type: mcpacks
+```
+
+## 服务限制
+
+- 单个上传文件最大为 **250 MB**。
+- ZIP 内必须包含有效的 `pack.mcmeta`，且不能包含 `.exe`、`.jar`、`.bat` 等可执行文件。
+- 连续 **6 个月**没有下载的资源包可能被清理。如果缓存的链接失效，通过工作流重新上传资源包即可。
+
+上传要求见 [MCPacks API 文档](https://mcpacks.dev/docs/api)，保留期限见[官网常见问题](https://mcpacks.dev/)。

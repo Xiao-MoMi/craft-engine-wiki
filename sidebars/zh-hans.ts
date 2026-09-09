@@ -121,6 +121,11 @@ const sidebars: SidebarsConfig = {
               label: 'Lobfile',
             },
             {
+              type: 'doc',
+              id: "getting_start/set_up_host/mcpacks",
+              label: 'MCPacks',
+            },
+            {
               type: 'category',
               label: 'S3 对象存储',
               collapsed: true,

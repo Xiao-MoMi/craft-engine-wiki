@@ -1,0 +1,30 @@
+---
+title: 🛜 MCPacks
+id: mcpacks
+---
+
+import Highlight from '@site/src/components/Highlight';
+
+<Highlight color="#1877F2">**User Friendly**</Highlight><Highlight color="#10ae28ff">**Free**</Highlight>
+
+[MCPacks](https://mcpacks.dev/) hosts Minecraft resource packs without an account or API key. CraftEngine uploads the ZIP and automatically saves the returned download URL and SHA-1.
+
+## Configuration
+
+Configure the pack under `resource-pack.packs` in `config.yml`:
+
+```yaml
+resource-pack:
+  packs:
+    default:
+      default: true
+      type: mcpacks
+```
+
+## Service limits
+
+- The maximum upload size is **250 MB**.
+- The ZIP must contain a valid `pack.mcmeta` and cannot include executable files such as `.exe`, `.jar`, or `.bat`.
+- Packs with no downloads for **6 months** may be removed. If a cached link expires, upload the pack again through your workflow.
+
+See the [MCPacks API documentation](https://mcpacks.dev/docs/api) for upload requirements and the [service FAQ](https://mcpacks.dev/) for retention details.
