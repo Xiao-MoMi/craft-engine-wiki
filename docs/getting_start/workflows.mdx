@@ -105,6 +105,7 @@ Run an installed [PackSquash](https://github.com/ComunidadAylas/PackSquash) exec
 type: packsquash
 executable: ./packsquash/packsquash # optional; string; default: packsquash from PATH; use packsquash.exe on Windows
 config: ./packsquash/config.toml # required; string; TOML file path
+timeout: 600 # optional; positive integer; seconds before terminating PackSquash
 ```
 
 PackSquash reads a directory on disk and produces a ZIP. Use `export` to write the assets from `generate` to that directory. Paths inside TOML also start at `plugins/CraftEngine`:

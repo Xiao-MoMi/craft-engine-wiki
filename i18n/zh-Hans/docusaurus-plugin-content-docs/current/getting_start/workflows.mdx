@@ -105,6 +105,7 @@ path: ./generated/packsquash-input # 必填; 字符串; 专用输出目录，每
 type: packsquash
 executable: ./packsquash/packsquash # 可选; 字符串; 默认从 PATH 查找 packsquash，Windows 使用 packsquash.exe
 config: ./packsquash/config.toml # 必填; 字符串; TOML 配置文件路径
+timeout: 600 # 可选; 正整数; 超时秒数，超时后终止 PackSquash
 ```
 
 PackSquash 读取磁盘上的目录并输出 ZIP。通过 `export` 将 `generate` 生成的资源导出到该目录即可接入。TOML 中的相对路径同样以 `plugins/CraftEngine` 为起点：

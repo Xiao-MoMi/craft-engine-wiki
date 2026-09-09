@@ -32,6 +32,13 @@ resource-pack:
       rate_map:
         max_requests: 5
         reset_interval: 20 # seconds
+      # Optional request timeouts (seconds)
+      timeout:
+        connect: -1 # connection timeout; omitted or <= 0 keeps the AWS SDK default
+        socket: -1 # socket read/write timeout; omitted or <= 0 keeps the AWS SDK default
+        api_call: 300 # overall API call timeout, retries included; default 300
+        api_call_attempt: -1 # single API call attempt timeout, retries excluded; omitted or <= 0 keeps the AWS SDK default
+        connection_acquisition: -1 # max wait to acquire an idle connection from the pool; omitted or <= 0 keeps the AWS SDK default
       ## Optional CDN
       # cdn:
       #   domain: ""
