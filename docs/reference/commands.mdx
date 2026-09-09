@@ -13,7 +13,7 @@ Below, `[ ]` denotes a required argument and `( )` an optional one.
 
 `/ce reload (config/recipe/host/pack/all)`
 
-Defaults to `config` when no argument is given. Default permission: `ce.command.admin.reload`.
+Defaults to `config` when no argument is given.
 
 | Argument | Behavior |
 |:---|:---|
@@ -29,7 +29,7 @@ After editing `resource-pack.workflows`, use `/ce reload` or `/ce reload config`
 
 `/ce workflow [name]`
 
-Execute a named workflow from `resource-pack.workflows`, such as `/ce workflow default`. Tab completion lists loaded workflows. Default permission: `ce.command.admin.pack_workflow`.
+Execute a named workflow from `resource-pack.workflows`, such as `/ce workflow default`. Tab completion lists loaded workflows.
 
 See [Resource Pack Workflows](../getting_start/workflows) for step fields and complete examples, and [Resource Pack Hosting](../getting_start/set_up_host) for pack definitions and delivery.
 
@@ -130,23 +130,44 @@ A player queries the recipe/usage of their own item.
 
 ![](/img/commands_16.png)
 
-### item custom-model-data
+### item component add
 
-`/ce item custom-model-data [value]`
+`/ce item component add [component] [snbt]`
 
-Set the custom model data value of the held item (player only).
+Add or replace a data component on the main-hand item (player only, 1.20.5+).
 
-### item item-model
+Use a component ID such as `minecraft:damage`; tab completion lists component IDs registered on the server. The value must be valid SNBT for that component on your server version. Enter the component's value directly, without a `(snbt)` prefix or an enclosing component-ID map. Strings, numbers, lists, and compounds are accepted according to the component's format, including values containing spaces.
 
-`/ce item item-model [value]`
+```text
+/ce item component add minecraft:damage 5
+/ce item component add minecraft:custom_data {note:"Hello world",level:1}
+```
 
-Set the item model of the held item (namespaced key, player only, 1.21.2+).
+Unknown components and invalid values produce an error without applying the change. Adding an existing component replaces its entire value; compound values are not merged.
 
-### item remove-component
+To set an item model on 1.21.2+, use `/ce item component add minecraft:item_model "minecraft:diamond_sword"`. Custom model data can be set through `minecraft:custom_model_data` using the SNBT format supported by your server version.
 
-`/ce item remove-component [component]`
+### item component remove
 
-Remove the specified data component from the held item (player only, 1.20.5+ component release).
+`/ce item component remove [component]`
+
+Remove the specified data component from the main-hand item, including a component supplied by the item type's defaults (player only, 1.20.5+).
+
+```text
+/ce item component remove minecraft:custom_data
+```
+
+### item component reset
+
+`/ce item component reset [component]`
+
+Restore the specified component to the item type's default value (player only, 1.20.5+). If the item type has no default for that component, it is removed. This resets only the named component, not the whole item or a previous command's value.
+
+```text
+/ce item component reset minecraft:damage
+```
+
+All three component commands require a non-empty main hand and support component-ID tab completion. They replace the old `item custom-model-data`, `item item-model`, and `item remove-component` commands, which are no longer available.
 
 ## Feature Commands
 
@@ -285,7 +306,7 @@ Find which config file defines a resource. `type` is the resource's config type 
 
 `/ce debug pack-states (player)`
 
-Display the cached resource pack preferences for an online player. Omit `player` to inspect yourself; the console must specify a player. Default permission: `ce.command.debug.pack_states`.
+Display the cached resource pack preferences for an online player. Omit `player` to inspect yourself; the console must specify a player.
 
 | State | Color | Meaning |
 |:---|:---|:---|

@@ -13,7 +13,7 @@ CraftEngine 的大部分命令以 `/craftengine`（缩写 `/ce`）开头，少�
 
 `/ce reload (config/recipe/host/pack/all)`
 
-不带参数时默认为 `config`。默认权限：`ce.command.admin.reload`。
+不带参数时默认为 `config`。
 
 | 参数 | 行为 |
 |:---|:---|
@@ -29,7 +29,7 @@ CraftEngine 的大部分命令以 `/craftengine`（缩写 `/ce`）开头，少�
 
 `/ce workflow [名称]`
 
-执行 `resource-pack.workflows` 中指定的工作流，例如 `/ce workflow default`。Tab 补全列出已加载的工作流。默认权限：`ce.command.admin.pack_workflow`。
+执行 `resource-pack.workflows` 中指定的工作流，例如 `/ce workflow default`。Tab 补全列出已加载的工作流。
 
 步骤字段和完整示例见[资源包工作流](../getting_start/workflows)，包定义及发送规则见[资源包托管](../getting_start/set_up_host)。
 
@@ -130,23 +130,44 @@ resource-pack:
 
 ![](/img/commands_16.png)
 
-### item custom-model-data
+### item component add
 
-`/ce item custom-model-data [值]`
+`/ce item component add [组件] [SNBT]`
 
-设置主手物品的自定义模型数据值（仅玩家）。
+为主手物品添加或覆盖数据组件（仅玩家，1.20.5+）。
 
-### item item-model
+组件使用 `minecraft:damage` 等 ID，Tab 补全列出当前服务端已注册的组件 ID。值必须符合当前服务端版本中该组件的 SNBT 格式。直接输入组件值，无需添加 `(snbt)` 前缀或在外层包裹组件 ID。根据组件的格式，可以输入字符串、数字、列表或复合标签，支持包含空格的值。
 
-`/ce item item-model [值]`
+```text
+/ce item component add minecraft:damage 5
+/ce item component add minecraft:custom_data {note:"Hello world",level:1}
+```
 
-设置主手物品的物品模型（命名空间 ID，仅玩家，1.21.2+）。
+未知组件或无效值会返回错误提示，不会应用修改。添加已存在的组件时会替换整个组件值，复合标签不会与原值合并。
 
-### item remove-component
+在 1.21.2+ 设置物品模型可使用 `/ce item component add minecraft:item_model "minecraft:diamond_sword"`。自定义模型数据通过 `minecraft:custom_model_data` 组件设置，值需使用当前服务端版本支持的 SNBT 格式。
 
-`/ce item remove-component [组件]`
+### item component remove
 
-移除主手物品上指定的数据组件（仅玩家，1.20.5+ 组件版本）。
+`/ce item component remove [组件]`
+
+移除主手物品上指定的数据组件，也可以移除物品类型默认提供的组件（仅玩家，1.20.5+）。
+
+```text
+/ce item component remove minecraft:custom_data
+```
+
+### item component reset
+
+`/ce item component reset [组件]`
+
+将指定组件恢复为物品类型的默认值（仅玩家，1.20.5+）。如果物品类型没有该组件的默认值，则移除该组件。此命令只重置指定组件，不会重置整个物品，也不是撤销上一次命令。
+
+```text
+/ce item component reset minecraft:damage
+```
+
+以上三条组件命令均要求主手持有物品，并支持组件 ID 的 Tab 补全。它们取代了旧的 `item custom-model-data`、`item item-model` 和 `item remove-component` 命令，旧命令已不可用。
 
 ## 功能命令
 
@@ -285,7 +306,7 @@ resource-pack:
 
 `/ce debug pack-states (玩家)`
 
-查看在线玩家已缓存的资源包偏好。省略玩家时查询自己，控制台必须指定玩家。默认权限：`ce.command.debug.pack_states`。
+查看在线玩家已缓存的资源包偏好。省略玩家时查询自己，控制台必须指定玩家。
 
 | 状态 | 颜色 | 含义 |
 |:---|:---|:---|
