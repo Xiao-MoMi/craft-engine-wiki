@@ -85,7 +85,7 @@ recipes:
 <MinecraftRecipe
   pattern={['SP ', '   ', '   ']}
   ingredients={{
-    S: {...items.diamondSword, lore: [{text: '源物品：source: true', color: '#ffaa00'}]},
+    S: items.diamondSword,
     P: {...items.paper, enchanted: true, lore: [{text: '条件：锋利 V', color: '#ffaa00'}]},
   }}
   result={items.topazSword}
@@ -443,9 +443,9 @@ default:topaz_crossbow_transform:
   pattern={['TTT', 'T  ', 'C  ']}
   ingredients={{
     T: items.topaz,
-    C: {...items.crossbow, lore: [{text: '源物品：source: true', color: '#ffaa00'}]},
+    C: {...items.crossbow, enchanted: true},
   }}
-  result={{...items.topazCrossbow, lore: [{text: '保留源物品的魔咒', color: '#ffaa00'}]}}
+  result={{...items.topazCrossbow, enchanted: true, lore: [{text: '保留源物品的魔咒', color: '#ffaa00'}]}}
 />
 
 ### 无序合成配方
@@ -541,7 +541,7 @@ recipes:
 <MinecraftRecipe
   pattern={['ST ', '   ', '   ']}
   ingredients={{
-    S: {...items.diamondSword, lore: [{text: '源物品：source: true', color: '#ffaa00'}]},
+    S: items.diamondSword,
     T: items.topaz,
   }}
   result={{...items.topazSword, lore: [{text: '保留源物品的魔咒', color: '#ffaa00'}]}}

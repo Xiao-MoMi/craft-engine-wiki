@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import {translate} from '@docusaurus/Translate';
 import MinecraftWindow from './MinecraftWindow';
 import {parseRow} from '../utils/parseStructure';
 import styles from './MinecraftRecipeBook.module.css';
@@ -7,15 +8,15 @@ import windowStyles from './MinecraftWindow.module.css';
 import useNearViewport from '../utils/useNearViewport';
 
 const CATEGORIES = [
-  {id: 'all', name: '全部', icons: ['compass']},
-  {id: 'equipment', name: '装备', icons: ['iron_axe', 'golden_sword']},
-  {id: 'building', name: '建筑', icons: ['bricks']},
-  {id: 'misc', name: '杂项', icons: ['lava_bucket', 'apple']},
-  {id: 'redstone', name: '红石', icons: ['redstone']},
+  {id: 'all', name: translate({id: 'minecraftRecipe.category.all', message: 'All'}), icons: ['compass']},
+  {id: 'equipment', name: translate({id: 'minecraftRecipe.category.equipment', message: 'Equipment'}), icons: ['iron_axe', 'golden_sword']},
+  {id: 'building', name: translate({id: 'minecraftRecipe.category.building', message: 'Building Blocks'}), icons: ['bricks']},
+  {id: 'misc', name: translate({id: 'minecraftRecipe.category.misc', message: 'Miscellaneous'}), icons: ['lava_bucket', 'apple']},
+  {id: 'redstone', name: translate({id: 'minecraftRecipe.category.redstone', message: 'Redstone'}), icons: ['redstone']},
 ];
 
 // 单页配方书示例：同一 category 内的相同 group 合并；没有 group 的配方各占一格。
-export default function MinecraftRecipeBook({recipes, initialCategory = 'all', label = '配方书'}) {
+export default function MinecraftRecipeBook({recipes, initialCategory = 'all', label = translate({id: 'minecraftRecipe.book.label', message: 'Recipe Book'})}) {
   const [ref, ready] = useNearViewport();
   return (
     <section ref={ref} className={styles.wrapper} aria-label={label}>
@@ -114,12 +115,12 @@ function RecipeBookContent({recipes, initialCategory, label}) {
             <input
               type="search"
               className={styles.search}
-              aria-label={`${label}搜索配方`}
-              placeholder="搜索…"
+              aria-label={translate({id: 'minecraftRecipe.book.searchLabel', message: '{label}: Search recipes'}, {label})}
+              placeholder={translate({id: 'minecraftRecipe.book.search', message: 'Search…'})}
               value={query}
               onChange={event => {setQuery(event.target.value); setSelectedId(null); setOpenGroup(null);}}
             />
-            <div className={styles.recipes} aria-label="配方分组">
+            <div className={styles.recipes} aria-label={translate({id: 'minecraftRecipe.book.groups', message: 'Recipe groups'})}>
               {entries.map(group => {
                 const recipe = group[0];
                 const selected = group === activeGroup;
@@ -130,10 +131,10 @@ function RecipeBookContent({recipes, initialCategory, label}) {
                     type="button"
                     className={styles.recipe}
                     style={{backgroundImage: `url(${base}sprites/recipe_book/slot_${group.length > 1 ? 'many_' : ''}craftable.png)`}}
-                    aria-label={group.length > 1 ? `${recipe.group} 分组，${group.length} 个配方` : recipe.result.name}
+                    aria-label={group.length > 1 ? translate({id: 'minecraftRecipe.book.groupLabel', message: '{group} group, {count} recipes'}, {group: recipe.group, count: group.length}) : recipe.result.name}
                     aria-pressed={selected}
                     aria-expanded={group.length > 1 ? expandedGroup === group : undefined}
-                    title={group.length > 1 ? `${displayed.result.name}\n右键查看更多配方` : recipe.result.name}
+                    title={group.length > 1 ? translate({id: 'minecraftRecipe.book.groupHint', message: '{item}\nRight-click for more recipes'}, {item: displayed.result.name}) : recipe.result.name}
                     onClick={event => {
                       if (group.length > 1 && event.nativeEvent.pointerType === 'touch') {
                         expand(event, group);
@@ -152,9 +153,9 @@ function RecipeBookContent({recipes, initialCategory, label}) {
                 );
               })}
             </div>
-            {entries.length === 0 && <span className={styles.empty}>没有匹配的配方</span>}
+            {entries.length === 0 && <span className={styles.empty}>{translate({id: 'minecraftRecipe.book.empty', message: 'No matching recipes'})}</span>}
             {expandedGroup && (
-              <div ref={overlayRef} className={styles.variants} role="group" aria-label={`${expandedGroup[0].group} 中的配方`} style={{
+              <div ref={overlayRef} className={styles.variants} role="group" aria-label={translate({id: 'minecraftRecipe.book.variantsLabel', message: 'Recipes in {group}'}, {group: expandedGroup[0].group})} style={{
                 '--variant-columns': columns,
                 left: `calc(${Math.min(11 + expandedIndex % 5 * 25, 144 - (columns * 25 + 8))}px * var(--book-scale))`,
                 top: `calc(${31 + Math.floor(expandedIndex / 5) * 25}px * var(--book-scale))`,
@@ -168,7 +169,7 @@ function RecipeBookContent({recipes, initialCategory, label}) {
                       key={recipe.id}
                       type="button"
                       className={styles.variantButton}
-                      aria-label={`选择${recipe.result.name}配方`}
+                      aria-label={translate({id: 'minecraftRecipe.book.selectRecipe', message: 'Select {item} recipe'}, {item: recipe.result.name})}
                       aria-pressed={recipe === active}
                       title={recipe.result.name}
                       onClick={() => {setSelectedId(recipe.id); setOpenGroup(null); triggerRef.current.focus();}}
@@ -184,17 +185,17 @@ function RecipeBookContent({recipes, initialCategory, label}) {
                 </div>
               </div>
             )}
-            <span className={styles.total}>{entries.length} 个配方格</span>
+            <span className={styles.total}>{translate({id: 'minecraftRecipe.book.total', message: 'Recipe slots: {count}'}, {count: entries.length})}</span>
           </div>
-          <div className={styles.tabs} role="group" aria-label="配方分类">
+          <div className={styles.tabs} role="group" aria-label={translate({id: 'minecraftRecipe.book.categories', message: 'Recipe categories'})}>
             {CATEGORIES.map(tab => (
               <button
                 key={tab.id}
                 type="button"
                 className={`${styles.tab} ${category === tab.id ? styles.activeTab : ''}`}
-                aria-label={`${tab.name}（${tab.id}）`}
+                aria-label={translate({id: 'minecraftRecipe.book.categoryLabel', message: '{name} ({id})'}, {name: tab.name, id: tab.id})}
                 aria-pressed={category === tab.id}
-                title={`${tab.name}（${tab.id}）`}
+                title={translate({id: 'minecraftRecipe.book.categoryLabel', message: '{name} ({id})'}, {name: tab.name, id: tab.id})}
                 onClick={() => {setCategory(tab.id); setSelectedId(null); setOpenGroup(null);}}
               >
                 {tab.icons.map((name, index) => <img key={name} className="no-zoom" src={`${base}item/${name}.png`} alt="" draggable={false} style={{left: `calc(${tab.icons.length === 1 ? 9 : 3 + index * 11}px * var(--book-scale))`}} />)}
@@ -206,7 +207,7 @@ function RecipeBookContent({recipes, initialCategory, label}) {
           {active && <>
             <MinecraftWindow
               type="crafting"
-              title="合成"
+              title={translate({id: 'minecraftRecipe.title.crafting', message: 'Crafting'})}
               layout={[...active.pattern, '`recipe:result`']}
               items={{...active.ingredients, 'recipe:result': active.result}}
               empty={[' ']}
@@ -214,7 +215,7 @@ function RecipeBookContent({recipes, initialCategory, label}) {
             <div className={styles.details}>
               <strong>{active.result.name}</strong>
               <span>category: <code>{active.category}</code></span>
-              <span>group: <code>{active.group || '未设置'}</code></span>
+              <span>group: <code>{active.group || translate({id: 'minecraftRecipe.book.ungrouped', message: 'Not set'})}</code></span>
             </div>
           </>}
         </div>

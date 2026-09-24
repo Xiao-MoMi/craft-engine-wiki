@@ -1,9 +1,15 @@
 import React from 'react';
+import {translate} from '@docusaurus/Translate';
 import MinecraftWindow from './MinecraftWindow';
 import McSprite from './McSprite';
 import styles from './MinecraftRecipe.module.css';
 
-const TITLES = {crafting: '合成', furnace: '熔炉', smithing: '升级装备', stonecutter: '切石机'};
+const TITLES = {
+  crafting: translate({id: 'minecraftRecipe.title.crafting', message: 'Crafting'}),
+  furnace: translate({id: 'minecraftRecipe.title.furnace', message: 'Furnace'}),
+  smithing: translate({id: 'minecraftRecipe.title.smithing', message: 'Upgrade Gear'}),
+  stonecutter: translate({id: 'minecraftRecipe.title.stonecutter', message: 'Stonecutter'}),
+};
 
 export function MinecraftRecipeRow({children}) {
   return <div className={styles.row}>{children}</div>;
@@ -17,13 +23,13 @@ export function MinecraftBrewingRecipe({ingredient, container, result}) {
         <figure key={String(finished)} className={styles.recipe}>
           <MinecraftWindow
             type="brewing"
-            title="酿造台"
+            title={translate({id: 'minecraftRecipe.title.brewing', message: 'Brewing Stand'})}
             layout={[finished ? 'CCC F' : 'CCCIF']}
             empty={[' ']}
             items={{
               C: finished ? result : container,
               I: ingredient,
-              F: {icon: 'blaze_powder', name: '烈焰粉', id: 'minecraft:blaze_powder'},
+              F: {icon: 'blaze_powder', name: translate({id: 'minecraftRecipe.item.blazePowder', message: 'Blaze Powder'}), id: 'minecraft:blaze_powder'},
             }}
           >
             <McSprite name="brewing_stand/fuel_length" x={60} y={44} width={18} height={4} />
@@ -32,7 +38,7 @@ export function MinecraftBrewingRecipe({ingredient, container, result}) {
               <McSprite name="brewing_stand/bubbles" x={63} y={14} width={12} height={29} clip="inset(35% 0 0 0)" />
             </>}
           </MinecraftWindow>
-          <figcaption className={styles.caption}>{finished ? '酿造完成' : '酿造中'}</figcaption>
+          <figcaption className={styles.caption}>{finished ? translate({id: 'minecraftRecipe.brewing.finished', message: 'Brewing Complete'}) : translate({id: 'minecraftRecipe.brewing.progress', message: 'Brewing'})}</figcaption>
         </figure>
       ))}
     </MinecraftRecipeRow>

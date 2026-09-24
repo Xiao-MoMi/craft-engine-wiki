@@ -17,7 +17,7 @@ blocks:
     settings:
       hardness: 0.5
       resistance: 0.5
-      push_reaction: NORMAL
+      push_reaction: PUSH_PULL
       map_color: 36
       burnable: false
       fire_spread_chance: 0
@@ -77,16 +77,20 @@ resistance: 0.5
 
 ### 活塞推动行为
 
-决定方块在受到活塞推动时的反应。请注意，由于客户端视觉同步问题，某些反应可能与某些方块类型不兼容。这个问题将在未来版本中得到修复。（默认值：NORMAL）
+决定方块在受到活塞作用时的反应，默认值为 `PUSH_PULL`。名称与 Minecraft 26.3 一致，在旧版服务端上会映射到对应的原版行为。已有配置仍可使用旧名称。
 
-* NORMAL     可推动，可拉动
-* DESTROY    被推动破坏，不可拉动
-* BLOCK      不可推动，不可拉动
-* IGNORE     似乎像 PUSH_ONLY 一样工作，但可以粘附在粘性方块上
-* PUSH\_ONLY 可推动，不可拉动
+| 当前名称 | 旧名称 |
+| --- | --- |
+| `PUSH_PULL` | `NORMAL` |
+| `PUSH` | `PUSH_ONLY` |
+| `POPPED` | `DESTROY` |
+| `IMMOVEABLE` | `BLOCK` |
+| `IGNORE_ENTITY` | `IGNORE` |
+
+`PUSH_PULL` 可推可拉，`PUSH` 只可推动，`POPPED` 被推动时破坏，`IMMOVEABLE` 不可移动。`IGNORE_ENTITY` 对应原版此前的 `IGNORE` 行为。
 
 ```yaml
-push_reaction: NORMAL
+push_reaction: PUSH_PULL
 ```
 
 ### 地图颜色

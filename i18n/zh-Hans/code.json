@@ -462,5 +462,182 @@
   "theme.sidebarToolbar.color.green": {
     "message": "绿色",
     "description": "主题颜色选择器中绿色选项的标签"
+  },
+  "minecraftRecipe.item.palmPlanks": {
+    "message": "棕榈木板"
+  },
+  "minecraftRecipe.item.oakPlanks": {
+    "message": "橡木木板"
+  },
+  "minecraftRecipe.item.palmLog": {
+    "message": "棕榈原木"
+  },
+  "minecraftRecipe.item.strippedPalmLog": {
+    "message": "去皮棕榈原木"
+  },
+  "minecraftRecipe.item.stick": {
+    "message": "木棒"
+  },
+  "minecraftRecipe.item.chest": {
+    "message": "箱子"
+  },
+  "minecraftRecipe.item.woodenPickaxe": {
+    "message": "木镐"
+  },
+  "minecraftRecipe.item.diamondSword": {
+    "message": "钻石剑"
+  },
+  "minecraftRecipe.item.paper": {
+    "message": "纸"
+  },
+  "minecraftRecipe.item.topaz": {
+    "message": "黄玉"
+  },
+  "minecraftRecipe.item.topazSword": {
+    "message": "黄玉剑"
+  },
+  "minecraftRecipe.item.topazShovel": {
+    "message": "黄玉锹"
+  },
+  "minecraftRecipe.item.topazCrossbow": {
+    "message": "黄玉弩"
+  },
+  "minecraftRecipe.item.topazBow": {
+    "message": "黄玉弓"
+  },
+  "minecraftRecipe.item.topazPickaxe": {
+    "message": "黄玉镐"
+  },
+  "minecraftRecipe.item.topazOre": {
+    "message": "黄玉矿石"
+  },
+  "minecraftRecipe.item.deepslateTopazOre": {
+    "message": "深层黄玉矿石"
+  },
+  "minecraftRecipe.item.chineseLantern": {
+    "message": "灯笼"
+  },
+  "minecraftRecipe.item.torch": {
+    "message": "火把"
+  },
+  "minecraftRecipe.item.cobblestone": {
+    "message": "圆石"
+  },
+  "minecraftRecipe.item.enchantedCobblestone": {
+    "message": "附魔圆石"
+  },
+  "minecraftRecipe.item.crossbow": {
+    "message": "弩"
+  },
+  "minecraftRecipe.item.bow": {
+    "message": "弓"
+  },
+  "minecraftRecipe.item.blazeRod": {
+    "message": "烈焰棒"
+  },
+  "minecraftRecipe.item.stone": {
+    "message": "石头"
+  },
+  "minecraftRecipe.item.boltTemplate": {
+    "message": "锻造模板"
+  },
+  "minecraftRecipe.item.goldIngot": {
+    "message": "金锭"
+  },
+  "minecraftRecipe.item.oakLog": {
+    "message": "橡木原木"
+  },
+  "minecraftRecipe.item.wheat": {
+    "message": "小麦"
+  },
+  "minecraftRecipe.item.bread": {
+    "message": "面包"
+  },
+  "minecraftRecipe.item.redstone": {
+    "message": "红石粉"
+  },
+  "minecraftRecipe.item.redstoneTorch": {
+    "message": "红石火把"
+  },
+  "minecraftRecipe.item.boltTrim": {
+    "message": "镶铆盔甲纹饰"
+  },
+  "minecraftRecipe.title.crafting": {
+    "message": "合成"
+  },
+  "minecraftRecipe.title.furnace": {
+    "message": "熔炉"
+  },
+  "minecraftRecipe.title.smithing": {
+    "message": "升级装备"
+  },
+  "minecraftRecipe.title.stonecutter": {
+    "message": "切石机"
+  },
+  "minecraftRecipe.title.brewing": {
+    "message": "酿造台"
+  },
+  "minecraftRecipe.item.blazePowder": {
+    "message": "烈焰粉"
+  },
+  "minecraftRecipe.brewing.finished": {
+    "message": "酿造完成"
+  },
+  "minecraftRecipe.brewing.progress": {
+    "message": "酿造中"
+  },
+  "minecraftRecipe.category.all": {
+    "message": "全部"
+  },
+  "minecraftRecipe.category.equipment": {
+    "message": "装备"
+  },
+  "minecraftRecipe.category.building": {
+    "message": "建筑"
+  },
+  "minecraftRecipe.category.misc": {
+    "message": "杂项"
+  },
+  "minecraftRecipe.category.redstone": {
+    "message": "红石"
+  },
+  "minecraftRecipe.book.label": {
+    "message": "配方书"
+  },
+  "minecraftRecipe.book.searchLabel": {
+    "message": "{label}搜索配方"
+  },
+  "minecraftRecipe.book.groupLabel": {
+    "message": "{group} 分组，{count} 个配方"
+  },
+  "minecraftRecipe.book.groupHint": {
+    "message": "{item}\n右键查看更多配方"
+  },
+  "minecraftRecipe.book.variantsLabel": {
+    "message": "{group} 中的配方"
+  },
+  "minecraftRecipe.book.selectRecipe": {
+    "message": "选择{item}配方"
+  },
+  "minecraftRecipe.book.ungrouped": {
+    "message": "未设置"
+  },
+  "minecraftRecipe.book.search": {
+    "message": "搜索…"
+  },
+  "minecraftRecipe.book.groups": {
+    "message": "配方分组"
+  },
+  "minecraftRecipe.book.categories": {
+    "message": "配方分类"
+  },
+  "minecraftRecipe.book.empty": {
+    "message": "没有匹配的配方"
+  },
+  "minecraftRecipe.book.total": {
+    "message": "{count} 个配方格"
+  },
+  "minecraftRecipe.book.categoryLabel": {
+    "message": "{name}（{id}）"
   }
 }

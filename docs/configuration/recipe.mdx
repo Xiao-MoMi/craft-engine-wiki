@@ -4,6 +4,10 @@ id: recipe
 ---
 
 import Highlight from '@site/src/components/Highlight';
+import MinecraftRecipe, {MinecraftRecipeRow, MinecraftBrewingRecipe} from '@site/src/components/MinecraftRecipe';
+import McSprite from '@site/src/components/McSprite';
+import {recipeItems as items, recipeBookRecipes} from '@site/src/components/minecraftRecipeItems';
+import MinecraftRecipeBook from '@site/src/components/MinecraftRecipeBook';
 
 ## Preparation
 
@@ -34,15 +38,28 @@ items:
       item_name: "<!i>Palm Planks"
 ```
 
-<div style={{textAlign: 'center'}}>
-  <img src={require('/img/recipe_1.png').default} alt="" />
-  <p style={{fontSize: '0.9em', color: '#666', marginTop: '0.5em'}}>#minecraft:planks</p>
-</div>
+<MinecraftRecipeRow>
+<MinecraftRecipe
+  pattern={['PPP', 'P O', 'POO']}
+  ingredients={{
+    P: {...items.palmPlanks, tags: ['minecraft:planks']},
+    O: {...items.oakPlanks, tags: ['minecraft:planks']},
+  }}
+  result={items.chest}
+  caption={<code>#minecraft:planks</code>}
+/>
 
-<div style={{textAlign: 'center'}}>
-  <img src={require('/img/recipe_2.png').default} alt="" />
-  <p style={{fontSize: '0.9em', color: '#666', marginTop: '0.5em'}}>#minecraft:wooden_tool_materials</p>
-</div>
+<MinecraftRecipe
+  pattern={['PPO', ' S ', ' S ']}
+  ingredients={{
+    P: {...items.palmPlanks, tags: ['minecraft:wooden_tool_materials']},
+    O: {...items.oakPlanks, tags: ['minecraft:wooden_tool_materials']},
+    S: items.stick,
+  }}
+  result={items.woodenPickaxe}
+  caption={<code>#minecraft:wooden_tool_materials</code>}
+/>
+</MinecraftRecipeRow>
 
 ### Predicate
 
@@ -65,9 +82,14 @@ recipes:
       count: 1
 ```
 
-<div style={{textAlign: 'center'}}>
-  <img src={require('/img/recipe_15.png').default} alt="" />
-</div>
+<MinecraftRecipe
+  pattern={['SP ', '   ', '   ']}
+  ingredients={{
+    S: items.diamondSword,
+    P: {...items.paper, enchanted: true, lore: [{text: 'Requires Sharpness V', color: '#ffaa00'}]},
+  }}
+  result={items.topazSword}
+/>
 
 Available predicate types:
 
@@ -106,17 +128,15 @@ recipes:
 
 The `group` determines which group this recipe belongs to after it is unlocked on the client side. The `group` can be any name you choose freely. However, please avoid using illegal characters.
 
-<div style={{textAlign: 'center'}}>
-  <img src={require('/img/recipe_3.png').default} alt="" />
-  <p style={{fontSize: '0.9em', color: '#666', marginTop: '0.5em'}}>group</p>
-</div>
+Recipes with the same `group` in the same category share a recipe slot, which cycles through their results. The Palm Planks and Oak Planks below both belong to `planks`. Left-click to select the currently displayed recipe, or right-click to expand the ingredient layouts and choose a recipe to preview. On a touchscreen, tap to expand. With the recipe slot focused, press ↓ to expand or Esc to close.
+
+<MinecraftRecipeBook recipes={recipeBookRecipes} initialCategory="building" label="Recipe grouping example" />
 
 The `category` determines which tab this recipe is located in within the recipe book. The `category` type is limited.
 
-<div style={{textAlign: 'center'}}>
-  <img src={require('/img/recipe_4.png').default} alt="" />
-  <p style={{fontSize: '0.9em', color: '#666', marginTop: '0.5em'}}>category</p>
-</div>
+Click the tabs on the left to browse building blocks, equipment, miscellaneous items, and redstone recipes. Selecting a recipe shows its `category` and `group` below the preview.
+
+<MinecraftRecipeBook recipes={recipeBookRecipes} label="Recipe category example" />
 
 * For cooking-type recipes, the options are `food`, `blocks`, and `misc`.
 * For crafting-type recipes, the options are `building`, `redstone`, `equipment`, and `misc`.
@@ -339,9 +359,11 @@ recipes:
       count: 1
 ```
 
-<div style={{textAlign: 'center'}}>
-  <img src={require('/img/recipe_5.png').default} alt="" />
-</div>
+<MinecraftRecipe
+  pattern={[' T ', ' S ', ' S ']}
+  ingredients={{T: items.topaz, S: items.stick}}
+  result={items.topazShovel}
+/>
 
 ```yaml
 recipes:
@@ -360,9 +382,16 @@ recipes:
       count: 1
 ```
 
-<div style={{textAlign: 'center'}}>
-  <img src={require('/img/recipe_6.png').default} alt="" />
-</div>
+<MinecraftRecipe
+  pattern={['PSO', 'STS', 'OSP']}
+  ingredients={{
+    P: {...items.palmPlanks, tags: ['minecraft:planks']},
+    O: {...items.oakPlanks, tags: ['minecraft:planks']},
+    S: items.stick,
+    T: items.torch,
+  }}
+  result={items.chineseLantern}
+/>
 
 ```yaml
 recipes:
@@ -381,9 +410,11 @@ recipes:
       count: 1
 ```
 
-<div style={{textAlign: 'center'}}>
-  <img src={require('/img/recipe_13.png').default} alt="" />
-</div>
+<MinecraftRecipe
+  pattern={[' C ', 'CCC', ' C ']}
+  ingredients={{C: {...items.cobblestone, count: 32}}}
+  result={items.enchantedCobblestone}
+/>
 
 ### Shaped Transform Recipe
 
@@ -408,9 +439,14 @@ default:topaz_crossbow_transform:
         - enchantments
 ```
 
-<div style={{textAlign: 'center'}}>
-  <img src={require('/img/shaped_transform.png').default} alt="" />
-</div>
+<MinecraftRecipe
+  pattern={['TTT', 'T  ', 'C  ']}
+  ingredients={{
+    T: items.topaz,
+    C: {...items.crossbow, enchanted: true},
+  }}
+  result={{...items.topazCrossbow, enchanted: true, lore: [{text: 'Keeps the source item’s enchantments', color: '#ffaa00'}]}}
+/>
 
 ### Shapeless Crafting Recipe
 
@@ -430,12 +466,28 @@ recipes:
       count: 4
 ```
 
-<div style={{textAlign: 'center'}}>
-  <img src={require('/img/recipe_7.png').default} alt="" />
-</div>
-<div style={{textAlign: 'center'}}>
-  <img src={require('/img/recipe_8.png').default} alt="" />
-</div>
+<MinecraftRecipeRow>
+<MinecraftRecipe
+  pattern={['LX ', '   ', '   ']}
+  ingredients={{
+    L: {...items.palmLog, tags: ['default:palm_logs']},
+    X: {icon: 'paper', name: 'Test Ingredient 1', id: 'test:ingredient1', lore: [{text: 'Illustrative icon', color: '#ffaa00'}]},
+  }}
+  result={{...items.palmPlanks, count: 4}}
+  caption="Ingredient choice 1"
+/>
+<MinecraftRecipe
+  pattern={['   ', ' X ', '  L']}
+  ingredients={{
+    L: {...items.strippedPalmLog, tags: ['default:palm_logs']},
+    X: {icon: 'paper', name: 'Test Ingredient 2', id: 'test:ingredient2', lore: [{text: 'Illustrative icon', color: '#ffaa00'}]},
+  }}
+  result={{...items.palmPlanks, count: 4}}
+  caption="Ingredient choice 2"
+/>
+</MinecraftRecipeRow>
+
+Ingredients can go in any slot. Choose either item from the nested list for the second ingredient; the paper icons stand in for the test items.
 
 ```yaml
 recipes:
@@ -457,9 +509,11 @@ recipes:
       count: 1
 ```
 
-<div style={{textAlign: 'center'}}>
-  <img src={require('/img/recipe_14.png').default} alt="" />
-</div>
+<MinecraftRecipe
+  pattern={['CCC', 'CC ', '   ']}
+  ingredients={{C: {...items.cobblestone, count: 32}}}
+  result={items.enchantedCobblestone}
+/>
 
 ### Shapeless Transform Recipe
 
@@ -483,6 +537,15 @@ recipes:
         components:
           - enchantments
 ```
+
+<MinecraftRecipe
+  pattern={['ST ', '   ', '   ']}
+  ingredients={{
+    S: items.diamondSword,
+    T: items.topaz,
+  }}
+  result={{...items.topazSword, lore: [{text: 'Keeps the source item’s enchantments', color: '#ffaa00'}]}}
+/>
 
 ### Cooking Recipe
 
@@ -512,9 +575,28 @@ recipes:
       count: 1
 ```
 
-<div style={{textAlign: 'center'}}>
-  <img src={require('/img/recipe_9.png').default} alt="" />
-</div>
+<MinecraftRecipeRow>
+<MinecraftRecipe
+  type="furnace"
+  pattern={['OF']}
+  ingredients={{O: items.topazOre, F: items.blazeRod}}
+  result={items.topaz}
+  caption="Topaz Ore · 200 ticks · 1.0 XP"
+>
+  <McSprite name="furnace/lit_progress" x={56} y={36} width={14} height={14} />
+  <McSprite name="furnace/burn_progress" x={79} y={34} width={24} height={16} />
+</MinecraftRecipe>
+<MinecraftRecipe
+  type="furnace"
+  pattern={['OF']}
+  ingredients={{O: items.deepslateTopazOre, F: items.blazeRod}}
+  result={items.topaz}
+  caption="Deepslate Topaz Ore · 200 ticks · 1.0 XP"
+>
+  <McSprite name="furnace/lit_progress" x={56} y={36} width={14} height={14} />
+  <McSprite name="furnace/burn_progress" x={79} y={34} width={24} height={16} />
+</MinecraftRecipe>
+</MinecraftRecipeRow>
 
 ### Stone Cutting Recipe
 
@@ -535,6 +617,13 @@ Stone Cutting Recipe is a somewhat unique recipe type. I do not recommend using 
 
 :::
 
+<MinecraftRecipe
+  type="stonecutter"
+  pattern={['ST']}
+  ingredients={{S: items.stone, T: items.topaz}}
+  result={items.topaz}
+/>
+
 ### Smithing Transform Recipe
 
 ```yaml
@@ -552,9 +641,12 @@ default:topaz_bow:
   transform_processors: []
 ```
 
-<div style={{textAlign: 'center'}}>
-  <img src={require('/img/recipe_10.png').default} alt="" />
-</div>
+<MinecraftRecipe
+  type="smithing"
+  pattern={['TBT']}
+  ingredients={{T: items.topaz, B: items.bow}}
+  result={items.topazBow}
+/>
 
 ### Smithing Trim Recipe
 
@@ -567,9 +659,16 @@ default:bolt_tool_trims:
   pattern: minecraft:bolt # required on 1.21.5+
 ```
 
-<div style={{textAlign: 'center'}}>
-  <img src={require('/img/recipe_11.png').default} alt="" />
-</div>
+<MinecraftRecipe
+  type="smithing"
+  pattern={['TPG']}
+  ingredients={{
+    T: items.boltTemplate,
+    P: {...items.topazPickaxe, tags: ['minecraft:trimmable_tool']},
+    G: {...items.goldIngot, tags: ['minecraft:trim_materials']},
+  }}
+  result={{...items.topazPickaxe, lore: [{text: 'Bolt Armor Trim', color: '#ffaa00'}, {text: 'Material: Gold', color: '#ffaa00'}]}}
+/>
 
 ### Brewing Recipe
 
@@ -584,6 +683,10 @@ tea_art:tea:
     id: tea_art:cup_of_tea
     count: 1
 ```
-<div style={{textAlign: 'center'}}>
-  <img src={require('/img/recipe_12.png').default} alt="" />
-</div>
+<MinecraftBrewingRecipe
+  ingredient={{icon: 'oak_leaves', name: 'Tea Leaves', id: 'tea_art:tea_leaf'}}
+  container={{icon: 'glass_bottle', name: 'Tea Cup', id: 'tea_art:cup'}}
+  result={{icon: 'water_bottle', name: 'Cup of Tea', id: 'tea_art:cup_of_tea'}}
+/>
+
+Vanilla leaves, glass bottles, and water bottles represent the tea leaves, tea cup, and brewed tea here. Their actual appearance depends on your resource pack.

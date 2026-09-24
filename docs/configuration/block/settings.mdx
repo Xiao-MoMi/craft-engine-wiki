@@ -19,7 +19,7 @@ blocks:
     settings:
       hardness: 0.5
       resistance: 0.5
-      push_reaction: NORMAL
+      push_reaction: PUSH_PULL
       map_color: 36
       burnable: false
       fire_spread_chance: 0
@@ -77,16 +77,20 @@ resistance: 0.5
 
 ### push_reaction
 
-Determines how the block reacts to piston pushes. Please note that some reactions may not work well with certain block types due to client visual sync issues. This problem will be fixed in future versions. (Default: NORMAL)
+Determines how the block reacts to pistons. Default: `PUSH_PULL`. Names follow Minecraft 26.3 and are mapped to the corresponding native behavior on older servers. Legacy names remain accepted for existing configurations.
 
-* NORMAL   Pistons can push and pull this block normally.
-* DESTROY   Blocks pushed by pistons are destroyed instantly.
-* BLOCK   Pistons cannot move this block.
-* IGNORE  Seems to behave like PUSH\_ONLY but can stick to sticky blocks
-* PUSH\_ONLY   Blocks can be pushed by pistons, but cannot be retracted. Do not stick to sticky blocks.
+| Current name | Legacy name |
+| --- | --- |
+| `PUSH_PULL` | `NORMAL` |
+| `PUSH` | `PUSH_ONLY` |
+| `POPPED` | `DESTROY` |
+| `IMMOVEABLE` | `BLOCK` |
+| `IGNORE_ENTITY` | `IGNORE` |
+
+`PUSH_PULL` allows pushing and pulling, `PUSH` allows pushing only, `POPPED` breaks when pushed, and `IMMOVEABLE` prevents movement. `IGNORE_ENTITY` corresponds to vanilla's former `IGNORE` reaction.
 
 ```yaml
-push_reaction: NORMAL
+push_reaction: PUSH_PULL
 ```
 
 ### map_color
