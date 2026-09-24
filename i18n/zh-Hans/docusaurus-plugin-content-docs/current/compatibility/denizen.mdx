@@ -507,14 +507,16 @@ CraftEngine 的 ID（如 `default:wooden_chair`）可以直接写入事件行和
   type="Command"
   description="在世界中放置 CraftEngine 自定义方块。方块用 id 指定，可带方块状态属性。支持 ~waitable"
   syntax={[
-    'placeceblock [<location>|.../<ellipsoid>/<cuboid>] [<craftengine_block>|...] (no_physics) (<percent chance>|...)'
+    'placeceblock [<location>|.../<ellipsoid>/<cuboid>] [<craftengine_block>|...] (no_physics) (<percent chance>|...) (silent)'
   ]}
   values={[
     'no_physics - 放置时不让物理更新影响被修改的方块',
+    'silent - 不播放放置音效，省略时仍播放。可与 no_physics 和百分比概率同时使用',
     '(<percent chance>|...) - 每个位置按顺序掷骰，直到某个方块命中为止；全部未命中则该位置保持不变。"50|50" 表示 50% 第一种、25% 第二种、25% 不变'
   ]}
   examples={[
     `- placeceblock <player.cursor_on> default:sugar_block`,
+    `- placeceblock <player.cursor_on> default:sugar_block silent`,
     `- ~placeceblock <player.cursor_on> default:togglable_light_block[light=15] no_physics`,
     `- placeceblock <player.location.to_cuboid[<player.cursor_on>]> default:sugar_block|default:cloud_block 50|50`
   ]}

@@ -389,14 +389,16 @@ CraftEngine ids (like `default:wooden_chair`) can be used directly in event line
   type="Command"
   description="Places CraftEngine custom blocks in the world. Blocks are specified as CraftEngine block ids, optionally with block state properties. ~waitable"
   syntax={[
-    'placeceblock [<location>|.../<ellipsoid>/<cuboid>] [<craftengine_block>|...] (no_physics) (<percent chance>|...)'
+    'placeceblock [<location>|.../<ellipsoid>/<cuboid>] [<craftengine_block>|...] (no_physics) (<percent chance>|...) (silent)'
   ]}
   values={[
     'no_physics - place without physics taking over the modified blocks',
+    'silent - skip placement sounds; sounds play by default. Can be combined with no_physics and percentage chances',
     '(<percent chance>|...) - chances are rolled in order per location until one succeeds; if no roll succeeds, the location is left unchanged. "50|50" means 50% the first block, 25% the second, 25% unchanged'
   ]}
   examples={[
     `- placeceblock <player.cursor_on> default:sugar_block`,
+    `- placeceblock <player.cursor_on> default:sugar_block silent`,
     `- ~placeceblock <player.cursor_on> default:togglable_light_block[light=15] no_physics`,
     `- placeceblock <player.location.to_cuboid[<player.cursor_on>]> default:sugar_block|default:cloud_block 50|50`
   ]}
