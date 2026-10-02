@@ -169,9 +169,13 @@ const sidebars: SidebarsConfig = {
           ]
         },
         {
-          type: 'doc',
-          id: "getting_start/workflows",
+          type: 'category',
           label: '⚙️ Workflows',
+          collapsed: true,
+          link: {type: 'doc', id: 'getting_start/workflows'},
+          items: [
+            {type: 'doc', id: 'getting_start/workflows/multi_pack', label: 'Multiple Packs'},
+          ],
         },
         {
           type: 'doc',

@@ -1,0 +1,110 @@
+---
+title: Multiple Packs
+id: multi_pack
+---
+
+Keep frequently updated CraftEngine content in a main pack and offer a fixed optional pack alongside it. Players can load both packs together, with dependencies and conflicts controlling which combinations are allowed.
+
+## Main pack and optional pack
+
+Place the fixed resource pack at `plugins/CraftEngine/optional_packs/optional.zip`, with a valid `pack.mcmeta` at the ZIP root. Keep it outside the content used by `generate` so it is not also included in the main pack.
+
+Use the following `packs`, `workflows`, and `presets` sections. Keep your existing [self-host settings](../set_up_host/self); both packs share that HTTP server. All paths below are relative to `plugins/CraftEngine`.
+
+```yaml
+resource-pack:
+  packs:
+    default:
+      type: self
+      default: true # Enabled by default when the player has no saved preference for this pack
+      storage_path: ./cache/hosted/default/resource_pack.zip
+    optional:
+      type: self
+      default: false
+      dependencies: [default]
+      conflicts: []
+      storage_path: ./cache/hosted/optional/resource_pack.zip
+
+  workflows:
+    default:
+      trigger: reload_pack
+      steps:
+        - type: generate
+        - type: validate
+        - type: zip
+          path: ./generated/resource_pack.zip
+        - type: upload
+          pack: default
+          path: ./generated/resource_pack.zip
+        - type: send_pack
+          pack: default
+
+    publish_optional:
+      steps:
+        - type: upload
+          pack: optional
+          path: ./optional_packs/optional.zip
+        - type: send_pack
+          pack: optional
+
+  presets:
+    basic: [default]
+    full: [default, optional]
+```
+
+The main pack is enabled by default. The optional pack starts disabled and requires the main pack. `publish_optional` has no `trigger`, so it runs only when invoked manually.
+
+After editing the configuration, run `/ce reload host` to apply pack definitions and selection rules, and `/ce reload` to load workflows and presets.
+
+## Publish once
+
+Run the following command to publish the optional pack:
+
+```text
+/ce workflow publish_optional
+```
+
+This uploads the prepared ZIP and resends packs to online players who have the optional pack enabled. As long as its content stays unchanged, there is no need to rerun this workflow.
+
+## Player selection
+
+Give players `ce.resourcepack.pack.optional` to use:
+
+```text
+/pack enable optional
+```
+
+This enables both `optional` and its dependency `default`, even if the player previously disabled the main pack. The preferences are saved for later connections.
+
+To return to the main pack alone:
+
+```text
+/pack disable optional
+```
+
+Disabling the optional pack leaves the main pack enabled. Disabling `default` also disables `optional`, because the optional pack cannot be loaded on its own.
+
+## Conflicting packs
+
+For two alternative optional packs, declare a conflict between them. This example replaces the `packs` section above; keep the workflows and publish each optional pack's ZIP to its corresponding host before use.
+
+```yaml
+resource-pack:
+  packs:
+    default:
+      type: self
+      default: true
+    optional:
+      type: self
+      default: false
+      dependencies: [default]
+      conflicts: [alternative]
+    alternative:
+      type: self
+      default: false
+      dependencies: [default]
+```
+
+Enabling `optional` disables `alternative`; enabling `alternative` disables `optional`. Both require `default`, so the main pack stays enabled when switching.
+
+If a disabled conflicting pack has dependents, those are disabled too. Turning off a pack does not automatically turn off its dependencies.

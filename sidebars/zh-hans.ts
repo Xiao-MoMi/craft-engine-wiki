@@ -169,9 +169,13 @@ const sidebars: SidebarsConfig = {
           ]
         },
         {
-          type: 'doc',
-          id: "getting_start/workflows",
+          type: 'category',
           label: '⚙️ 工作流',
+          collapsed: true,
+          link: {type: 'doc', id: 'getting_start/workflows'},
+          items: [
+            {type: 'doc', id: 'getting_start/workflows/multi_pack', label: '多包'},
+          ],
         },
         {
           type: 'doc',

@@ -1,0 +1,110 @@
+---
+title: 多包
+id: multi_pack
+---
+
+将经常更新的 CraftEngine 内容放在主包中，再提供一个内容固定的可选资源包。玩家可以同时加载两个包，并通过依赖和冲突规则控制允许使用的组合。
+
+## 主包与可选包
+
+将固定资源包放在 `plugins/CraftEngine/optional_packs/optional.zip`，确保 ZIP 根目录包含有效的 `pack.mcmeta`。不要将它放进 `generate` 使用的内容目录，以免主包也包含同一份资源。
+
+使用下面的 `packs`、`workflows` 和 `presets` 配置。保留原有的 [self-host 设置](../set_up_host/self)，两个包共用同一个 HTTP 服务器。下面所有路径均相对于 `plugins/CraftEngine`。
+
+```yaml
+resource-pack:
+  packs:
+    default:
+      type: self
+      default: true # 玩家未保存该包的偏好时，默认启用该包
+      storage_path: ./cache/hosted/default/resource_pack.zip
+    optional:
+      type: self
+      default: false
+      dependencies: [default]
+      conflicts: []
+      storage_path: ./cache/hosted/optional/resource_pack.zip
+
+  workflows:
+    default:
+      trigger: reload_pack
+      steps:
+        - type: generate
+        - type: validate
+        - type: zip
+          path: ./generated/resource_pack.zip
+        - type: upload
+          pack: default
+          path: ./generated/resource_pack.zip
+        - type: send_pack
+          pack: default
+
+    publish_optional:
+      steps:
+        - type: upload
+          pack: optional
+          path: ./optional_packs/optional.zip
+        - type: send_pack
+          pack: optional
+
+  presets:
+    basic: [default]
+    full: [default, optional]
+```
+
+主包默认启用，可选包默认关闭，并依赖主包。`publish_optional` 没有配置 `trigger`，因此只会在手动调用时执行。
+
+修改配置后，执行 `/ce reload host` 应用包定义及选择规则，再执行 `/ce reload` 加载工作流和预设。
+
+## 首次发布
+
+执行以下命令发布可选包：
+
+```text
+/ce workflow publish_optional
+```
+
+该命令上传准备好的 ZIP，并向已启用可选包的在线玩家重新发送资源包。只要可选包的内容不变，就无需再次执行该工作流。
+
+## 玩家选择
+
+给予玩家 `ce.resourcepack.pack.optional` 权限后，玩家可以执行：
+
+```text
+/pack enable optional
+```
+
+该命令会同时启用 `optional` 和它依赖的 `default`，即使玩家之前关闭过主包。选择会保存并在后续进服时继续生效。
+
+只想保留主包时，执行：
+
+```text
+/pack disable optional
+```
+
+关闭可选包后，主包仍保持启用。关闭 `default` 则会同时关闭 `optional`，因为可选包不能独立加载。
+
+## 冲突包
+
+如果两个可选包只能二选一，可以为它们声明冲突。下面的示例替换上方的 `packs` 部分；保留工作流，并在使用前将每个可选包的 ZIP 发布到对应的托管目标。
+
+```yaml
+resource-pack:
+  packs:
+    default:
+      type: self
+      default: true
+    optional:
+      type: self
+      default: false
+      dependencies: [default]
+      conflicts: [alternative]
+    alternative:
+      type: self
+      default: false
+      dependencies: [default]
+```
+
+启用 `optional` 会关闭 `alternative`；启用 `alternative` 也会关闭 `optional`。两者都依赖 `default`，因此切换时主包保持启用。
+
+如果被关闭的冲突包还有上层依赖包，这些包也会一起关闭。关闭一个包不会自动关闭它的依赖。
