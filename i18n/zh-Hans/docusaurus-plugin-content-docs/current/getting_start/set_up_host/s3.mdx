@@ -26,8 +26,8 @@ resource-pack:
       path_style: false # 选择端点访问风格，启用使用 Path 风格，不启用使用 Virtual Hosted 风格，默认为 false
       region: "auto" # 若 auto 无法使用才需要填写对应的区域，默认为 auto
       upload_path: "server_resource_pack.zip" # 上传资源包路径，默认为 craftengine/resource_pack.zip
-      disable_calculate_sha256: false # 是否在上传前不计算 sha256 启用后可以节约一次计算开销但是不一定全部的服务提供商都支持，默认为 false
-      validity: 10 # 预签名链接的有效期（秒），默认为 10；请确保服务器时钟准确
+      disable_calculate_sha256: false # 是否跳过上传前的 SHA-256 计算，默认为 false；启用需托管服务商支持
+      validity: 10 # 预签名下载链接的有效期，单位为秒，默认为 10；请确保服务器时间准确
       # 可选请求限速配置
       rate_map:
         max_requests: 5

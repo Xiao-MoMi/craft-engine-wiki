@@ -56,8 +56,8 @@ resource-pack:
       path_style: false
       region: "auto"
       upload_path: "server_resource_pack.zip"
-      disable_calculate_sha256: true
-      validity: 10
+      disable_calculate_sha256: true # 是否跳过上传前的 SHA-256 计算，默认为 false；启用需托管服务商支持
+      validity: 10 # 预签名下载链接的有效期，单位为秒，默认为 10；请确保服务器时间准确
       rate_map:
         max_requests: 5
         reset_interval: 20

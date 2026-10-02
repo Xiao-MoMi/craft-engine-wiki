@@ -55,8 +55,8 @@ resource-pack:
       path_style: false
       region: "auto"
       upload_path: "server_resource_pack.zip"
-      disable_calculate_sha256: true
-      validity: 10
+      disable_calculate_sha256: true # Skip SHA-256 calculation before upload; default: false; requires provider support
+      validity: 10 # Presigned download URL validity in seconds; default: 10; keep the server clock accurate
       rate_map:
         max_requests: 5
         reset_interval: 20
