@@ -256,6 +256,7 @@ items:
       equippable:
         slot: head
         asset_id: minecraft:topaz
+        allowed_entities: minecraft:player
         swappable: true
         damage_on_hurt: true
         dispensable: false
@@ -266,10 +267,15 @@ items:
 | slot | string | head / chest / legs / feet / body / mainhand / offhand / saddle |
 | asset_id | 资源路径 | 装备模型，位于 `assets/<ns>/equipment/<id>.json` |
 | camera_overlay | 资源路径 | 叠加纹理，位于 `assets/<ns>/textures/<id>` |
+| allowed_entities | 字符串 / 列表 | 允许哪些实体装备这个物品 |
 | swappable | bool | 可通过右键装备 |
 | damage_on_hurt | bool | 穿戴者受伤时消耗耐久 |
 | dispensable | bool | 可通过发射器装备 |
 | equip_on_interact | bool | （1.21.5+）可通过对生物使用来装备 |
+
+上面的例子只允许玩家装备。也可以填列表，比如 `[minecraft:player, minecraft:zombie]`，或者实体类型标签，比如 `"#minecraft:skeletons"`。
+
+不填 `allowed_entities` 时不额外限制，填 `[]` 则不允许任何实体装备。
 
 ### use_remainder（使用剩余物 / 1.21.2+）
 

@@ -67,6 +67,9 @@ equipment:
   # Option 'slot' is required for these options to work
   #
   slot: head # head / chest / legs / feet / body (animal armor) / saddle 
+  # Limits who can equip the item. Omit to add no extra restriction, or use [] to allow no entities.
+  # Accepts a single entity ID, a list (e.g. [minecraft:player, minecraft:zombie]), or a quoted entity type tag (e.g. "#minecraft:skeletons").
+  allowed_entities: minecraft:player
   # The resource location of the overlay texture to use when equipped. The directory this refers to is assets/<namespace>/textures/<id>.
   camera_overlay: "namespace:id"
   # Whether the item can be dispensed by using a dispenser.

@@ -68,6 +68,9 @@ equipment:
   #
   slot: head # head / chest / legs / feet / body (animal armor) / saddle
              # 头盔 / 胸甲  / 护腿  / 靴子 / 身体（动物盔甲）      / 鞍
+  # 限制谁能装备这个物品。不填就不额外限制，填 [] 则不允许任何实体装备。
+  # 可以填单个实体 ID、列表（如 [minecraft:player, minecraft:zombie]），或带引号的实体类型标签（如 "#minecraft:skeletons"）。
+  allowed_entities: minecraft:player
   # 当此项存在且物品被玩家穿戴时，玩家第一人称视角将渲染指定的纹理遮罩。
   # 此遮罩可以使用多个设置此标签的物品互相叠加，每个物品指定的遮罩都会被渲染，
   # 且渲染顺序按照主手、副手、头盔、胸甲、护腿、靴子、身体、鞍的顺序依次叠加渲染。

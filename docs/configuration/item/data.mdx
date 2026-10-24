@@ -256,6 +256,7 @@ items:
       equippable:
         slot: head
         asset_id: minecraft:topaz
+        allowed_entities: minecraft:player
         swappable: true
         damage_on_hurt: true
         dispensable: false
@@ -266,10 +267,15 @@ items:
 | slot | string | head / chest / legs / feet / body / mainhand / offhand / saddle |
 | asset_id | asset path | Equipment model at `assets/<ns>/equipment/<id>.json` |
 | camera_overlay | asset path | Overlay texture at `assets/<ns>/textures/<id>` |
+| allowed_entities | string / list | Which entities can equip the item |
 | swappable | bool | Can be equipped by right-clicking |
 | damage_on_hurt | bool | Takes durability damage when the wearer is hurt |
 | dispensable | bool | Can be equipped via dispenser |
 | equip_on_interact | bool | (1.21.5+) Can be equipped onto a mob by using on it |
+
+The example above only allows players to equip the item. You can also use a list, such as `[minecraft:player, minecraft:zombie]`, or an entity type tag, such as `"#minecraft:skeletons"`.
+
+Leave `allowed_entities` out to add no extra restriction, or use `[]` to allow no entities.
 
 ### use_remainder (1.21.2+)
 
