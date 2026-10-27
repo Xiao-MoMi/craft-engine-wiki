@@ -24,6 +24,18 @@ Equipment:
   - craftengine:default:topaz_sword HAND
 ```
 
+## Custom MythicMobs mechanics
+
+### takeceitem
+
+Removes CraftEngine items from a target player's inventory by their CraftEngine item ID.
+
+```yaml
+CE_TakeItem_Test:
+  Skills:
+    - takeceitem{i=default:topaz;a=2} @self
+```
+
 ## Skills
 
 - [cast_mythic_skill](../reference/functions.mdx#cast_mythic_skill)

@@ -24,6 +24,18 @@ Equipment:
   - craftengine:default:topaz_sword HAND
 ```
 
+## 自定义 MythicMobs 技能机制
+
+### takeceitem
+
+根据 CraftEngine 物品 ID，扣除目标玩家背包中的物品。
+
+```yaml
+CE_TakeItem_Test:
+  Skills:
+    - takeceitem{i=default:topaz;a=2} @self
+```
+
 ## 技能
 
 - [cast_mythic_skill](../reference/functions.mdx#mythicmobs-技能)
